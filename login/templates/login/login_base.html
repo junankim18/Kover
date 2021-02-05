@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;500;700;900&display=swap" rel="stylesheet">
+    <title>Main_Page</title>
+   
+     
+</head>
+<body>
+    <div class="nav_bar">
+        <div class="nav_text">
+            <h3><a href="/">KOVER</a></h3>
+        </div>
+        <div class="nav_menu">
+            <ul>
+                {% if user.is_authenticated %}
+ 
+                    <li><a href= "{% url 'login:logout' %}?next={{ request.path }}">로그아웃</a></li>
+                {% else %}
+                    <li><a href= "{% url 'login:login_select' %}">로그인</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    {% block content %}
+    <div class="main_page">
+        <div class="main_text">
+            <h2>메인</h2>
+            {% if user.is_authenticated %}
+                <p>{{user}}님이 로그인 중</p>
+
+            {% else %}
+                <a href="{% url 'login:login_select' %}">로그인 선택하기</a>
+            {% endif %}
+        </div> 
+    </div>
+    {% endblock %}
+    <div class="foot_bar">
+        <p>피로그래밍 14기 파이팅</p>
+    </div>
+</body>
+</html>
