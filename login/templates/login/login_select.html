@@ -1,0 +1,11 @@
+{% extends "login/login_base.html" %} {% load socialaccount %} {% providers_media_js %} {% block extra_head %}
+{%endblock %} {% block content %}
+<div class="main_page" style="height: calc(100vh - 140px)">
+    <h2>로그인하기</h2>
+    <ul>
+        <li><a href="{% url 'login:login' %}">일반 로그인</a></li>
+        <li><a href="{% provider_login_url 'google' %}">구글 로그인</a></li>
+        <li><a href="{% provider_login_url 'naver' %}">네이버 로그인</a></li>
+    </ul>
+</div>
+{% endblock %}
