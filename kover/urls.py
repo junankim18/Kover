@@ -6,7 +6,8 @@ app_name = 'kover'
 
 urlpatterns = [
     # path('/', views, name='main'),  # 메인 화면)
-    # path('profile_block/', views, name=''),  # 개인 프로필-block),
+    path('profile_block/', views.profile_block,
+         name='profile_block'),  # 개인 프로필-block),
     # path('profile_geo/', views, name=''),  # 개인 프로필-geo),
     # path('settings/', views, name=''),  # 설정),
     # path('feed/play_inf', views, name=''),  # 연극-정보),
