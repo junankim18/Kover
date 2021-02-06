@@ -19,7 +19,43 @@
             }
             .showdetailbox {
                 border: 1px solid black;
-                background-color: #F7F7F7;
+                background-color: #f7f7f7;
+            }
+            .hallactbox {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            .actorcontainer {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+            }
+            .actordetailbox {
+                border: 1px solid black;
+            }
+            .favbox {
+                border: 1px solid black;
+            }
+            .favcontainer {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+            }
+            .revfavbox {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            .revcontainer {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+            }
+            .revbox {
+                border: 1px solid black;
             }
         </style>
     </head>
@@ -31,14 +67,60 @@
             </div>
         </div>
         <h3>관람 작품 리스트</h3>
-        <div class='showcontainer'>
+        <div class="showcontainer">
             {% for show in shows%}
-            <div class='showdetailbox'>
+            <div class="showdetailbox">
                 <p>{{show.show_name}}</p>
-                <img src="{{show.show_poster.url}}" alt="" width="150px" >
+                <img src="{{show.show_poster.url}}" alt="" width="150px" />
                 <p>{{show.show_hall}}</p>
             </div>
             {% endfor %}
+        </div>
+        <div class="hallactbox">
+            <div>
+                <h3>공연장</h3>
+                <div>
+                    {% for show in shows %}
+                    <div>{{show.show_hall}}</div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <h3>관심 배우</h3>
+                <div class="actorcontainer">
+                    {% for actor in actors %}
+                    <div class="actordetailbox">
+                        <img src="{{actor.people_img.url}}" alt="" width="150px" />
+                        <p>{{actor.people_name}} {{actor.people_type}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="revfavbox">
+            <div>
+                <h3>내가 쓴 리뷰</h3>
+                <div class="revcontainer">
+                    {% for review in reviews %}
+                    <div class="revbox">
+                        <p>{{review.review_show}}</p>
+                        <p>{{review.review_grade}} / 10</p>
+                        <p>{{review.review_content}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div>
+                <h3>favorites</h3>
+                <div class="favcontainer">
+                    {% for favorite in favorites %}
+                    <div class="favbox">
+                        <img src="{{favorite.show_poster.url}}" alt="" width="150px" />
+                        <p>{{favorite.show_name}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
         </div>
     </body>
 </html>

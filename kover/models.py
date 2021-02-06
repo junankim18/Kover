@@ -104,6 +104,9 @@ class Review(models.Model):
     review_content = models.TextField(verbose_name='리뷰 내용', blank=True)
     review_img = models.ImageField(verbose_name='리뷰 사진', blank=True)
 
+    def __str__(self):
+        return self.review_content
+
 
 class Feed_post(models.Model):
     feed_title = models.CharField(max_length=60, verbose_name='피드 제목')
