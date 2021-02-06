@@ -10,3 +10,7 @@ def profile_block(request):
         'show': show
     }
     return render(request, 'kover/profile_block.html', ctx)
+
+
+def profile_geo(request):
+    return render(request, 'kover/profile_geo.html')
