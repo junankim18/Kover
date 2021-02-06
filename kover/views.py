@@ -3,10 +3,11 @@ from .models import Hall, User, Show, People, Review, Feed_post, Feed_comment, T
 
 
 def profile_block(request):
-    show = Show.objects.all()
     user = Profile.objects.get(id=request.user.pk)
     pk = user.pk
+    shows = user.watched_show.all()
     ctx = {
-        'show': show
+        'user': user,
+        'shows': shows,
     }
     return render(request, 'kover/profile_block.html', ctx)

@@ -4,9 +4,41 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>kover|profile</title>
+        <title>kover | profile</title>
+        <style>
+            .stacalbox {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            .showcontainer {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+            }
+            .showdetailbox {
+                border: 1px solid black;
+                background-color: #F7F7F7;
+            }
+        </style>
     </head>
     <body>
-        <div>test</div>
+        <div class="stacalbox">
+            <div><h1>{{user.nickname}}님의 단계 : {{user.grade}}</h1></div>
+            <div>
+                <h1><a href="">calender</a></h1>
+            </div>
+        </div>
+        <h3>관람 작품 리스트</h3>
+        <div class='showcontainer'>
+            {% for show in shows%}
+            <div class='showdetailbox'>
+                <p>{{show.show_name}}</p>
+                <img src="{{show.show_poster.url}}" alt="" width="150px" >
+                <p>{{show.show_hall}}</p>
+            </div>
+            {% endfor %}
+        </div>
     </body>
 </html>
