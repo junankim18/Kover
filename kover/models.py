@@ -78,12 +78,12 @@ class Profile(models.Model):
         auto_now_add=True, verbose_name='계정 생성 날짜')
     profileimg = models.ImageField(
         upload_to='profile_image/%Y/%m/%d', verbose_name='프로필 이미지', blank=True)
-    watched_show = models.ForeignKey(
-        Show, related_name='watched_show', verbose_name='관람 공연', on_delete=models.DO_NOTHING, null=True)
-    like_actor = models.ForeignKey(
-        People, related_name='like_people', verbose_name='관심 배우', on_delete=models.DO_NOTHING, null=True)
-    interested_show = models.ForeignKey(
-        Show, related_name='interested_show', verbose_name='관심 공연', on_delete=models.DO_NOTHING, null=True)
+    watched_show = models.ManyToManyField(
+        Show, related_name='watched_show', verbose_name='관람 공연')
+    like_actor = models.ManyToManyField(
+        People, related_name='like_people', verbose_name='관심 배우')
+    interested_show = models.ManyToManyField(
+        Show, related_name='interested_show', verbose_name='관심 공연')
     bio = models.TextField(verbose_name='자기 소개', blank=True)
     biolink = models.URLField(verbose_name='자기 사이트', blank=True)
 
