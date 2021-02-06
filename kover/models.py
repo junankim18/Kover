@@ -54,8 +54,8 @@ class Show(models.Model):
     show_intermission = models.TimeField(verbose_name='공연 인터미션')
     show_director = models.ForeignKey(
         People, related_name='show_director', on_delete=models.DO_NOTHING)
-    show_actor = models.ForeignKey(
-        People, related_name='show_actor', on_delete=models.DO_NOTHING)
+    show_actor = models.ManyToManyField(
+        People, related_name='show_actor')
     show_detail = models.TextField(verbose_name='공연 정보')
 
     def __str__(self):
