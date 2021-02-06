@@ -3,33 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 
 class Time(models.Model):
-    time10 = models.TimeField(verbose_name='10시')
-    time10_5 = models.TimeField(verbose_name='10시 30분')
-    time11 = models.TimeField(verbose_name='11시')
-    time11_5 = models.TimeField(verbose_name='11시 30분')
-    time12 = models.TimeField(verbose_name='12시')
-    time12_5 = models.TimeField(verbose_name='12시 30분')
-    time13 = models.TimeField(verbose_name='13시')
-    time13_5 = models.TimeField(verbose_name='13시 30분')
-    time14 = models.TimeField(verbose_name='14시')
-    time14_5 = models.TimeField(verbose_name='14시 30분')
-    time15 = models.TimeField(verbose_name='15시')
-    time15_5 = models.TimeField(verbose_name='15시 30분')
-    time16 = models.TimeField(verbose_name='16시')
-    time16_5 = models.TimeField(verbose_name='16시 30분')
-    time17 = models.TimeField(verbose_name='17시')
-    time17_5 = models.TimeField(verbose_name='17시 30분')
-    time18 = models.TimeField(verbose_name='18시')
-    time18_5 = models.TimeField(verbose_name='18시 30분')
-    time19 = models.TimeField(verbose_name='19시')
-    time19_5 = models.TimeField(verbose_name='19시 30분')
-    time20 = models.TimeField(verbose_name='20시')
-    time20_5 = models.TimeField(verbose_name='20시 30분')
-    time21 = models.TimeField(verbose_name='21시')
-    time21_5 = models.TimeField(verbose_name='21시 30분')
-    time22 = models.TimeField(verbose_name='22시')
-    time22_5 = models.TimeField(verbose_name='22시 30분')
-    time23 = models.TimeField(verbose_name='23시')
+    time = models.TimeField(null=False)
 
 
 class Hall(models.Model):
@@ -58,14 +32,20 @@ class Show(models.Model):
         Hall, related_name='show_hall', on_delete=models.DO_NOTHING)
     show_date_start = models.DateTimeField(verbose_name='공연 시작일')
     show_date_end = models.DateTimeField(verbose_name='공연 종료일')
-    show_time = models.ManyToManyField(Time)
     show_runtime = models.TimeField(verbose_name='공연 런타임')
+    show_times = models.OneToMany(Time)
     show_intermission = models.TimeField(verbose_name='공연 인터미션')
     show_director = models.ForeignKey(
         People, related_name='show_director', on_delete=models.DO_NOTHING)
+    # TODO : show_actor OneToMany로
     show_actor = models.ForeignKey(
         People, related_name='show_actor', on_delete=models.DO_NOTHING)
     show_detail = models.TextField(verbose_name='공연 정보')
+
+# import arrow
+# Time(
+#     date=arrow.Arrow(year=2021, month=12, day=10, hour=10, minute=30).datetime
+# )
 
 
 class User(AbstractUser):
