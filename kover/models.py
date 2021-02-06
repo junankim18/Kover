@@ -1,3 +1,4 @@
+import arrow
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -6,8 +7,8 @@ from django.contrib.auth.models import AbstractUser
 class Time(models.Model):
     time = models.DateTimeField(null=True)
 
+
 # 나중에 크롤링할때 이런 형식으로 show에 맞는 time 넣어주기
-# import arrow
 # Time(
 #     time=arrow.Arrow(year=2021, month=12, day=10, hour=10, minute=30).datetime
 # )
@@ -49,13 +50,11 @@ class Show(models.Model):
     show_date_start = models.DateTimeField(verbose_name='공연 시작일', null=True)
     show_date_end = models.DateTimeField(verbose_name='공연 종료일', null=True)
     show_runtime = models.TimeField(verbose_name='공연 런타임')
-    show_times = models.ForeignKey(
-        Time, related_name='show_time', on_delete=models.CASCADE, null=True)
+    show_times = models.ManyToManyField(Time, related_name='show_time')
     show_intermission = models.TimeField(verbose_name='공연 인터미션')
     show_director = models.ForeignKey(
         People, related_name='show_director', on_delete=models.DO_NOTHING)
-    show_actor = models.ManyToManyField(
-        People, related_name='show_actor')
+    show_actor = models.ManyToManyField(People, related_name='show_actor')
     show_detail = models.TextField(verbose_name='공연 정보')
 
     def __str__(self):
