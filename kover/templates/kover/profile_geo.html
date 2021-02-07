@@ -9,6 +9,8 @@
 	<div id="map" style="width:500px;height:400px;"></div>
 	<p>
 		<button onclick="setBounds()">pin 전체 한 번에 보기</button>
+		<button onclick="zoomIn()">확대</button>
+    	<button onclick="zoomOut()">축소</button>
 	</p>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d819f10926d79acd2ffd6a00d34a15ba&libraries=services,clusterer,drawing"></script>
     <script>
@@ -20,12 +22,15 @@
 
 		var map = new kakao.maps.Map(container, options); // 지도 생성
 
+		/* -------------------------------------
+			pin 한 번에 보기 기능
+		------------------------------------- */ 
 		// 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정
 		// 추후에 반복문으로 pin 좌표값 받아오는 방식으로 변경 예정
 		var points = [
 			new kakao.maps.LatLng(37.509177023074834, 126.88957718465996), // 디큐브아트센터
 			new kakao.maps.LatLng(37.56622058095958, 127.01467445582529), // 충무아트센터
-			new kakao.maps.LatLng(37.517533515140165, 127.0997056305418) // 샤롯데씨어터
+			new kakao.maps.LatLng(37.510891398297396, 127.09985314904809) // 샤롯데씨어터
 		];
 
 		// 지도를 재설정할 범위정보를 가지고 있을 LatLngBounds 객체를 생성
@@ -34,7 +39,7 @@
 		var i, marker;
 		for (i = 0; i < points.length; i++) {
 			// 배열의 좌표들이 잘 보이게 마커를 지도에 추가
-			marker =     new kakao.maps.Marker({ position : points[i] });
+			marker = new kakao.maps.Marker({ position : points[i] });
 			marker.setMap(map);
 			
 			// LatLngBounds 객체에 좌표를 추가
@@ -45,6 +50,27 @@
 			// LatLngBounds 객체에 추가된 좌표들을 기준으로 지도의 범위를 재설정
 			// 지도의 중심좌표와 레벨이 변경될 수 있음
 			map.setBounds(bounds);
+		}
+
+		/* -------------------------------------
+			지도 확대/축소 기능
+		------------------------------------- */ 
+		displayLevel();
+		
+		function zoomIn() {        
+			// 현재 지도의 레벨을 얻어옵니다
+			var level = map.getLevel();
+			
+			// 지도를 1레벨 내립니다 (지도가 확대됩니다)
+			map.setLevel(level - 1);
+		}    
+
+		function zoomOut() {    
+			// 현재 지도의 레벨을 얻어옵니다
+			var level = map.getLevel(); 
+			
+			// 지도를 1레벨 올립니다 (지도가 축소됩니다)
+			map.setLevel(level + 1);
 		}
 	</script>
 </body>
