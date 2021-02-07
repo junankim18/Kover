@@ -3,19 +3,22 @@
 <html>
 <head>
 	<meta charset="utf-8"/>
-	<title>지도 시작하기</title>
+	<title>나의 관람 기록 지도에서 보기</title>
 </head>
 <body>
 	<div id="map" style="width:500px;height:400px;"></div>
+	<p>
+		<button onclick="setBounds()">pin 전체 한 번에 보기</button>
+	</p>
 	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d819f10926d79acd2ffd6a00d34a15ba&libraries=services,clusterer,drawing"></script>
     <script>
-		var container = document.getElementById('map');
+		var container = document.getElementById('map'); // 지도를 표시할 div
 		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
-			level: 3
+			center: new kakao.maps.LatLng(37.48021422740642, 127.01421373151956), // 지도의 중심좌표(예술의 전당 오페라하우스)
+			level: 3 // 지도의 확대 레벨
 		};
 
-		var map = new kakao.maps.Map(container, options);
+		var map = new kakao.maps.Map(container, options); // 지도 생성
 	</script>
 </body>
 </html>
