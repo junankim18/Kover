@@ -11,14 +11,11 @@ def profile_block(request):
     reviews = user.review_author.all().order_by('-id')
     showlist = list(shows)
     hallnum = len(showlist)
-    wantlist = []
-    print(showlist)
-    print(showlist[0].show_hall)
-    print(showlist[1].show_hall)
-    print(showlist[2].show_hall)
-    if showlist[0].show_hall == showlist[2].show_hall:
-        print('같다')
+    halllist = []  # 공연장 리스트
+    wantlist = []  # 공연장 리스트중에서 중복된 값 제거
+    renum = {}  # 공연장 리스트중에서 중복된 값 카운트
 
+    # 중복된 리스트의 요소 제거
     for i in range(hallnum):
         for j in range(hallnum):
             if i >= j:
@@ -27,8 +24,28 @@ def profile_block(request):
                 pass
             else:
                 wantlist.append(showlist[i])
-
     overlapnum = len(wantlist)
+
+    # 공연장 리스트
+    for i in range(hallnum):
+        halllist.append(showlist[i].show_hall)
+
+    for i in halllist:
+        try:
+            renum[i] += 1
+        except:
+            renum[i] = 1
+
+    mostvisitnum = 0
+    for i in renum.values():
+        if i > mostvisitnum:
+            mostvisitnum = i
+        else:
+            pass
+
+    # // {'AA': '0', 'BB': '1', 'CC': '2'}
+    reversedict = {v: k for k, v in renum.items()}
+    hallname = reversedict.get(mostvisitnum)
 
     ctx = {
         'user': user,
@@ -37,9 +54,10 @@ def profile_block(request):
         'favorites': favorites,
         'reviews': reviews,
         'showlist': showlist,
-        'hallnum': hallnum,
         'overlapnum': overlapnum,
         'wantlist': wantlist,
+        'hallname': hallname,
+        'mostvisitnum': mostvisitnum
 
     }
     return render(request, 'kover/profile_block.html', ctx)

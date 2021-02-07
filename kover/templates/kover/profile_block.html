@@ -5,6 +5,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>kover | profile</title>
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+            integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
+            crossorigin="anonymous"
+        />
+
         <style>
             .stacalbox {
                 border: 1px solid black;
@@ -16,10 +23,13 @@
                 border: 1px solid black;
                 display: flex;
                 flex-direction: row;
+                overflow: auto;
             }
             .showdetailbox {
                 border: 1px solid black;
                 background-color: #f7f7f7;
+                width: 15%;
+                margin-left: 13px;
             }
             .hallactbox {
                 border: 1px solid black;
@@ -31,17 +41,27 @@
                 border: 1px solid black;
                 display: flex;
                 flex-direction: row;
+                overflow: hidden;
             }
             .actordetailbox {
                 border: 1px solid black;
+                background-color: #f7f7f7;
+                width: 30%;
+                margin-right: 3%;
+                padding: 10px;
+                text-align: center;
             }
             .favbox {
                 border: 1px solid black;
+                background-color: #f7f7f7;
+                width: 30%;
+                margin-left: 13px;
             }
             .favcontainer {
                 border: 1px solid black;
                 display: flex;
                 flex-direction: row;
+                overflow: auto;
             }
             .revfavbox {
                 border: 1px solid black;
@@ -56,6 +76,52 @@
             }
             .revbox {
                 border: 1px solid black;
+                background-color: #f7f7f7;
+                width: 30%;
+                margin-left: 13px;
+            }
+            .hallcontainer {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+            }
+            .border {
+                border: 1px solid black;
+            }
+            .box40 {
+                width: 40%;
+            }
+            .box45 {
+                width: 45%;
+            }
+            .box90 {
+                width: 90%;
+                text-align: center;
+                margin-left: 5%;
+            }
+            .hallbox {
+                background-color: #f7f7f7;
+                width: 40%;
+                margin-left: 20px;
+            }
+            .none {
+                display: none;
+            }
+            .actorbtn {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+            .actoricon {
+                margin-bottom: 10px;
+            }
+            .actoricon button {
+                font-size: 30px;
+                width: 40px;
+                height: 40px;
+                background-color: transparent;
+                border: transparent;
+                color: rgb(135, 235, 165);
             }
         </style>
     </head>
@@ -66,41 +132,57 @@
                 <h1><a href="">calender</a></h1>
             </div>
         </div>
-        <h3>관람 작품 리스트</h3>
-        <div class="showcontainer">
-            {% for show in shows%}
-            <div class="showdetailbox">
-                <p>{{show.show_name}}</p>
-                <img src="{{show.show_poster.url}}" alt="" width="150px" />
-                <p>{{show.show_hall}}</p>
-                <p>런타임 : {{show.show_runtime}}</p>
+        <div class="border box90">
+            <h3>관람 작품 리스트</h3>
+            <div class="showcontainer">
+                {% for show in shows%}
+                <div class="showdetailbox">
+                    <p>{{show.show_name}}</p>
+                    <img src="{{show.show_poster.url}}" alt="" width="150px" />
+                    <p>{{show.show_hall}}</p>
+                    <p>런타임 : {{show.show_runtime}}</p>
+                </div>
+                {% endfor %}
             </div>
-            {% endfor %}
         </div>
         <div class="hallactbox">
-            <div>
+            <div class="box40">
                 <h3>공연장</h3>
-                <div>
-                    <p>방문한 공연장 수 : {{overlapnum}}</p>
-                    {% for show in wantlist %}
-                    <div>{{show.show_hall}}</div>
-                    {% endfor %}
+                <div class="hallcontainer">
+                    <div class="border hallbox">
+                        <p>방문한 총 공연장 수 : {{overlapnum}}</p>
+                        {% for show in wantlist %}
+                        <div>{{show.show_hall}}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="border hallbox">
+                        <p>가장 많이 방문한 공연장</p>
+                        <p>{{hallname}} : {{mostvisitnum}}회</p>
+                    </div>
                 </div>
             </div>
-            <div>
+            <div class="box40">
                 <h3>관심 배우</h3>
-                <div class="actorcontainer">
-                    {% for actor in actors %}
-                    <div class="actordetailbox">
-                        <img src="{{actor.people_img.url}}" alt="" width="150px" />
-                        <p>{{actor.people_name}} {{actor.people_type}}</p>
+                <div class="actorbtn">
+                    <div class="actoricon">
+                        <button><i class="fas fa-caret-left"></i></button>
                     </div>
-                    {% endfor %}
+                    <div class="actorcontainer">
+                        {% for actor in actors %}
+                        <div class="actordetailbox">
+                            <img src="{{actor.people_img.url}}" alt="" width="150px" />
+                            <p>{{actor.people_name}} {{actor.people_type}}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="actoricon">
+                        <button><i class="fas fa-caret-right"></i></button>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="revfavbox">
-            <div>
+            <div class="box40">
                 <h3>내가 쓴 리뷰</h3>
                 <div class="revcontainer">
                     {% for review in reviews %}
@@ -112,7 +194,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div>
+            <div class="box40">
                 <h3>favorites</h3>
                 <div class="favcontainer">
                     {% for favorite in favorites %}
@@ -124,5 +206,17 @@
                 </div>
             </div>
         </div>
+        <script>
+            const btnLeftParent = document.querySelector(".actorbtn").firstElementChild;
+            const btnLeft = btnLeftParent.querySelector(".actoricon button");
+            btnLeft.onclick = () => {
+                alert("L click");
+            };
+            const btnRightParent = document.querySelector(".actorbtn").lastElementChild;
+            const btnRight = btnRightParent.querySelector(".actoricon button");
+            btnRight.onclick = () => {
+                alert("R click");
+            };
+        </script>
     </body>
 </html>
