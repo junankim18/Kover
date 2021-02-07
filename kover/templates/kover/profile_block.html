@@ -73,6 +73,7 @@
                 <p>{{show.show_name}}</p>
                 <img src="{{show.show_poster.url}}" alt="" width="150px" />
                 <p>{{show.show_hall}}</p>
+                <p>런타임 : {{show.show_runtime}}</p>
             </div>
             {% endfor %}
         </div>
@@ -80,7 +81,8 @@
             <div>
                 <h3>공연장</h3>
                 <div>
-                    {% for show in shows %}
+                    <p>방문한 공연장 수 : {{overlapnum}}</p>
+                    {% for show in wantlist %}
                     <div>{{show.show_hall}}</div>
                     {% endfor %}
                 </div>
