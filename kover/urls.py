@@ -5,7 +5,7 @@ from . import views
 app_name = 'kover'
 
 urlpatterns = [
-    # path('/', views, name='main'),  # 메인 화면)
+    path('', views.main, name='main'),  # 메인 화면)
     path('profile_block/', views.profile_block,
          name='profile_block'),  # 개인 프로필-block),
     # path('profile_geo/', views, name=''),  # 개인 프로필-geo),

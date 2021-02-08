@@ -10,3 +10,15 @@ def profile_block(request):
         'show': show
     }
     return render(request, 'kover/profile_block.html', ctx)
+
+
+def main(request):
+    show = Show.objects.all()
+    feed = Feed_post.objects.all()
+    num = Feed_post.comment_post
+    ctx = {
+        'show': show,
+        'feed': feed,
+        'num': num
+    }
+    return render(request, 'kover/main.html', ctx)
