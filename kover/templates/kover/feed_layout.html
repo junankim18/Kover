@@ -15,12 +15,13 @@
             <div class="content"> {{ feed.feed_content }} </div>
             <div class="author"> {{ feed.feed_author }} </div>
             <div class="feed_created_at"> {{ feed.feed_created_at }} </div>
-            <button type="submit" onclick="onClickBtn({{ feed.id }})" name="type" value="like">
+            <button type="submit" onclick="onClickBtn({{ feed.id }}, 'feed_like')" name="type" value="like">
             추천 {{ feed.feed_like }}</button>
-           
-            <div class="comment_t">댓글 {{ comment.comment_post }}
-                {% for comment in comment.comments.all %}
-                    <div class="comment"> {{ comment.comment_content }} </div>
+            {{ feed.comment_post }}
+
+            <div class="comment_t">댓글
+                {% for comment in feed.comments.all %}
+                    <div class="comment"> {{ Feed_comment.comment_content }} </div>
                 {% endfor %}
             </div>
             
@@ -42,14 +43,14 @@
 <script>
     const request = new XMLHttpRequest();
 
-    const onClickBtn = (id) => {
+    const onClickBtn = (id, type) => {
         const url = "/feed/";
         request.open("POST", url, true);
         request.setRequestHeader(
             "Content-Type",
             "application/x-www-form-urlencoded"
         );
-        request.send(JSON.stringify({id: id }));
+        request.send(JSON.stringify({id: id, type: type}));
     };
 
     const handleResponse = () => {

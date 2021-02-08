@@ -37,7 +37,7 @@ class Feed(View):
         button_type = request['type']
         feed = Feed_post.objects.get(id=feed_id)
         comment = Feed_comment.objects.get(id=feed_id)
-        if button_type == feed_like:
+        if button_type == 'feed_like':
             feed_like = feed_like + 1
         Feed_post.save()
 
