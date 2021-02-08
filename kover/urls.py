@@ -5,10 +5,11 @@ from . import views
 app_name = 'kover'
 
 urlpatterns = [
-    # path('/', views, name='main'),  # 메인 화면)
+    path('', views.main, name='main'),  # 메인 화면)
     path('profile_block/', views.profile_block,
          name='profile_block'),  # 개인 프로필-block),
-    # path('profile_geo/', views, name=''),  # 개인 프로필-geo),
+    path('profile_geo/', views.profile_geo,
+         name='profile_geo'),  # 개인 프로필-geo),
     # path('settings/', views, name=''),  # 설정),
 
 
@@ -21,7 +22,7 @@ urlpatterns = [
 
 
     # path('contents/<int:pk>/', views, name=''),  # 공연별 디테일),
-    # path('contents/<int:pk>/comment', views, name=''),  # 공연별 댓글),
+     path('contents/<int:pk>/', views.show_detail, name='show_detail'),  # 공연별 댓글),
     # path('contents/<int:pk>/review', views, name=''),  # 공연별 리뷰),
     # path('contents/', views, name=''),  # 공연 평가할 수 있는 페이지-작품들의 리스트가 뜬다)
     # path('place/<int:pk>/', views, name=''),  # 공연장 디테일),

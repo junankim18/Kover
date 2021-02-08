@@ -1,0 +1,80 @@
+body {
+  background-color: white;
+  margin-top: 100px;
+  text-align: left;
+}
+
+main {
+  margin-left: 100px;
+}
+
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: -ms-page;
+  width: 100vw;
+  height: 80vh;
+}
+
+nav {
+  margin: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 80px;
+  background-color: grey;
+}
+
+span > a {
+  color: black;
+  font-size: 22px;
+  padding: 0 20px;
+  float: left;
+  line-height: 75px;
+  text-decoration: none;
+}
+
+#kover_title {
+  font-size: 150px;
+}
+
+.menubar {
+  display: inline;
+  font-size: 18px;
+  color: white;
+  list-style: none;
+  float: right;
+  padding: 0 20px;
+  margin: 0;
+}
+
+.menubar li {
+  float: left;
+  line-height: 75px;
+}
+
+.menubar a {
+  text-decoration: none;
+  color: black;
+  padding: 0 15px;
+  display: block;
+}
+
+.menubar a:hover {
+  color: white;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
+  padding: 15px;
+  color: black;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+}

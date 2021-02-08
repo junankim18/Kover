@@ -1,0 +1,71 @@
+{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%}
+{% block content %}
+<div class="show_list">
+  <div class="show_list_main">
+    <span style="font-size: 25px"><b>최근 개봉 공연</b></span>
+    <br />
+    {% for show in show %}
+    <img src="{{show.show_poster.url}}" width="250px" />
+    {% endfor %}
+  </div>
+
+  <div class="show_list_main" style="margin-top: 30px">
+    <span style="font-size: 25px"><b>많은 리뷰를 받은 공연</b></span>
+    <br />
+    {% for show in show %}
+    <img src="{{show.show_poster.url}}" width="250px" />
+    {% endfor %}
+  </div>
+
+  <div class="show_list_main" style="margin-top: 35px">
+    <span style="font-size: 25px"><b>내 배우의 공연</b></span>
+    <br />
+    {% for show in show %}
+    <img src="{{show.show_poster.url}}" width="250px" />
+    {% endfor %}
+  </div>
+</div>
+
+<div class="container">
+  <div class="feed_main" style="margin-top: 30px">
+    <span style="font-size: 25px"><b>HOT 피드</b></span>
+    <div
+      style="
+        height: auto;
+        width: 550px;
+        border: 1px solid;
+        margin-top: 10px;
+        padding: 10px;
+        margin-right: 40px;
+        margin-bottom: 30px
+      "
+    >
+      {% for feed in feed %}
+      <p>{{feed.feed_title}} {{feed.feed_like}}</p>
+
+      {% endfor %}
+    </div>
+    </div>
+
+    <div class="feed_main" style="margin-top: 30px">
+      <span style="font-size: 25px"><b>최근 피드</b></span>
+      <div
+        style="
+          height: auto;
+          width: 550px;
+          border: 1px solid;
+          margin-top: 10px;
+          padding: 10px;
+          margin-bottom: 30px
+        "
+      >
+        {% for feed in feed %}
+        <p>{{feed.feed_type}} {{feed.feed_title}}</p>
+
+        {% endfor %}
+      </div>
+    </div>
+
+    {% endblock %}
+  </div>
+</div>

@@ -1,4 +1,4 @@
-import arrow
+#import arrow
 from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
@@ -49,9 +49,11 @@ class Show(models.Model):
         Hall, related_name='show_hall', on_delete=models.DO_NOTHING)
     show_date_start = models.DateTimeField(verbose_name='공연 시작일', null=True)
     show_date_end = models.DateTimeField(verbose_name='공연 종료일', null=True)
-    show_runtime = models.DurationField(default="02:50:00", verbose_name='공연 런타임')
+    show_runtime = models.DurationField(
+        default="02:50:00", verbose_name='공연 런타임', null=True)
     show_times = models.ManyToManyField(Time, related_name='show_time')
-    show_intermission = models.DurationField(default="00:20:00", verbose_name='공연 인터미션')
+    show_intermission = models.DurationField(
+        default="00:20:00", verbose_name='공연 인터미션', null=True)
     show_director = models.ForeignKey(
         People, related_name='show_director', on_delete=models.DO_NOTHING)
     show_actor = models.ManyToManyField(People, related_name='show_actor')
@@ -103,6 +105,9 @@ class Review(models.Model):
     review_like = models.IntegerField(verbose_name='리뷰 좋아요 개수', default=0)
     review_content = models.TextField(verbose_name='리뷰 내용', blank=True)
     review_img = models.ImageField(verbose_name='리뷰 사진', blank=True)
+
+    def __str__(self):
+        return self.review_content
 
 
 class Feed_post(models.Model):
