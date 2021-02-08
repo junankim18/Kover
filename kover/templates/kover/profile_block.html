@@ -27,7 +27,7 @@
             .showdetailbox {
                 border: 1px solid black;
                 background-color: #f7f7f7;
-                width: 11%;
+                width: 150px;
                 margin-left: 13px;
                 padding: 10px;
             }
@@ -178,7 +178,14 @@
                     <p>{{show.show_hall}}</p>
                     <p>런타임 : {{show.show_runtime}}</p>
                 </div>
-                {% endfor %}
+                {% endfor %} {% for i in "x"|rjust:"5" %}
+                <div>
+                    <div class="showdetailbox">
+                        <i class="fas fa-plus"></i>
+                        <p>관람 작품 추가하기</p>
+                    </div>
+                </div>
+                {%endfor%}
             </div>
         </div>
         <div class="hallactbox">
