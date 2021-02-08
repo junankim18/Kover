@@ -73,3 +73,7 @@ def main(request):
         'num': num
     }
     return render(request, 'kover/main.html', ctx)
+
+
+def profile_geo(request):
+    return render(request, 'kover/profile_geo.html')
