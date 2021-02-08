@@ -1,4 +1,5 @@
 {% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
+<title>Kover | block profile</title>
 <div class="stacalbox">
     <div><h1>{{user.nickname}}님의 단계 : {{user.grade}}</h1></div>
     <div>
@@ -20,7 +21,7 @@
             <p>{{show.show_hall}}</p>
             <p>런타임 : {{show.show_runtime}}</p>
         </div>
-        {% endfor %} {% for i in "x"|rjust:"5" %}
+        {% endfor %} {% for i in "x"|rjust:"1" %}
         <div>
             <div class="showdetailbox">
                 <i class="fas fa-plus"></i>
