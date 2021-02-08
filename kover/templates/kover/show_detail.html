@@ -26,7 +26,6 @@
             </div>
         </nav>
     {% comment %} 메인 포스터 {% endcomment %}
-    {% for show in shows%}
         <div class="show_info justify-content-center row align-items-center my-5">
             <div class="justify-content-center ml-4 col-md-2">
                 <img class="img-fluid rounded mb-4 mb-lg-0" src="{{show.show_poster.url}}" alt="공연 포스터">
@@ -53,7 +52,6 @@
                 </ul>
             </div>
         </div>
-        {%endfor%}
     {% comment %} 상단 메뉴바 {% endcomment %}
         <hr>
         <ul class="nav justify-content-center mb-4">

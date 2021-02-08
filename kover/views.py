@@ -78,13 +78,15 @@ def main(request):
 def profile_geo(request):
     return render(request, 'kover/profile_geo.html')
 
+
 def show_detail(request, pk):
-    shows=Show.objects.all()
-    peoples=People.objects.all()
-    reviews=Review.objects.all()
+    show = Show.objects.get(id=pk)
+    peoples = People.objects.all()
+    reviews = show.review_show.all()
     ctx = {
-        'shows' : shows,
-        'peoples' : peoples,
-        'reviews' : reviews,
+        'pk': pk,
+        'show': show,
+        'peoples': peoples,
+        'reviews': reviews,
     }
-    return render(request, 'kover/show_detail.html',ctx)
+    return render(request, 'kover/show_detail.html', ctx)
