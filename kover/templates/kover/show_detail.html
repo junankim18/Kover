@@ -1,0 +1,156 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>ShowDetail</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+    {% comment %} -------네비게이션 바---------- {% endcomment %}
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <a class="navbar-brand" href="">kover</a>
+            <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse flex-grow-0" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item ">
+                        <a class="nav-link" href="#">navbar</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    {% comment %} 메인 포스터 {% endcomment %}
+    {% for show in shows%}
+        <div class="show_info justify-content-center row align-items-center my-5">
+            <div class="justify-content-center ml-4 col-md-2">
+                <img class="img-fluid rounded mb-4 mb-lg-0" src="{{show.show_poster.url}}" alt="공연 포스터">
+            </div>
+    {% comment %} 공연 정보 {% endcomment %}
+            <div class="col-md-7">
+                <h4>{{show.show_name}}</h4>
+                <ul style='list-style:none;'>
+                    <li >
+                        <b>전체 평균 평점</b> 
+                    </li>
+                    <li>
+                        <b>장소</b>  <a href='#'>{{show.show_hall}}<a>
+                    </li>
+                    <li>
+                        <b>공연일</b>  {{show.show_date_start}} ~ {{show.show_date_end}}
+                    </li>
+                    <li>
+                        <b>공연시간</b>  {{show.show_times}} 인터미션 {{show.show_intermission}} 분
+                    </li>
+                    <li>   
+                        <b>연출</b>  {{show.show_director}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        {%endfor%}
+    {% comment %} 상단 메뉴바 {% endcomment %}
+        <hr>
+        <ul class="nav justify-content-center mb-4">
+            <li class="nav-item">
+              <a class="nav-link active col-md-auto ml-4" href="#">캐스팅</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link col-md-auto ml-4 " href="#">캐스팅 일정 조회</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link col-md-auto ml-4" href="#">공연 정보</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active col-md-auto ml-4" href="#">리뷰</a>
+            </li>
+        </ul>
+    {% comment %} ----------캐스팅 정보--------- {% endcomment %}
+        <hr>
+        <section class="justify-content-center row align-items-center" id="show_actor">
+            <div class="container justify-content-center">
+                <span>
+                    <h4 class="section-heading text-left mb-3 ml-5 ">캐스팅
+                        <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
+                        캐스팅 일정 조회
+                        </button>
+                    </h4>
+                </span>
+    {% comment %} --------배우 이미지, 배역 -------- {% endcomment %}
+                    <div class="row actor_info">
+                        {% for people in peoples %}
+                        <div class="col-3 col-md-auto col-lg-3 col-xl-3" >
+                            <div class="actor text-center">
+                                <img class="mx-auto rounded-circle mb-3" src="{{people.people_img.url}}" alt="배우 이미지" width=100px, height=100px   />
+                                <h5>{{people.people_name}}</h5>
+                                <p class="text-muted">{{people.people_type}}</p>                 
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+            </div>
+        </section>
+{% comment %} -----------세부 내역------------ {% endcomment %}
+        <div class='show_info_detail'>
+            <div class = 'container mt-4'>
+                <div  class="section-heading ml-6">
+                    <h4 class='section-heading text-left mb-3 ml-5'>공연 정보</h4>
+                </div>
+            </div>
+            <div class="justify-content-center row align-items-center my-5">
+                <div class="col-md-4 mb-5">
+                    <div class="card h-100">
+                        <div class="card-body text-center">
+                            <p class="card-text">
+                                예매 페이지 내 세부정보(스크립트 등)
+                            </p>
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="#" class="btn btn-light btn-sm ">자세히 보기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+{% comment %} 리뷰(제작중) {% endcomment %}
+        <div class='show_review'>
+            <div class = 'container mt-4'>
+                <div  class="section-heading ml-6">
+                    <h4 class='section-heading text-left mb-3 ml-5'>
+                    리뷰
+                    <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
+                    내 리뷰 등록하기
+                        </button>
+                    </h4>
+                </div>
+                <div>
+                    {% for review in reviews %}
+                        <div class="revbox panel">
+                            <div class='rev_upper'>
+                                {{review.review_grade}}
+                            </div>
+                            <div class='rev_middle text-center'>
+                                {{review.review_content}}
+                            </div>
+                            <div class='rev_bottom'>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
