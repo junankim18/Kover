@@ -1,80 +1,221 @@
 body {
-  background-color: white;
-  margin-top: 100px;
-  text-align: left;
+    background-color: white;
+    margin-top: 100px;
+    text-align: left;
 }
 
 main {
-  margin-left: 100px;
+    margin-left: 100px;
 }
 
 .content {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  position: -ms-page;
-  width: 100vw;
-  height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: -ms-page;
+    width: 100vw;
+    height: 80vh;
 }
 
 nav {
-  margin: 0;
-  position: fixed;
-  top: 0;
-  width: 100vw;
-  height: 80px;
-  background-color: grey;
+    margin: 0;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 80px;
+    background-color: grey;
 }
 
 span > a {
-  color: black;
-  font-size: 22px;
-  padding: 0 20px;
-  float: left;
-  line-height: 75px;
-  text-decoration: none;
+    color: black;
+    font-size: 22px;
+    padding: 0 20px;
+    float: left;
+    line-height: 75px;
+    text-decoration: none;
 }
 
 #kover_title {
-  font-size: 150px;
+    font-size: 150px;
 }
 
 .menubar {
-  display: inline;
-  font-size: 18px;
-  color: white;
-  list-style: none;
-  float: right;
-  padding: 0 20px;
-  margin: 0;
+    display: inline;
+    font-size: 18px;
+    color: white;
+    list-style: none;
+    float: right;
+    padding: 0 20px;
+    margin: 0;
 }
 
 .menubar li {
-  float: left;
-  line-height: 75px;
+    float: left;
+    line-height: 75px;
 }
 
 .menubar a {
-  text-decoration: none;
-  color: black;
-  padding: 0 15px;
-  display: block;
+    text-decoration: none;
+    color: black;
+    padding: 0 15px;
+    display: block;
 }
 
 .menubar a:hover {
-  color: white;
+    color: white;
 }
 
 .footer {
-  position: fixed;
-  bottom: 0;
-  width: 100vw;
-  padding: 15px;
-  color: black;
+    position: fixed;
+    bottom: 0;
+    width: 100vw;
+    padding: 15px;
+    color: black;
 }
 
 .container {
-  display: flex;
-  flex-direction: row;
+    display: flex;
+    flex-direction: row;
 }
+.stacalbox {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.showcontainer {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+}
+.showdetailbox {
+    border: 1px solid black;
+    background-color: #f7f7f7;
+    width: 150px;
+    margin-left: 13px;
+    padding: 10px;
+}
+.hallactbox {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.actorbox {
+    display: relative;
+    align-items: center;
+    overflow-x: hidden;
+}
+/*
+.actoricon {
+    margin-bottom: 10px;
+    z-index: 3;
+}
+*/
+.actoricon button {
+    font-size: 30px;
+    width: 40px;
+    height: 40px;
+    background-color: transparent;
+    border: transparent;
+    color: rgb(135, 235, 165);
+}
+.actorcontainer {
+    display: flex;
+    flex-direction: row;
+    overflow-x: hidden;
+    z-index: 2;
+}
+.actordetailbox {
+    border: 1px solid black;
+    background-color: #f7f7f7;
+    margin-right: 10px;
+    padding: 10px;
+    text-align: center;
+    z-index: 1;
+}
+.favbox {
+    border: 1px solid black;
+    background-color: #f7f7f7;
+    width: 30%;
+    margin-left: 13px;
+}
+.favcontainer {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    overflow: auto;
+}
+.revfavbox {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.revcontainer {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+}
+.revbox {
+    border: 1px solid black;
+    background-color: #f7f7f7;
+    width: 30%;
+    margin-left: 13px;
+}
+.hallcontainer {
+    border: 1px solid black;
+    display: flex;
+    flex-direction: row;
+}
+.border {
+    border: 1px solid black;
+}
+.box40 {
+    width: 40%;
+}
+.box45 {
+    width: 45%;
+}
+.box90 {
+    width: 90%;
+    text-align: center;
+    margin-left: 5%;
+}
+.hallbox {
+    background-color: #f7f7f7;
+    width: 40%;
+    margin-left: 20px;
+}
+.none {
+    display: none;
+}
+span button {
+    background-color: transparent;
+    border: transparent;
+    color: rgb(135, 235, 165);
+    font-size: 20px;
+}
+/*
+::-webkit-scrollbar {
+    width: 16px;
+}
+::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+    background-color: #f1ef79;
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+    width: 16px;
+    height: 16px;
+    background: #f1ef79;
+}
+*/
