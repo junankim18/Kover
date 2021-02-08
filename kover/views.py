@@ -6,7 +6,7 @@ def profile_block(request):
     user = Profile.objects.get(id=request.user.pk)
     pk = user.pk
     shows = user.watched_show.all()
-    actors = user.like_actor.all()
+    actors = user.like_actor.all().order_by('people_name')
     favorites = user.interested_show.all()
     reviews = user.review_author.all().order_by('-id')
     showlist = list(shows)

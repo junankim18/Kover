@@ -23,13 +23,13 @@
                 border: 1px solid black;
                 display: flex;
                 flex-direction: row;
-                overflow: auto;
             }
             .showdetailbox {
                 border: 1px solid black;
                 background-color: #f7f7f7;
-                width: 15%;
+                width: 11%;
                 margin-left: 13px;
+                padding: 10px;
             }
             .hallactbox {
                 border: 1px solid black;
@@ -37,19 +37,39 @@
                 flex-direction: row;
                 justify-content: space-around;
             }
+
+            .actorbox {
+                display: relative;
+                align-items: center;
+                overflow-x: hidden;
+            }
+            /*
+            .actoricon {
+                margin-bottom: 10px;
+                z-index: 3;
+            }
+            */
+            .actoricon button {
+                font-size: 30px;
+                width: 40px;
+                height: 40px;
+                background-color: transparent;
+                border: transparent;
+                color: rgb(135, 235, 165);
+            }
             .actorcontainer {
-                border: 1px solid black;
                 display: flex;
                 flex-direction: row;
-                overflow: hidden;
+                overflow-x: hidden;
+                z-index: 2;
             }
             .actordetailbox {
                 border: 1px solid black;
                 background-color: #f7f7f7;
-                width: 30%;
-                margin-right: 3%;
+                margin-right: 10px;
                 padding: 10px;
                 text-align: center;
+                z-index: 1;
             }
             .favbox {
                 border: 1px solid black;
@@ -107,22 +127,33 @@
             .none {
                 display: none;
             }
-            .actorbtn {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-            }
-            .actoricon {
-                margin-bottom: 10px;
-            }
-            .actoricon button {
-                font-size: 30px;
-                width: 40px;
-                height: 40px;
+            span button {
                 background-color: transparent;
                 border: transparent;
                 color: rgb(135, 235, 165);
+                font-size: 20px;
             }
+            /*
+            ::-webkit-scrollbar {
+                width: 16px;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: #f1f1f1;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: #f1ef79;
+                border-radius: 10px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            ::-webkit-scrollbar-button:start:decrement,
+            ::-webkit-scrollbar-button:end:increment {
+                width: 16px;
+                height: 16px;
+                background: #f1ef79;
+            }
+            */
         </style>
     </head>
     <body>
@@ -133,12 +164,17 @@
             </div>
         </div>
         <div class="border box90">
-            <h3>관람 작품 리스트</h3>
+            <h3>
+                관람 작품 리스트
+                <span>
+                    <a href=""><i class="fas fa-plus"></i></a>
+                </span>
+            </h3>
             <div class="showcontainer">
                 {% for show in shows%}
                 <div class="showdetailbox">
-                    <p>{{show.show_name}}</p>
                     <img src="{{show.show_poster.url}}" alt="" width="150px" />
+                    <p>{{show.show_name}}</p>
                     <p>{{show.show_hall}}</p>
                     <p>런타임 : {{show.show_runtime}}</p>
                 </div>
@@ -162,8 +198,14 @@
                 </div>
             </div>
             <div class="box40">
-                <h3>관심 배우</h3>
-                <div class="actorbtn">
+                <h3>
+                    관심 배우
+                    <span>
+                        <a href=""><i class="fas fa-plus"></i></a>
+                    </span>
+                </h3>
+
+                <div class="actorbox">
                     <div class="actoricon">
                         <button><i class="fas fa-caret-left"></i></button>
                     </div>
@@ -207,16 +249,84 @@
             </div>
         </div>
         <script>
-            const btnLeftParent = document.querySelector(".actorbtn").firstElementChild;
+            const btnLeftParent = document.querySelector(".actorbox").firstElementChild;
             const btnLeft = btnLeftParent.querySelector(".actoricon button");
-            btnLeft.onclick = () => {
-                alert("L click");
-            };
-            const btnRightParent = document.querySelector(".actorbtn").lastElementChild;
+            const btnRightParent = document.querySelector(".actorbox").lastElementChild;
             const btnRight = btnRightParent.querySelector(".actoricon button");
-            btnRight.onclick = () => {
-                alert("R click");
-            };
+            const slideList = document.querySelector(".actorcontainer");
+            const slideContents = document.querySelectorAll(".actordetailbox");
+
+            const slideLen = slideContents.length;
+            const slideWidth = 181;
+            const slideSpeed = 300;
+            const startNum = 0;
+
+            slideList.style.width = slideWidth * (slideLen + 7) + "px";
+
+            let firstChild = slideList.firstElementChild;
+            let clonedFirst = firstChild.cloneNode(true);
+
+            let secondChild = firstChild.nextElementSibling;
+            let clonedSecond = secondChild.cloneNode(true);
+
+            let thirdChild = secondChild.nextElementSibling;
+            let clonedThird = thirdChild.cloneNode(true);
+
+            let lastChild = slideList.lastElementChild;
+            let clonedLast = lastChild.cloneNode(true);
+
+            let secondlastChild = lastChild.previousElementSibling;
+            let clonedSecondLast = secondlastChild.cloneNode(true);
+
+            let thirdlastChild = secondlastChild.previousElementSibling;
+            let clonedThirdLast = thirdlastChild.cloneNode(true);
+
+            slideList.appendChild(clonedFirst);
+
+            slideList.appendChild(clonedSecond);
+            slideList.appendChild(clonedThird);
+
+            slideList.insertBefore(clonedThirdLast, firstChild);
+            slideList.insertBefore(clonedSecondLast, firstChild);
+            slideList.insertBefore(clonedLast, firstChild);
+
+            let curIndex = startNum; // current slide index (except copied slide)
+            let curSlide = slideContents[curIndex]; // current slide dom
+            curSlide.classList.add("slide_active");
+
+            btnRight.addEventListener("click", function () {
+                if (curIndex <= slideLen - 1) {
+                    slideList.style.transition = slideSpeed + "ms";
+                    slideList.style.transform = "translate3d(-" + slideWidth * (curIndex + 2) + "px, 0px, 0px)";
+                }
+                if (curIndex === slideLen - 1) {
+                    setTimeout(function () {
+                        slideList.style.transition = "0ms";
+                        slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
+                    }, slideSpeed);
+                    curIndex = -1;
+                }
+                curSlide.classList.remove("slide_active");
+                curSlide = slideContents[++curIndex];
+                curSlide.classList.add("slide_active");
+            });
+
+            btnLeft.addEventListener("click", function () {
+                if (curIndex >= 0) {
+                    slideList.style.transition = slideSpeed + "ms";
+                    slideList.style.transform = "translate3d(-" + slideWidth * curIndex + "px, 0px, 0px)";
+                }
+                if (curIndex === 0) {
+                    setTimeout(function () {
+                        slideList.style.transition = "0ms";
+                        slideList.style.transform = "translate3d(-" + slideWidth * slideLen + "px, 0px, 0px)";
+                    }, slideSpeed);
+                    curIndex = slideLen;
+                }
+                curSlide.classList.remove("slide_active");
+                curSlide = slideContents[--curIndex];
+                curSlide.classList.add("slide_active");
+            });
         </script>
     </body>
 </html>
