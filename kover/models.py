@@ -1,48 +1,39 @@
+import arrow
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 
 
 class Time(models.Model):
-    time10 = models.TimeField(verbose_name='10시')
-    time10_5 = models.TimeField(verbose_name='10시 30분')
-    time11 = models.TimeField(verbose_name='11시')
-    time11_5 = models.TimeField(verbose_name='11시 30분')
-    time12 = models.TimeField(verbose_name='12시')
-    time12_5 = models.TimeField(verbose_name='12시 30분')
-    time13 = models.TimeField(verbose_name='13시')
-    time13_5 = models.TimeField(verbose_name='13시 30분')
-    time14 = models.TimeField(verbose_name='14시')
-    time14_5 = models.TimeField(verbose_name='14시 30분')
-    time15 = models.TimeField(verbose_name='15시')
-    time15_5 = models.TimeField(verbose_name='15시 30분')
-    time16 = models.TimeField(verbose_name='16시')
-    time16_5 = models.TimeField(verbose_name='16시 30분')
-    time17 = models.TimeField(verbose_name='17시')
-    time17_5 = models.TimeField(verbose_name='17시 30분')
-    time18 = models.TimeField(verbose_name='18시')
-    time18_5 = models.TimeField(verbose_name='18시 30분')
-    time19 = models.TimeField(verbose_name='19시')
-    time19_5 = models.TimeField(verbose_name='19시 30분')
-    time20 = models.TimeField(verbose_name='20시')
-    time20_5 = models.TimeField(verbose_name='20시 30분')
-    time21 = models.TimeField(verbose_name='21시')
-    time21_5 = models.TimeField(verbose_name='21시 30분')
-    time22 = models.TimeField(verbose_name='22시')
-    time22_5 = models.TimeField(verbose_name='22시 30분')
-    time23 = models.TimeField(verbose_name='23시')
+    time = models.DateTimeField(null=True)
+
+
+# 나중에 크롤링할때 이런 형식으로 show에 맞는 time 넣어주기
+# Time(
+#     time=arrow.Arrow(year=2021, month=12, day=10, hour=10, minute=30).datetime
+# )
 
 
 class Hall(models.Model):
     hall_name = models.CharField(max_length=50, verbose_name='공연장 이름')
-    hall_lat = models.IntegerField(verbose_name='공연장 위도')
-    hall_lng = models.IntegerField(verbose_name='공연장 경도')
+    hall_lat = models.FloatField(verbose_name='공연장 위도')
+    hall_lng = models.FloatField(verbose_name='공연장 경도')
     hall_addr = models.TextField(verbose_name='공연장 주소')
-    hall_trans = models.TextField(verbose_name='공연장 교통편')
+    hall_trans = models.TextField(verbose_name='공연장 교통편', blank=True)
+
+    def __str__(self):
+        return self.hall_name
 
 
 class People(models.Model):
     people_type = models.CharField(max_length=30, verbose_name='직업')
     people_name = models.CharField(max_length=30, verbose_name='이름')
+    people_img = models.ImageField(
+        upload_to='people_image/%Y/%m/%d', verbose_name='배우 사진', blank=True)
+    people_birth = models.DateField(verbose_name='생년월일', null=True)
+
+    def __str__(self):
+        return self.people_name
 
 
 class Show(models.Model):
@@ -53,36 +44,56 @@ class Show(models.Model):
     show_type = models.CharField(max_length=20, choices=TYPE_OF_SHOW)
     show_name = models.CharField(max_length=50, verbose_name='공연 이름')
     show_poster = models.ImageField(
-        upload_to='idea_image/%Y/%m/%d', verbose_name='공연 포스터', blank=True)
+        upload_to='poster_image/%Y/%m/%d', verbose_name='공연 포스터', blank=True)
     show_hall = models.ForeignKey(
         Hall, related_name='show_hall', on_delete=models.DO_NOTHING)
-    show_date_start = models.DateTimeField(verbose_name='공연 시작일')
-    show_date_end = models.DateTimeField(verbose_name='공연 종료일')
-    show_time = models.ManyToManyField(Time)
+    show_date_start = models.DateTimeField(verbose_name='공연 시작일', null=True)
+    show_date_end = models.DateTimeField(verbose_name='공연 종료일', null=True)
     show_runtime = models.TimeField(verbose_name='공연 런타임')
+    show_times = models.ManyToManyField(Time, related_name='show_time')
     show_intermission = models.TimeField(verbose_name='공연 인터미션')
     show_director = models.ForeignKey(
         People, related_name='show_director', on_delete=models.DO_NOTHING)
-    show_actor = models.ForeignKey(
-        People, related_name='show_actor', on_delete=models.DO_NOTHING)
+    show_actor = models.ManyToManyField(People, related_name='show_actor')
     show_detail = models.TextField(verbose_name='공연 정보')
+
+    def __str__(self):
+        return self.show_name
 
 
 class User(AbstractUser):
+    followers = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name='followings',
+        blank=True,
+    )
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    nickname = models.CharField(max_length=50, verbose_name='유저닉네임')
     grade = models.IntegerField(verbose_name='유저 등급', default=0)
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name='계정 생성 날짜')
-    watched_show = models.ForeignKey(
-        Show, related_name='watched_show', verbose_name='관람 공연', on_delete=models.DO_NOTHING, null=True)
-    like_people = models.ForeignKey(
-        People, related_name='like_people', verbose_name='관심 배우', on_delete=models.DO_NOTHING, null=True)
-    interested_show = models.ForeignKey(
-        Show, related_name='interested_show', verbose_name='관심 공연', on_delete=models.DO_NOTHING, null=True)
+    profileimg = models.ImageField(
+        upload_to='profile_image/%Y/%m/%d', verbose_name='프로필 이미지', blank=True)
+    watched_show = models.ManyToManyField(
+        Show, related_name='watched_show', verbose_name='관람 공연')
+    like_actor = models.ManyToManyField(
+        People, related_name='like_people', verbose_name='관심 배우')
+    interested_show = models.ManyToManyField(
+        Show, related_name='interested_show', verbose_name='관심 공연')
+    bio = models.TextField(verbose_name='자기 소개', blank=True)
+    biolink = models.URLField(verbose_name='자기 사이트', blank=True)
+
+    def __str__(self):
+        return self.nickname
 
 
 class Review(models.Model):
     review_author = models.ForeignKey(
-        User, related_name='review_author', on_delete=models.CASCADE)
+        Profile, related_name='review_author', on_delete=models.CASCADE)
     review_show = models.ForeignKey(
         Show, related_name='review_show', on_delete=models.CASCADE)
     review_grade = models.IntegerField(verbose_name='리뷰 별점')
@@ -97,7 +108,7 @@ class Review(models.Model):
 class Feed_post(models.Model):
     feed_title = models.CharField(max_length=60, verbose_name='피드 제목')
     feed_author = models.ForeignKey(
-        User, related_name='feed_author', on_delete=models.CASCADE)
+        Profile, related_name='feed_author', on_delete=models.CASCADE)
     feed_content = models.TextField(verbose_name='피드 내용')
     feed_like = models.IntegerField(verbose_name='피드 좋아요 개수', default=0)
     feed_created_at = models.DateTimeField(
@@ -114,7 +125,7 @@ class Feed_post(models.Model):
 
 class Feed_comment(models.Model):
     comment_author = models.ForeignKey(
-        User, related_name='comment_author', on_delete=models.CASCADE, verbose_name='작성자')
+        Profile, related_name='comment_author', on_delete=models.CASCADE, verbose_name='작성자')
     comment_content = models.TextField(verbose_name='댓글 내용')
     comment_created_at = models.DateTimeField(
         auto_now_add=True, verbose_name='댓글 작성일자')
