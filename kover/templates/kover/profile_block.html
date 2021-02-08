@@ -4,9 +4,336 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>kover|profile</title>
+        <title>kover | profile</title>
+        <link
+            rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
+            integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
+            crossorigin="anonymous"
+        />
+
+        <style>
+            .stacalbox {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            .showcontainer {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+            }
+            .showdetailbox {
+                border: 1px solid black;
+                background-color: #f7f7f7;
+                width: 150px;
+                margin-left: 13px;
+                padding: 10px;
+            }
+            .hallactbox {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+
+            .actorbox {
+                display: relative;
+                align-items: center;
+                overflow-x: hidden;
+            }
+            /*
+            .actoricon {
+                margin-bottom: 10px;
+                z-index: 3;
+            }
+            */
+            .actoricon button {
+                font-size: 30px;
+                width: 40px;
+                height: 40px;
+                background-color: transparent;
+                border: transparent;
+                color: rgb(135, 235, 165);
+            }
+            .actorcontainer {
+                display: flex;
+                flex-direction: row;
+                overflow-x: hidden;
+                z-index: 2;
+            }
+            .actordetailbox {
+                border: 1px solid black;
+                background-color: #f7f7f7;
+                margin-right: 10px;
+                padding: 10px;
+                text-align: center;
+                z-index: 1;
+            }
+            .favbox {
+                border: 1px solid black;
+                background-color: #f7f7f7;
+                width: 30%;
+                margin-left: 13px;
+            }
+            .favcontainer {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+                overflow: auto;
+            }
+            .revfavbox {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+            }
+            .revcontainer {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+            }
+            .revbox {
+                border: 1px solid black;
+                background-color: #f7f7f7;
+                width: 30%;
+                margin-left: 13px;
+            }
+            .hallcontainer {
+                border: 1px solid black;
+                display: flex;
+                flex-direction: row;
+            }
+            .border {
+                border: 1px solid black;
+            }
+            .box40 {
+                width: 40%;
+            }
+            .box45 {
+                width: 45%;
+            }
+            .box90 {
+                width: 90%;
+                text-align: center;
+                margin-left: 5%;
+            }
+            .hallbox {
+                background-color: #f7f7f7;
+                width: 40%;
+                margin-left: 20px;
+            }
+            .none {
+                display: none;
+            }
+            span button {
+                background-color: transparent;
+                border: transparent;
+                color: rgb(135, 235, 165);
+                font-size: 20px;
+            }
+            /*
+            ::-webkit-scrollbar {
+                width: 16px;
+            }
+            ::-webkit-scrollbar-track {
+                background-color: #f1f1f1;
+            }
+            ::-webkit-scrollbar-thumb {
+                background-color: #f1ef79;
+                border-radius: 10px;
+            }
+            ::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+            ::-webkit-scrollbar-button:start:decrement,
+            ::-webkit-scrollbar-button:end:increment {
+                width: 16px;
+                height: 16px;
+                background: #f1ef79;
+            }
+            */
+        </style>
     </head>
     <body>
-        <div>test</div>
+        <div class="stacalbox">
+            <div><h1>{{user.nickname}}님의 단계 : {{user.grade}}</h1></div>
+            <div>
+                <h1><a href="">calender</a></h1>
+            </div>
+        </div>
+        <div class="border box90">
+            <h3>
+                관람 작품 리스트
+                <span>
+                    <a href=""><i class="fas fa-plus"></i></a>
+                </span>
+            </h3>
+            <div class="showcontainer">
+                {% for show in shows%}
+                <div class="showdetailbox">
+                    <img src="{{show.show_poster.url}}" alt="" width="150px" />
+                    <p>{{show.show_name}}</p>
+                    <p>{{show.show_hall}}</p>
+                    <p>런타임 : {{show.show_runtime}}</p>
+                </div>
+                {% endfor %} {% for i in "x"|rjust:"5" %}
+                <div>
+                    <div class="showdetailbox">
+                        <i class="fas fa-plus"></i>
+                        <p>관람 작품 추가하기</p>
+                    </div>
+                </div>
+                {%endfor%}
+            </div>
+        </div>
+        <div class="hallactbox">
+            <div class="box40">
+                <h3>공연장</h3>
+                <div class="hallcontainer">
+                    <div class="border hallbox">
+                        <p>방문한 총 공연장 수 : {{overlapnum}}</p>
+                        {% for show in wantlist %}
+                        <div>{{show.show_hall}}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="border hallbox">
+                        <p>가장 많이 방문한 공연장</p>
+                        <p>{{hallname}} : {{mostvisitnum}}회</p>
+                    </div>
+                </div>
+            </div>
+            <div class="box40">
+                <h3>
+                    관심 배우
+                    <span>
+                        <a href=""><i class="fas fa-plus"></i></a>
+                    </span>
+                </h3>
+
+                <div class="actorbox">
+                    <div class="actoricon">
+                        <button><i class="fas fa-caret-left"></i></button>
+                    </div>
+                    <div class="actorcontainer">
+                        {% for actor in actors %}
+                        <div class="actordetailbox">
+                            <img src="{{actor.people_img.url}}" alt="" width="150px" />
+                            <p>{{actor.people_name}} {{actor.people_type}}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <div class="actoricon">
+                        <button><i class="fas fa-caret-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="revfavbox">
+            <div class="box40">
+                <h3>내가 쓴 리뷰</h3>
+                <div class="revcontainer">
+                    {% for review in reviews %}
+                    <div class="revbox">
+                        <p>{{review.review_show}}</p>
+                        <p>{{review.review_grade}} / 10</p>
+                        <p>{{review.review_content}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="box40">
+                <h3>favorites</h3>
+                <div class="favcontainer">
+                    {% for favorite in favorites %}
+                    <div class="favbox">
+                        <img src="{{favorite.show_poster.url}}" alt="" width="150px" />
+                        <p>{{favorite.show_name}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <script>
+            const btnLeftParent = document.querySelector(".actorbox").firstElementChild;
+            const btnLeft = btnLeftParent.querySelector(".actoricon button");
+            const btnRightParent = document.querySelector(".actorbox").lastElementChild;
+            const btnRight = btnRightParent.querySelector(".actoricon button");
+            const slideList = document.querySelector(".actorcontainer");
+            const slideContents = document.querySelectorAll(".actordetailbox");
+
+            const slideLen = slideContents.length;
+            const slideWidth = 181;
+            const slideSpeed = 300;
+            const startNum = 0;
+
+            slideList.style.width = slideWidth * (slideLen + 7) + "px";
+
+            let firstChild = slideList.firstElementChild;
+            let clonedFirst = firstChild.cloneNode(true);
+
+            let secondChild = firstChild.nextElementSibling;
+            let clonedSecond = secondChild.cloneNode(true);
+
+            let thirdChild = secondChild.nextElementSibling;
+            let clonedThird = thirdChild.cloneNode(true);
+
+            let lastChild = slideList.lastElementChild;
+            let clonedLast = lastChild.cloneNode(true);
+
+            let secondlastChild = lastChild.previousElementSibling;
+            let clonedSecondLast = secondlastChild.cloneNode(true);
+
+            let thirdlastChild = secondlastChild.previousElementSibling;
+            let clonedThirdLast = thirdlastChild.cloneNode(true);
+
+            slideList.appendChild(clonedFirst);
+
+            slideList.appendChild(clonedSecond);
+            slideList.appendChild(clonedThird);
+
+            slideList.insertBefore(clonedThirdLast, firstChild);
+            slideList.insertBefore(clonedSecondLast, firstChild);
+            slideList.insertBefore(clonedLast, firstChild);
+
+            let curIndex = startNum; // current slide index (except copied slide)
+            let curSlide = slideContents[curIndex]; // current slide dom
+            curSlide.classList.add("slide_active");
+
+            btnRight.addEventListener("click", function () {
+                if (curIndex <= slideLen - 1) {
+                    slideList.style.transition = slideSpeed + "ms";
+                    slideList.style.transform = "translate3d(-" + slideWidth * (curIndex + 2) + "px, 0px, 0px)";
+                }
+                if (curIndex === slideLen - 1) {
+                    setTimeout(function () {
+                        slideList.style.transition = "0ms";
+                        slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
+                    }, slideSpeed);
+                    curIndex = -1;
+                }
+                curSlide.classList.remove("slide_active");
+                curSlide = slideContents[++curIndex];
+                curSlide.classList.add("slide_active");
+            });
+
+            btnLeft.addEventListener("click", function () {
+                if (curIndex >= 0) {
+                    slideList.style.transition = slideSpeed + "ms";
+                    slideList.style.transform = "translate3d(-" + slideWidth * curIndex + "px, 0px, 0px)";
+                }
+                if (curIndex === 0) {
+                    setTimeout(function () {
+                        slideList.style.transition = "0ms";
+                        slideList.style.transform = "translate3d(-" + slideWidth * slideLen + "px, 0px, 0px)";
+                    }, slideSpeed);
+                    curIndex = slideLen;
+                }
+                curSlide.classList.remove("slide_active");
+                curSlide = slideContents[--curIndex];
+                curSlide.classList.add("slide_active");
+            });
+        </script>
     </body>
 </html>
