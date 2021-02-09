@@ -1,10 +1,8 @@
 {% extends "kover/layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 <title>Kover | block profile</title>
 <div class="stacalbox">
-        <h4>
-            {{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인  {% else %} 고수 {% endif%}
-        </h4>
-        <a href=""><h4> calender</h4></a>
+    <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
+    <a href=""><h4>calender</h4></a>
 </div>
 <div class="border">
     <h4>관람 작품 리스트</h4>
@@ -41,9 +39,7 @@
         </div>
     </div>
     <div class="mr-1 col-5">
-        <h4>
-            관심 배우
-        </h4>
+        <h4>관심 배우</h4>
 
         <div class="actorbox">
             <div class="actoricon">
@@ -57,7 +53,7 @@
                 </div>
                 {% endfor %}
             </div>
-            <div class="actoricon ">
+            <div class="actoricon">
                 <button><i class="fas fa-caret-right"></i></button>
             </div>
         </div>
@@ -150,7 +146,7 @@
         curSlide = slideContents[++curIndex];
         curSlide.classList.add("slide_active");
     });
-    
+
     btnLeft.addEventListener("click", function () {
         if (curIndex >= 0) {
             slideList.style.transition = slideSpeed + "ms";
