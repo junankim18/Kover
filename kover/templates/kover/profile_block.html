@@ -1,4 +1,5 @@
-{% extends "kover/layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
+{% extends "kover/layout.html" %} {% block extra_head %} {{block.super}}
+{%endblock%} {% block content %}
 <title>Kover | block profile</title>
 <div class="stacalbox">
     <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
@@ -21,6 +22,13 @@
         </div>
         {%endfor%}
     </div>
+    {% endfor %} {% for i in "x"|rjust:"1" %}
+    <div class="showdetailbox">
+      <i class="fas fa-plus"></i>
+      <p>관람 작품 추가하기</p>
+    </div>
+    {%endfor%}
+  </div>
 </div>
 <div class="hallactbox">
     <div class="ml-1 col-5">
@@ -41,23 +49,23 @@
     <div class="mr-1 col-5">
         <h4>관심 배우</h4>
 
-        <div class="actorbox">
-            <div class="actoricon">
-                <button><i class="fas fa-caret-left"></i></button>
-            </div>
-            <div class="actorcontainer">
-                {% for actor in actors %}
-                <div class="actordetailbox">
-                    <img src="{{actor.people_img.url}}" alt="" width="150px" />
-                    <p>{{actor.people_name}} {{actor.people_type}}</p>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="actoricon">
-                <button><i class="fas fa-caret-right"></i></button>
-            </div>
+    <div class="actorbox">
+      <div class="actoricon">
+        <button><i class="fas fa-caret-left"></i></button>
+      </div>
+      <div class="actorcontainer">
+        {% for actor in actors %}
+        <div class="actordetailbox">
+          <img src="{{actor.people_img.url}}" alt="" width="150px" />
+          <p>{{actor.people_name}} {{actor.people_type}}</p>
         </div>
+        {% endfor %}
+      </div>
+      <div class="actoricon">
+        <button><i class="fas fa-caret-right"></i></button>
+      </div>
     </div>
+  </div>
 </div>
 <div class="revfavbox">
     <div class="ml-1 col-5">
@@ -83,85 +91,90 @@
             {% endfor %}
         </div>
     </div>
+  </div>
 </div>
 <script>
-    const btnLeftParent = document.querySelector(".actorbox").firstElementChild;
-    const btnLeft = btnLeftParent.querySelector(".actoricon button");
-    const btnRightParent = document.querySelector(".actorbox").lastElementChild;
-    const btnRight = btnRightParent.querySelector(".actoricon button");
-    const slideList = document.querySelector(".actorcontainer");
-    const slideContents = document.querySelectorAll(".actordetailbox");
+  const btnLeftParent = document.querySelector(".actorbox").firstElementChild;
+  const btnLeft = btnLeftParent.querySelector(".actoricon button");
+  const btnRightParent = document.querySelector(".actorbox").lastElementChild;
+  const btnRight = btnRightParent.querySelector(".actoricon button");
+  const slideList = document.querySelector(".actorcontainer");
+  const slideContents = document.querySelectorAll(".actordetailbox");
 
-    const slideLen = slideContents.length;
-    const slideWidth = 181;
-    const slideSpeed = 300;
-    const startNum = 0;
+  const slideLen = slideContents.length;
+  const slideWidth = 181;
+  const slideSpeed = 300;
+  const startNum = 0;
 
-    slideList.style.width = slideWidth * (slideLen + 7) + "px";
+  slideList.style.width = slideWidth * (slideLen + 7) + "px";
 
-    let firstChild = slideList.firstElementChild;
-    let clonedFirst = firstChild.cloneNode(true);
+  let firstChild = slideList.firstElementChild;
+  let clonedFirst = firstChild.cloneNode(true);
 
-    let secondChild = firstChild.nextElementSibling;
-    let clonedSecond = secondChild.cloneNode(true);
+  let secondChild = firstChild.nextElementSibling;
+  let clonedSecond = secondChild.cloneNode(true);
 
-    let thirdChild = secondChild.nextElementSibling;
-    let clonedThird = thirdChild.cloneNode(true);
+  let thirdChild = secondChild.nextElementSibling;
+  let clonedThird = thirdChild.cloneNode(true);
 
-    let lastChild = slideList.lastElementChild;
-    let clonedLast = lastChild.cloneNode(true);
+  let lastChild = slideList.lastElementChild;
+  let clonedLast = lastChild.cloneNode(true);
 
-    let secondlastChild = lastChild.previousElementSibling;
-    let clonedSecondLast = secondlastChild.cloneNode(true);
+  let secondlastChild = lastChild.previousElementSibling;
+  let clonedSecondLast = secondlastChild.cloneNode(true);
 
-    let thirdlastChild = secondlastChild.previousElementSibling;
-    let clonedThirdLast = thirdlastChild.cloneNode(true);
+  let thirdlastChild = secondlastChild.previousElementSibling;
+  let clonedThirdLast = thirdlastChild.cloneNode(true);
 
-    slideList.appendChild(clonedFirst);
+  slideList.appendChild(clonedFirst);
 
-    slideList.appendChild(clonedSecond);
-    slideList.appendChild(clonedThird);
+  slideList.appendChild(clonedSecond);
+  slideList.appendChild(clonedThird);
 
-    slideList.insertBefore(clonedThirdLast, firstChild);
-    slideList.insertBefore(clonedSecondLast, firstChild);
-    slideList.insertBefore(clonedLast, firstChild);
+  slideList.insertBefore(clonedThirdLast, firstChild);
+  slideList.insertBefore(clonedSecondLast, firstChild);
+  slideList.insertBefore(clonedLast, firstChild);
 
-    let curIndex = startNum; // current slide index (except copied slide)
-    let curSlide = slideContents[curIndex]; // current slide dom
+  let curIndex = startNum; // current slide index (except copied slide)
+  let curSlide = slideContents[curIndex]; // current slide dom
+  curSlide.classList.add("slide_active");
+
+  btnRight.addEventListener("click", function () {
+    if (curIndex <= slideLen - 1) {
+      slideList.style.transition = slideSpeed + "ms";
+      slideList.style.transform =
+        "translate3d(-" + slideWidth * (curIndex + 2) + "px, 0px, 0px)";
+    }
+    if (curIndex === slideLen - 1) {
+      setTimeout(function () {
+        slideList.style.transition = "0ms";
+        slideList.style.transform =
+          "translate3d(-" + slideWidth + "px, 0px, 0px)";
+      }, slideSpeed);
+      curIndex = -1;
+    }
+    curSlide.classList.remove("slide_active");
+    curSlide = slideContents[++curIndex];
     curSlide.classList.add("slide_active");
+  });
 
-    btnRight.addEventListener("click", function () {
-        if (curIndex <= slideLen - 1) {
-            slideList.style.transition = slideSpeed + "ms";
-            slideList.style.transform = "translate3d(-" + slideWidth * (curIndex + 2) + "px, 0px, 0px)";
-        }
-        if (curIndex === slideLen - 1) {
-            setTimeout(function () {
-                slideList.style.transition = "0ms";
-                slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
-            }, slideSpeed);
-            curIndex = -1;
-        }
-        curSlide.classList.remove("slide_active");
-        curSlide = slideContents[++curIndex];
-        curSlide.classList.add("slide_active");
-    });
-
-    btnLeft.addEventListener("click", function () {
-        if (curIndex >= 0) {
-            slideList.style.transition = slideSpeed + "ms";
-            slideList.style.transform = "translate3d(-" + slideWidth * curIndex + "px, 0px, 0px)";
-        }
-        if (curIndex === 0) {
-            setTimeout(function () {
-                slideList.style.transition = "0ms";
-                slideList.style.transform = "translate3d(-" + slideWidth * slideLen + "px, 0px, 0px)";
-            }, slideSpeed);
-            curIndex = slideLen;
-        }
-        curSlide.classList.remove("slide_active");
-        curSlide = slideContents[--curIndex];
-        curSlide.classList.add("slide_active");
-    });
+  btnLeft.addEventListener("click", function () {
+    if (curIndex >= 0) {
+      slideList.style.transition = slideSpeed + "ms";
+      slideList.style.transform =
+        "translate3d(-" + slideWidth * curIndex + "px, 0px, 0px)";
+    }
+    if (curIndex === 0) {
+      setTimeout(function () {
+        slideList.style.transition = "0ms";
+        slideList.style.transform =
+          "translate3d(-" + slideWidth * slideLen + "px, 0px, 0px)";
+      }, slideSpeed);
+      curIndex = slideLen;
+    }
+    curSlide.classList.remove("slide_active");
+    curSlide = slideContents[--curIndex];
+    curSlide.classList.add("slide_active");
+  });
 </script>
 {% endblock %}

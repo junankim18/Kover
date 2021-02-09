@@ -69,12 +69,29 @@ def profile_block(request):
 
 
 def main(request):
-    show = Show.objects.all()
-    feed = Feed_post.objects.all()
-    comlist = []
+    users = Profile.objects.get(id=request.user.pk)
+    pk = users.pk
+    actors = users.like_actor.all().order_by('people_name')
+
+    show_1 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 최신 순
+    show_2 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 리뷰 많은 순
+
+    feed_1 = Feed_post.objects.all().order_by(
+        '-feed_created_at')[:5]  # 피드 최신 순
+    feed_2 = Feed_post.objects.order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
+
+    commentlist = []
+    for feedind in feed_2:
+        commentlist.append(len(feedind.comment_post.all()))
+
     ctx = {
-        'show': show,
-        'feed': feed,
+        'users': users,
+        'actors': actors,
+        'show_1': show_1,
+        'show_2': show_2,
+        'feed_1': feed_1,
+        'feed_2': feed_2,
+        'commentlist': commentlist
     }
     return render(request, 'kover/main.html', ctx)
 
