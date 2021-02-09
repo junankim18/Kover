@@ -88,6 +88,14 @@ def profile_geo(request):
     return render(request, 'kover/profile_geo.html', ctx)
 
 
+def feed_page(request):
+    feeds = Feed_post.objects.all()
+    ctx = {
+        'feeds': feeds
+    }
+    return render(request, 'kover/feed_layout.html', ctx)
+
+
 def show_detail(request, pk):
     show = Show.objects.get(id=pk)
     peoples = People.objects.all()
@@ -101,29 +109,19 @@ def show_detail(request, pk):
     return render(request, 'kover/show_detail.html', ctx)
 
 
-class Feed(View):
-    template_name = 'kover/feed_layout.html'
-
-    @method_decorator(csrf_exempt)
-    def dispatch(self, request, *args, **kwargs):
-        return super(Feed, self).dispatch(request, *args, **kwargs)
-
-    def get(self, request):
+@method_decorator(csrf_exempt)
+def press_like(request):
+    if request.method == 'GET':
         feed_list = Feed_post.objects.all()
         ctx = {"feeds": feed_list}
-        return render(request, self.template_name, ctx)
-
-    def post(self, request):
+        return render(request, 'insta/feed_layout.html', ctx)
+    elif request.method == 'POST':
         request = json.loads(request.body)
         feed_id = request['id']
-        button_type = request['type']
         feed = Feed_post.objects.get(id=feed_id)
-        comment = Feed_comment.objects.get(id=feed_id)
-        if button_type == 'feed_like':
-            feed_like = feed_like + 1
-        Feed_post.save()
-
-        return JsonResponse({'id': feed_id, 'type': feed_like})
+        feed.feed_like += 1
+        feed.save()
+        return JsonResponse({'id': feed_id})
 
 
 def create_watched_show(request):
