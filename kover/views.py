@@ -124,6 +124,27 @@ def press_like(request):
         return JsonResponse({'id': feed_id})
 
 
+@method_decorator(csrf_exempt)
+def press_com(comrequest):
+    if comrequest.method == 'GET':
+        feed_list = Feed_post.objects.all()
+        ctx = {"feeds": feed_list}
+        return render(comrequest, 'insta/feed_layout.html', ctx)
+    elif comrequest.method == 'POST':
+        request = json.loads(comrequest.body)
+        feed_id = request['id']
+        content = request['content']
+        feed = Feed_post.objects.get(id=feed_id)
+        user_id = comrequest.user.id
+        user = Profile.objects.get(id=user_id)
+        nickname = user.nickname
+        if content:
+            comment = Feed_comment(comment_author=user,
+                                   comment_content=content, comment_post=feed)
+            comment.save()
+        return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname})
+
+
 def create_watched_show(request):
     if request.method == 'POST':
         form = ShowForm(request.POST, request.FILES)

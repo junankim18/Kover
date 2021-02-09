@@ -1,6 +1,7 @@
 {% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %} {% comment %}
 <div></div>
 {% endcomment %} {% for feed in feeds%}
+<title>Kover | feed</title>
 <h1>{{ feed.feed_type }}</h1>
 <div id="post-{{feed.id}}" class="wrapper">
     <div>
@@ -12,46 +13,71 @@
         댓글 개수 : {{ feed.comment_post }}
 
         <div class="comment_t">
-            댓글 {% for comment in feed.comments.all %}
-            <div class="comment">{{ Feed_comment.comment_content }}</div>
+            댓글 {% for comment in feed.comment_post.all %}
+            <div class="comment">{{ comment.comment_content }} - {{comment.comment_author}}</div>
             {% endfor %}
         </div>
-
-        <form method="post">
-            {% csrf_token %}
+        <div>
             <input class="comment_content" type="text" placeholder="댓글 달기" />
-            <input class="sbmbtn" type="submit" onclick="onClickLike({{ subject.id }})" value="게시" />
-        </form>
+            <button class="" type="submit" onclick="onClickCom({{ feed.id }})">{% csrf_token %}게시</button>
+        </div>
     </div>
+    {% endfor %}
+
+    <script>
+        const request = new XMLHttpRequest();
+        const comrequest = new XMLHttpRequest();
+
+        const onClickLike = (id) => {
+            const url = "/feed/like/";
+            request.open("POST", url, true);
+            request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.send(JSON.stringify({ id }));
+        };
+
+        const handleResponse = () => {
+            if (request.status <= 400) {
+                const { id, type } = JSON.parse(request.response);
+                const element = document.querySelector(`#post-${id} div button`);
+                const origin = element.innerText;
+                const [typeStr, num] = origin.split(" ");
+                const count = Number(num) + 1;
+                element.innerText = `${typeStr} ${count}`;
+                console.log(typeStr, count);
+            }
+        };
+
+        const onClickCom = (id) => {
+            const input = document.querySelector(`#post-${id} div input`);
+            const content = input.value;
+            const url = "/feed/comment/";
+            comrequest.open("POST", url, true);
+            comrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            comrequest.send(JSON.stringify({ id, content }));
+            input.value = "";
+        };
+
+        const handleResponseCom = () => {
+            if (comrequest.status <= 400) {
+                const { id, comment, writer } = JSON.parse(comrequest.response);
+                console.log(id);
+                const element = document.querySelector(`#post-${id} div .comment_t`);
+                const create_com = document.createElement("div");
+                create_com.innerText = `${comment} - ${writer}`;
+                element.appendChild(create_com);
+            }
+        };
+
+        request.onreadystatechange = () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                handleResponse();
+            }
+        };
+        comrequest.onreadystatechange = () => {
+            if (comrequest.readyState === XMLHttpRequest.DONE) {
+                handleResponseCom();
+            }
+        };
+    </script>
+    {% endblock %}
 </div>
-{% endfor %}
-
-<script>
-    const request = new XMLHttpRequest();
-
-    const onClickLike = (id) => {
-        const url = "/feed/like/";
-        request.open("POST", url, true);
-        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.send(JSON.stringify({ id }));
-    };
-
-    const handleResponse = () => {
-        if (request.status <= 400) {
-            const { id, type } = JSON.parse(request.response);
-            const element = document.querySelector(`#post-${id} div button`);
-            const origin = element.innerText;
-            const [typeStr, num] = origin.split(" ");
-            const count = Number(num) + 1;
-            element.innerText = `${typeStr} ${count}`;
-            console.log(typeStr, count);
-        }
-    };
-
-    request.onreadystatechange = () => {
-        if (request.readyState === XMLHttpRequest.DONE) {
-            handleResponse();
-        }
-    };
-</script>
-{% endblock %}
