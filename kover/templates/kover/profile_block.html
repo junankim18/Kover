@@ -54,7 +54,7 @@
                 <h4 class="section-heading text-left mb-3 ml-5">관심배우</h4>
             </div>
             <div class="actorbox">
-                <div class="actoricon">
+                <div class="actoriconl">
                     <button><i class="fas fa-caret-left"></i></button>
                 </div>
                 <div class="actorcontainer">
@@ -65,7 +65,7 @@
                     </div>
                     {% endfor %}
                 </div>
-                <div class="actoricon">
+                <div class="actoriconr">
                     <button><i class="fas fa-caret-right"></i></button>
                 </div>
             </div>
@@ -103,9 +103,9 @@
 </div>
 <script>
     const btnLeftParent = document.querySelector(".actorbox").firstElementChild;
-    const btnLeft = btnLeftParent.querySelector(".actoricon button");
+    const btnLeft = btnLeftParent.querySelector(".actoriconl button");
     const btnRightParent = document.querySelector(".actorbox").lastElementChild;
-    const btnRight = btnRightParent.querySelector(".actoricon button");
+    const btnRight = btnRightParent.querySelector(".actoriconr button");
     const slideList = document.querySelector(".actorcontainer");
     const slideContents = document.querySelectorAll(".actordetailbox");
 
