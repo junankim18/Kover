@@ -12,9 +12,6 @@
 </div>
 <div class="border">
     <h4>관람 작품 리스트</h4>
-    <span>
-        <a href=""><i class="fas fa-plus"></i></a>
-    </span>
     <div class="showcontainer">
         {% for show in shows%}
         <div class="showdetailbox">
@@ -25,7 +22,7 @@
         </div>
         {% endfor %} {% for i in "x"|rjust:"1" %}
         <div class="showdetailbox">
-            <i class="fas fa-plus"></i>
+            <a href="{% url 'kover:create_watched_show'%}"><i class="fas fa-plus"></i></a>
             <p>관람 작품 추가하기</p>
         </div>
         {%endfor%}

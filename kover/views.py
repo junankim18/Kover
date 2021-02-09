@@ -1,10 +1,11 @@
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views import View
 from .models import Hall, User, Show, People, Review, Feed_post, Feed_comment, Time, Profile
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
+from .forms import ShowForm
 
 
 def profile_block(request):
@@ -120,3 +121,18 @@ class Feed(View):
         Feed_post.save()
 
         return JsonResponse({'id': feed_id, 'type': feed_like})
+
+
+def create_watched_show(request):
+    if request.method == 'POST':
+        form = ShowForm(request.POST, request.FILES)
+        if form.is_valid():
+            show = form.save()
+            new_pk = show.pk
+            return redirect('kover:profile_block', new_pk)
+    elif request.method == 'GET':
+        form = ShowForm()
+        ctx = {
+            'form': form
+        }
+        return render(request, 'kover/watched_show.html', ctx)
