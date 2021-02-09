@@ -71,11 +71,10 @@ def profile_block(request):
 def main(request):
     show = Show.objects.all()
     feed = Feed_post.objects.all()
-    num = Feed_post.comment_post
+    comlist = []
     ctx = {
         'show': show,
         'feed': feed,
-        'num': num
     }
     return render(request, 'kover/main.html', ctx)
 
@@ -90,8 +89,12 @@ def profile_geo(request):
 
 def feed_page(request):
     feeds = Feed_post.objects.all()
+    comlist = []
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
     ctx = {
-        'feeds': feeds
+        'feeds': feeds,
+        'comlist': comlist
     }
     return render(request, 'kover/feed_layout.html', ctx)
 
@@ -109,7 +112,7 @@ def show_detail(request, pk):
     return render(request, 'kover/show_detail.html', ctx)
 
 
-@method_decorator(csrf_exempt)
+@ method_decorator(csrf_exempt)
 def press_like(request):
     if request.method == 'GET':
         feed_list = Feed_post.objects.all()
@@ -124,7 +127,7 @@ def press_like(request):
         return JsonResponse({'id': feed_id})
 
 
-@method_decorator(csrf_exempt)
+@ method_decorator(csrf_exempt)
 def press_com(comrequest):
     if comrequest.method == 'GET':
         feed_list = Feed_post.objects.all()
