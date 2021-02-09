@@ -1,31 +1,28 @@
-
 {% extends "kover/layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 <title>Kover | block profile</title>
 <div class="card text-black my-5 py-4 text-center">
-    <div class='panel-body ml-4 mt-6 row'>
-        <h4>
-            {{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인  {% else %} 고수 {% endif%}
-        </h4>
+    <div class="panel-body ml-4 mt-6 row">
+        <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
     </div>
-    <div  class='text-right mr-4'>
+    <div class="text-right mr-4">
         <a href="">calender</a>
     </div>
 </div>
 <div class="container mt-2">
-    <div  class="section-heading ml-6">
-        <h4 class='section-heading text-left mb-3 ml-5'>공연 정보</h4>
+    <div class="section-heading ml-6">
+        <h4 class="section-heading text-left mb-3 ml-5">공연 정보</h4>
     </div>
     <div class="justify-content-center row align-items-center my-5">
         {% for show in shows%}
         <div class="showdetailbox card text-center">
-            <img class='card-img-top'src="{{show.show_poster.url}}" alt="" width="150px" />
+            <img class="card-img-top" src="{{show.show_poster.url}}" alt="" width="150px" />
             <p><small> {{show.show_name}}</small></p>
             <p><small> {{show.show_hall}}</small></p>
             <p><small> 런타임 : {{show.show_runtime}}</small></p>
         </div>
         {% endfor %} {% for i in "x"|rjust:"1" %}
         <div class="showdetailbox card text-center h-100 w-30">
-            <div class=''>
+            <div class="">
                 <a href="{% url 'kover:create_watched_show'%}"><i class="fas fa-plus"></i></a>
                 <p>관람 작품 추가하기</p>
             </div>
@@ -33,10 +30,10 @@
         {%endfor%}
     </div>
 </div>
-<div class= "container">
+<div class="container">
     <div class="ml-4 col-5">
         <div class="section-heading ml-6">
-            <h4 class='section-heading text-left mb-3 ml-5'>공연장</h4>
+            <h4 class="section-heading text-left mb-3 ml-5">공연장</h4>
         </div>
         <div class="container justify-content-center row align-items-center my-5">
             <div class="hallbox card text-center w-100 h-200">
@@ -52,23 +49,23 @@
         </div>
     </div>
     <div class="container">
-        <div class='ml-4 col-5'>
+        <div class="ml-4 col-5">
             <div class="section-heading ml-6">
-                <h4 class='section-heading text-left mb-3 ml-5'>관심배우</h4>
+                <h4 class="section-heading text-left mb-3 ml-5">관심배우</h4>
             </div>
-            <div class="justify-content-center row align-items-center my-5 actorbox">
+            <div class="actorbox">
                 <div class="actoricon">
                     <button><i class="fas fa-caret-left"></i></button>
                 </div>
-                <div class="actorcontainer col-3 col-md-auto col-lg-3 col-xl-3">
+                <div class="actorcontainer">
                     {% for actor in actors %}
-                    <div class="actordetailbox card h-100 w-30">
-                        <img src="{{actor.people_img.url}}/100x100" alt="" width="150px" />
+                    <div class="actordetailbox">
+                        <img src="{{actor.people_img.url}}" alt="" width="150px" />
                         <p>{{actor.people_name}} {{actor.people_type}}</p>
                     </div>
                     {% endfor %}
                 </div>
-                <div class="actoricon ">
+                <div class="actoricon">
                     <button><i class="fas fa-caret-right"></i></button>
                 </div>
             </div>
@@ -78,9 +75,9 @@
 <div class="container container">
     <div class="">
         <div class="section-heading ml-6">
-            <h4 class='section-heading text-left mb-3 ml-5'>나의 리뷰</h4>
+            <h4 class="section-heading text-left mb-3 ml-5">나의 리뷰</h4>
         </div>
-        <div class="container justify-content-center row align-items-center my-5 ">
+        <div class="container justify-content-center row align-items-center my-5">
             {% for review in reviews %}
             <div class="revbox card text-center w-50 h-100 mb-2">
                 <p>{{review.review_show}}</p>
@@ -92,9 +89,9 @@
     </div>
     <div class="container">
         <div class="section-heading ml-6">
-            <h4 class='section-heading text-left mb-3 ml-5'>Favorites</h4>
+            <h4 class="section-heading text-left mb-3 ml-5">Favorites</h4>
         </div>
-        <div class=" container justify-content-center row align-items-center my-5">
+        <div class="container justify-content-center row align-items-center my-5">
             {% for favorite in favorites %}
             <div class="card text-center w-100 h-100 col-3 col-md-auto col-lg-3 col-xl-3">
                 <img src="{{favorite.show_poster.url}}" alt="" width="150px" />
@@ -166,7 +163,7 @@
         curSlide = slideContents[++curIndex];
         curSlide.classList.add("slide_active");
     });
-    
+
     btnLeft.addEventListener("click", function () {
         if (curIndex >= 0) {
             slideList.style.transition = slideSpeed + "ms";
