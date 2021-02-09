@@ -1,71 +1,88 @@
-{% extends "kover/layout.html" %} {% block extra_head %} {{block.super}}
-{%endblock%} {% block content %}
+
+{% extends "kover/layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 <title>Kover | block profile</title>
-<div class="stacalbox">
-    <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
-    <a href=""><h4>calender</h4></a>
+<div class="card text-black my-5 py-4 text-center">
+    <div class='panel-body ml-4 mt-6 row'>
+        <h4>
+            {{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인  {% else %} 고수 {% endif%}
+        </h4>
+    </div>
+    <div  class='text-right mr-4'>
+        <a href="">calender</a>
+    </div>
 </div>
-<div class="border">
-    <h4>관람 작품 리스트</h4>
-    <div class="showcontainer">
+<div class="container mt-2">
+    <div  class="section-heading ml-6">
+        <h4 class='section-heading text-left mb-3 ml-5'>공연 정보</h4>
+    </div>
+    <div class="justify-content-center row align-items-center my-5">
         {% for show in shows%}
-        <div class="showdetailbox">
-            <img src="{{show.show_poster.url}}" alt="" width="150px" />
+        <div class="showdetailbox card text-center">
+            <img class='card-img-top'src="{{show.show_poster.url}}" alt="" width="150px" />
             <p><small> {{show.show_name}}</small></p>
             <p><small> {{show.show_hall}}</small></p>
             <p><small> 런타임 : {{show.show_runtime}}</small></p>
         </div>
         {% endfor %} {% for i in "x"|rjust:"1" %}
-        <div class="showdetailbox">
-            <a href="{% url 'kover:create_watched_show'%}"><i class="fas fa-plus"></i></a>
-            <p>관람 작품 추가하기</p>
+        <div class="showdetailbox card text-center h-100 w-30">
+            <div class=''>
+                <a href="{% url 'kover:create_watched_show'%}"><i class="fas fa-plus"></i></a>
+                <p>관람 작품 추가하기</p>
+            </div>
         </div>
         {%endfor%}
-  </div>
+    </div>
 </div>
-<div class="hallactbox">
-    <div class="ml-1 col-5">
-        <h4>공연장</h4>
-        <div class="hallcontainer">
-            <div class="border hallbox">
+<div class= "container">
+    <div class="ml-4 col-5">
+        <div class="section-heading ml-6">
+            <h4 class='section-heading text-left mb-3 ml-5'>공연장</h4>
+        </div>
+        <div class="container justify-content-center row align-items-center my-5">
+            <div class="hallbox card text-center w-100 h-200">
                 <p>방문한 총 공연장 수 : {{overlapnum}}</p>
                 {% for show in wantlist %}
                 <div>{{show.show_hall}}</div>
                 {% endfor %}
             </div>
-            <div class="border hallbox">
+            <div class="border hallbox card text-center w-100 h-200">
                 <p>가장 많이 방문한 공연장</p>
                 <p>{{hallname}} : {{mostvisitnum}}회</p>
             </div>
         </div>
     </div>
-    <div class="mr-1 col-5">
-        <h4>관심 배우</h4>
-
-    <div class="actorbox">
-      <div class="actoricon">
-        <button><i class="fas fa-caret-left"></i></button>
-      </div>
-      <div class="actorcontainer">
-        {% for actor in actors %}
-        <div class="actordetailbox">
-          <img src="{{actor.people_img.url}}" alt="" width="150px" />
-          <p>{{actor.people_name}} {{actor.people_type}}</p>
+    <div class="container">
+        <div class='ml-4 col-5'>
+            <div class="section-heading ml-6">
+                <h4 class='section-heading text-left mb-3 ml-5'>관심배우</h4>
+            </div>
+            <div class="justify-content-center row align-items-center my-5 actorbox">
+                <div class="actoricon">
+                    <button><i class="fas fa-caret-left"></i></button>
+                </div>
+                <div class="actorcontainer col-3 col-md-auto col-lg-3 col-xl-3">
+                    {% for actor in actors %}
+                    <div class="actordetailbox card h-100 w-30">
+                        <img src="{{actor.people_img.url}}/100x100" alt="" width="150px" />
+                        <p>{{actor.people_name}} {{actor.people_type}}</p>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="actoricon ">
+                    <button><i class="fas fa-caret-right"></i></button>
+                </div>
+            </div>
         </div>
-        {% endfor %}
-      </div>
-      <div class="actoricon">
-        <button><i class="fas fa-caret-right"></i></button>
-      </div>
     </div>
-  </div>
 </div>
-<div class="revfavbox">
-    <div class="ml-1 col-5">
-        <h3>내가 쓴 리뷰</h3>
-        <div class="revcontainer">
+<div class="container container">
+    <div class="">
+        <div class="section-heading ml-6">
+            <h4 class='section-heading text-left mb-3 ml-5'>나의 리뷰</h4>
+        </div>
+        <div class="container justify-content-center row align-items-center my-5 ">
             {% for review in reviews %}
-            <div class="revbox">
+            <div class="revbox card text-center w-50 h-100 mb-2">
                 <p>{{review.review_show}}</p>
                 <p>{{review.review_grade}} / 10</p>
                 <p>{{review.review_content}}</p>
@@ -73,101 +90,98 @@
             {% endfor %}
         </div>
     </div>
-    <div class="col-5 mr-1">
-        <h3>favorites</h3>
-        <div class="favcontainer">
+    <div class="container">
+        <div class="section-heading ml-6">
+            <h4 class='section-heading text-left mb-3 ml-5'>Favorites</h4>
+        </div>
+        <div class=" container justify-content-center row align-items-center my-5">
             {% for favorite in favorites %}
-            <div class="favbox">
+            <div class="card text-center w-100 h-100 col-3 col-md-auto col-lg-3 col-xl-3">
                 <img src="{{favorite.show_poster.url}}" alt="" width="150px" />
                 <p>{{favorite.show_name}}</p>
             </div>
             {% endfor %}
         </div>
     </div>
-  </div>
 </div>
 <script>
-  const btnLeftParent = document.querySelector(".actorbox").firstElementChild;
-  const btnLeft = btnLeftParent.querySelector(".actoricon button");
-  const btnRightParent = document.querySelector(".actorbox").lastElementChild;
-  const btnRight = btnRightParent.querySelector(".actoricon button");
-  const slideList = document.querySelector(".actorcontainer");
-  const slideContents = document.querySelectorAll(".actordetailbox");
+    const btnLeftParent = document.querySelector(".actorbox").firstElementChild;
+    const btnLeft = btnLeftParent.querySelector(".actoricon button");
+    const btnRightParent = document.querySelector(".actorbox").lastElementChild;
+    const btnRight = btnRightParent.querySelector(".actoricon button");
+    const slideList = document.querySelector(".actorcontainer");
+    const slideContents = document.querySelectorAll(".actordetailbox");
 
-  const slideLen = slideContents.length;
-  const slideWidth = 181;
-  const slideSpeed = 300;
-  const startNum = 0;
+    const slideLen = slideContents.length;
+    const slideWidth = 181;
+    const slideSpeed = 300;
+    const startNum = 0;
 
-  slideList.style.width = slideWidth * (slideLen + 7) + "px";
+    slideList.style.width = slideWidth * (slideLen + 7) + "px";
 
-  let firstChild = slideList.firstElementChild;
-  let clonedFirst = firstChild.cloneNode(true);
+    let firstChild = slideList.firstElementChild;
+    let clonedFirst = firstChild.cloneNode(true);
 
-  let secondChild = firstChild.nextElementSibling;
-  let clonedSecond = secondChild.cloneNode(true);
+    let secondChild = firstChild.nextElementSibling;
+    let clonedSecond = secondChild.cloneNode(true);
 
-  let thirdChild = secondChild.nextElementSibling;
-  let clonedThird = thirdChild.cloneNode(true);
+    let thirdChild = secondChild.nextElementSibling;
+    let clonedThird = thirdChild.cloneNode(true);
 
-  let lastChild = slideList.lastElementChild;
-  let clonedLast = lastChild.cloneNode(true);
+    let lastChild = slideList.lastElementChild;
+    let clonedLast = lastChild.cloneNode(true);
 
-  let secondlastChild = lastChild.previousElementSibling;
-  let clonedSecondLast = secondlastChild.cloneNode(true);
+    let secondlastChild = lastChild.previousElementSibling;
+    let clonedSecondLast = secondlastChild.cloneNode(true);
 
-  let thirdlastChild = secondlastChild.previousElementSibling;
-  let clonedThirdLast = thirdlastChild.cloneNode(true);
+    let thirdlastChild = secondlastChild.previousElementSibling;
+    let clonedThirdLast = thirdlastChild.cloneNode(true);
 
-  slideList.appendChild(clonedFirst);
+    slideList.appendChild(clonedFirst);
 
-  slideList.appendChild(clonedSecond);
-  slideList.appendChild(clonedThird);
+    slideList.appendChild(clonedSecond);
+    slideList.appendChild(clonedThird);
 
-  slideList.insertBefore(clonedThirdLast, firstChild);
-  slideList.insertBefore(clonedSecondLast, firstChild);
-  slideList.insertBefore(clonedLast, firstChild);
+    slideList.insertBefore(clonedThirdLast, firstChild);
+    slideList.insertBefore(clonedSecondLast, firstChild);
+    slideList.insertBefore(clonedLast, firstChild);
 
-  let curIndex = startNum; // current slide index (except copied slide)
-  let curSlide = slideContents[curIndex]; // current slide dom
-  curSlide.classList.add("slide_active");
-
-  btnRight.addEventListener("click", function () {
-    if (curIndex <= slideLen - 1) {
-      slideList.style.transition = slideSpeed + "ms";
-      slideList.style.transform =
-        "translate3d(-" + slideWidth * (curIndex + 2) + "px, 0px, 0px)";
-    }
-    if (curIndex === slideLen - 1) {
-      setTimeout(function () {
-        slideList.style.transition = "0ms";
-        slideList.style.transform =
-          "translate3d(-" + slideWidth + "px, 0px, 0px)";
-      }, slideSpeed);
-      curIndex = -1;
-    }
-    curSlide.classList.remove("slide_active");
-    curSlide = slideContents[++curIndex];
+    let curIndex = startNum; // current slide index (except copied slide)
+    let curSlide = slideContents[curIndex]; // current slide dom
     curSlide.classList.add("slide_active");
-  });
 
-  btnLeft.addEventListener("click", function () {
-    if (curIndex >= 0) {
-      slideList.style.transition = slideSpeed + "ms";
-      slideList.style.transform =
-        "translate3d(-" + slideWidth * curIndex + "px, 0px, 0px)";
-    }
-    if (curIndex === 0) {
-      setTimeout(function () {
-        slideList.style.transition = "0ms";
-        slideList.style.transform =
-          "translate3d(-" + slideWidth * slideLen + "px, 0px, 0px)";
-      }, slideSpeed);
-      curIndex = slideLen;
-    }
-    curSlide.classList.remove("slide_active");
-    curSlide = slideContents[--curIndex];
-    curSlide.classList.add("slide_active");
-  });
+    btnRight.addEventListener("click", function () {
+        if (curIndex <= slideLen - 1) {
+            slideList.style.transition = slideSpeed + "ms";
+            slideList.style.transform = "translate3d(-" + slideWidth * (curIndex + 2) + "px, 0px, 0px)";
+        }
+        if (curIndex === slideLen - 1) {
+            setTimeout(function () {
+                slideList.style.transition = "0ms";
+                slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
+            }, slideSpeed);
+            curIndex = -1;
+        }
+        curSlide.classList.remove("slide_active");
+        curSlide = slideContents[++curIndex];
+        curSlide.classList.add("slide_active");
+    });
+    
+    btnLeft.addEventListener("click", function () {
+        if (curIndex >= 0) {
+            slideList.style.transition = slideSpeed + "ms";
+            slideList.style.transform = "translate3d(-" + slideWidth * curIndex + "px, 0px, 0px)";
+        }
+        if (curIndex === 0) {
+            setTimeout(function () {
+                slideList.style.transition = "0ms";
+                slideList.style.transform = "translate3d(-" + slideWidth * slideLen + "px, 0px, 0px)";
+            }, slideSpeed);
+            curIndex = slideLen;
+        }
+        curSlide.classList.remove("slide_active");
+        curSlide = slideContents[--curIndex];
+        curSlide.classList.add("slide_active");
+    });
 </script>
 {% endblock %}
