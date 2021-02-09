@@ -1,4 +1,4 @@
-{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
+{% extends "kover/layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 <title>Kover | block profile</title>
 <div class="stacalbox">
     <div><h1>{{user.nickname}}님의 단계 : {{user.grade}}</h1></div>
@@ -22,11 +22,9 @@
             <p>런타임 : {{show.show_runtime}}</p>
         </div>
         {% endfor %} {% for i in "x"|rjust:"1" %}
-        <div>
-            <div class="showdetailbox">
-                <i class="fas fa-plus"></i>
-                <p>관람 작품 추가하기</p>
-            </div>
+        <div class="showdetailbox">
+            <i class="fas fa-plus"></i>
+            <p>관람 작품 추가하기</p>
         </div>
         {%endfor%}
     </div>
