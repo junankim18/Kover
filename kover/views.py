@@ -5,6 +5,8 @@ from .models import Hall, User, Show, People, Review, Feed_post, Feed_comment, T
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
+from django.db.models import Count
+
 
 def profile_block(request):
     user = Profile.objects.get(id=request.user.pk)
@@ -68,13 +70,29 @@ def profile_block(request):
 
 
 def main(request):
-    show = Show.objects.all()
-    feed = Feed_post.objects.all()
-    num = Feed_post.comment_post
+    users = Profile.objects.get(id=request.user.pk)
+    pk = users.pk
+    actors = users.like_actor.all().order_by('people_name')
+
+    show_1 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 최신 순
+    show_2 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 리뷰 많은 순
+
+    feed_1 = Feed_post.objects.all().order_by(
+        '-feed_created_at')[:5]  # 피드 최신 순
+    feed_2 = Feed_post.objects.order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
+
+    commentlist = []
+    for feedind in feed_2:
+        commentlist.append(len(feedind.comment_post.all()))
+
     ctx = {
-        'show': show,
-        'feed': feed,
-        'num': num
+        'users': users,
+        'actors': actors,
+        'show_1': show_1,
+        'show_2': show_2,
+        'feed_1': feed_1,
+        'feed_2': feed_2,
+        'commentlist': commentlist
     }
     return render(request, 'kover/main.html', ctx)
 
@@ -96,11 +114,8 @@ def show_detail(request, pk):
     return render(request, 'kover/show_detail.html', ctx)
 
 
-
-
 class Feed(View):
     template_name = 'kover/feed_layout.html'
-    
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -121,6 +136,4 @@ class Feed(View):
             feed_like = feed_like + 1
         Feed_post.save()
 
-        return JsonResponse({'id': feed_id, 'type':feed_like})
-
-
+        return JsonResponse({'id': feed_id, 'type': feed_like})
