@@ -1,25 +1,27 @@
 {% extends "kover/layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 <title>Kover | block profile</title>
 <div class="stacalbox">
-    <div><h1>{{user.nickname}}님의 단계 : {{user.grade}}</h1></div>
     <div>
-        <h1><a href="">calender</a></h1>
+        <h4>
+            {{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인  {% else %} 고수 {% endif%}
+        </h4>
+    </div>
+    <div>
+        <h4><a href="">calender</a></h4>
     </div>
 </div>
-<div class="border box90">
-    <h3>
-        관람 작품 리스트
-        <span>
-            <a href=""><i class="fas fa-plus"></i></a>
-        </span>
-    </h3>
+<div class="border">
+    <h4>관람 작품 리스트</h4>
+    <span>
+        <a href=""><i class="fas fa-plus"></i></a>
+    </span>
     <div class="showcontainer">
         {% for show in shows%}
         <div class="showdetailbox">
             <img src="{{show.show_poster.url}}" alt="" width="150px" />
-            <p>{{show.show_name}}</p>
-            <p>{{show.show_hall}}</p>
-            <p>런타임 : {{show.show_runtime}}</p>
+            <p><small> {{show.show_name}}</small></p>
+            <p><small> {{show.show_hall}}</small></p>
+            <p><small> 런타임 : {{show.show_runtime}}</small></p>
         </div>
         {% endfor %} {% for i in "x"|rjust:"1" %}
         <div class="showdetailbox">
@@ -30,8 +32,8 @@
     </div>
 </div>
 <div class="hallactbox">
-    <div class="box40">
-        <h3>공연장</h3>
+    <div class="col-6">
+        <h4>공연장</h4>
         <div class="hallcontainer">
             <div class="border hallbox">
                 <p>방문한 총 공연장 수 : {{overlapnum}}</p>
@@ -45,13 +47,13 @@
             </div>
         </div>
     </div>
-    <div class="box40">
-        <h3>
+    <div class="col-6">
+        <h4>
             관심 배우
             <span>
                 <a href=""><i class="fas fa-plus"></i></a>
             </span>
-        </h3>
+        </h4>
 
         <div class="actorbox">
             <div class="actoricon">
@@ -65,7 +67,7 @@
                 </div>
                 {% endfor %}
             </div>
-            <div class="actoricon">
+            <div class="actoricon ">
                 <button><i class="fas fa-caret-right"></i></button>
             </div>
         </div>
@@ -158,7 +160,7 @@
         curSlide = slideContents[++curIndex];
         curSlide.classList.add("slide_active");
     });
-
+    
     btnLeft.addEventListener("click", function () {
         if (curIndex >= 0) {
             slideList.style.transition = slideSpeed + "ms";

@@ -6,13 +6,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 
+
 def profile_block(request):
-    user = Profile.objects.get(id=request.user.pk)
-    pk = user.pk
-    shows = user.watched_show.all()
-    actors = user.like_actor.all().order_by('people_name')
-    favorites = user.interested_show.all()
-    reviews = user.review_author.all().order_by('-id')
+    users = Profile.objects.get(id=request.user.pk)
+    pk = users.pk
+    shows = users.watched_show.all()
+    actors = users.like_actor.all().order_by('people_name')
+    favorites = users.interested_show.all()
+    reviews = users.review_author.all().order_by('-id')
     showlist = list(shows)
     hallnum = len(showlist)
     halllist = []  # 공연장 리스트
@@ -52,7 +53,7 @@ def profile_block(request):
     hallname = reversedict.get(mostvisitnum)
 
     ctx = {
-        'user': user,
+        'users': users,
         'shows': shows,
         'actors': actors,
         'favorites': favorites,
@@ -96,11 +97,8 @@ def show_detail(request, pk):
     return render(request, 'kover/show_detail.html', ctx)
 
 
-
-
 class Feed(View):
     template_name = 'kover/feed_layout.html'
-    
 
     @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
@@ -121,6 +119,4 @@ class Feed(View):
             feed_like = feed_like + 1
         Feed_post.save()
 
-        return JsonResponse({'id': feed_id, 'type':feed_like})
-
-
+        return JsonResponse({'id': feed_id, 'type': feed_like})
