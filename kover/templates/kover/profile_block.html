@@ -1,6 +1,5 @@
-{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}<title>
-    Kover | block profile
-</title>
+{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
+<title>Kover | block profile</title>
 <div class="card text-black my-5 py-4 text-center">
     <div class="panel-body ml-4 mt-6 row">
         <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
