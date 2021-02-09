@@ -41,7 +41,7 @@
                         <a href="/profile_block">프로필</a>
                     </li>
                     <li>
-                        <a href="#">리뷰작성</a>
+                        <a href="{%url 'kover:create_watched_show'%}">리뷰작성</a>
                     </li>
                     <li>
                         <a href="#">검색</a>
@@ -54,7 +54,7 @@
                         <a href="#">회원가입</a>
                     </li>
                     <li>
-                        <a href="#">로그인</a>
+                        <a href="{%url 'login:login_select'%}">로그인</a>
                     </li>
 
                     {% endif %}

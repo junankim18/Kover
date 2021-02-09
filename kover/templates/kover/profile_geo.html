@@ -1,6 +1,6 @@
 {% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 <body>
-    <div id="map" style="width: 500px; height: 400px"></div>
+    <div id="map" style="width: 100%; height: 75vh"></div>
     <p>
         <button onclick="setBounds()">pin 전체 한 번에 보기</button>
         <button onclick="zoomIn()">확대</button>
@@ -26,7 +26,7 @@
         // 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정
         // 추후에 반복문으로 pin 좌표값 받아오는 방식으로 변경 예정
         var points = [
-            // new kakao.maps.LatLng(37.47927809173041, 127.01390950344569), // 예술의 전당 오페라하우스
+            new kakao.maps.LatLng(37.47927809173041, 127.01390950344569), // 예술의 전당 오페라하우스
             new kakao.maps.LatLng(37.509177023074834, 126.88957718465996), // 디큐브아트센터
             new kakao.maps.LatLng(37.56622058095958, 127.01467445582529), // 충무아트센터
             new kakao.maps.LatLng(37.510891398297396, 127.09985314904809), // 샤롯데씨어터
@@ -78,7 +78,7 @@
         iwMarker.setMap(map);
 
         var iwContent =
-            '<div style="padding:5px;">Testing<br><a href="https://map.kakao.com/link/map/Testing, 37.47927809173041, 127.01390950344569" style="color:blue" target="_blank">카카오 지도에서 보기</a> <a href="https://map.kakao.com/link/to/Testing!, 37.47927809173041, 127.01390950344569" style="color:blue" target="_blank">길 찾기</a></div>';
+            '<div style="padding:5px;"> {%for show in shows%}{{show.show_hall}}<br/>{%endfor%}<br><a href="https://map.kakao.com/link/map/Testing, 37.47927809173041, 127.01390950344569" style="color:blue" target="_blank">카카오 지도에서 보기</a> <a href="https://map.kakao.com/link/to/Testing!, 37.47927809173041, 127.01390950344569" style="color:blue" target="_blank"></a></div>';
         iwRemoveable = true; // 인포윈도우를 닫을 수 있는 x버튼이 표시
 
         var infowindow = new kakao.maps.InfoWindow({
