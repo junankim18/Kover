@@ -1,14 +1,10 @@
 {% extends "kover/layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 <title>Kover | block profile</title>
 <div class="stacalbox">
-    <div>
         <h4>
             {{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인  {% else %} 고수 {% endif%}
         </h4>
-    </div>
-    <div>
-        <h4><a href="">calender</a></h4>
-    </div>
+        <a href=""><h4> calender</h4></a>
 </div>
 <div class="border">
     <h4>관람 작품 리스트</h4>
@@ -29,7 +25,7 @@
     </div>
 </div>
 <div class="hallactbox">
-    <div class="col-6">
+    <div class="ml-1 col-5">
         <h4>공연장</h4>
         <div class="hallcontainer">
             <div class="border hallbox">
@@ -44,12 +40,9 @@
             </div>
         </div>
     </div>
-    <div class="col-6">
+    <div class="mr-1 col-5">
         <h4>
             관심 배우
-            <span>
-                <a href=""><i class="fas fa-plus"></i></a>
-            </span>
         </h4>
 
         <div class="actorbox">
@@ -71,7 +64,7 @@
     </div>
 </div>
 <div class="revfavbox">
-    <div class="box40">
+    <div class="ml-1 col-5">
         <h3>내가 쓴 리뷰</h3>
         <div class="revcontainer">
             {% for review in reviews %}
@@ -83,7 +76,7 @@
             {% endfor %}
         </div>
     </div>
-    <div class="box40">
+    <div class="col-5 mr-1">
         <h3>favorites</h3>
         <div class="favcontainer">
             {% for favorite in favorites %}

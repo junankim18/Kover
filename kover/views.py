@@ -64,7 +64,6 @@ def profile_block(request):
         'wantlist': wantlist,
         'hallname': hallname,
         'mostvisitnum': mostvisitnum
-
     }
     return render(request, 'kover/profile_block.html', ctx)
 
@@ -82,7 +81,11 @@ def main(request):
 
 
 def profile_geo(request):
-    return render(request, 'kover/profile_geo.html')
+    shows = Show.objects.all()
+    ctx = {
+        'shows': shows
+    }
+    return render(request, 'kover/profile_geo.html', ctx)
 
 
 def show_detail(request, pk):
@@ -128,7 +131,7 @@ def create_watched_show(request):
         form = ShowForm(request.POST, request.FILES)
         if form.is_valid():
             show = form.save()
-            new_pk = show.pk
+            new_pk = show.id
             return redirect('kover:profile_block', new_pk)
     elif request.method == 'GET':
         form = ShowForm()
