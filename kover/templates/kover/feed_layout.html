@@ -1,67 +1,108 @@
-{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %} {% comment %}
+{% extends "layout.html" %} 
+{% block extra_head %} {{block.super}} 
+{% endblock %} 
+
+{% block content %} 
+{% comment %}
 <div></div>
-{% endcomment %} {% for feed in feeds%}
+{% endcomment %} 
+{% for feed in feeds%}
+<title style="margin-top: 300px;">Kover | feed</title>
+{% block part %}
+{% endblock %}
+
 <h1>{{ feed.feed_type }}</h1>
-<div class="wrapper post-{{ feed.id }}">
+<div id="post-{{feed.id}}" class="wrapper">
     <div>
         <h2 class="title">{{ feed.feed_title }}</h2>
         <div class="content">{{ feed.feed_content }}</div>
         <div class="author">{{ feed.feed_author }}</div>
         <div class="feed_created_at">{{ feed.feed_created_at }}</div>
-        <button type="submit" onclick="onClickBtn({{ feed.id }}, 'feed_like')" name="type" value="like">
-            추천 {{ feed.feed_like }}
-        </button>
-        {{ feed.comment_post }}
-
-        <div class="comment_t">
-            댓글 {% for comment in feed.comments.all %}
-            <div class="comment">{{ Feed_comment.comment_content }}</div>
-            {% endfor %}
+        <button type="submit" onclick="onClickLike({{ feed.id }})">추천 {{ feed.feed_like }}</button>
+        {% endfor %} 
+        {% for com in comlist %}
+        <div class='comment_number'>
+            댓글수 {{com}}
         </div>
-
-        <form method="post">
-            {% csrf_token %}
+        {% endfor %}
+        {% for feed in feeds%}
+        <div class="comment_t">
+            댓글 {% for comment in feed.comment_post.all %}
+            <div class="comment">{{ comment.comment_content }} - {{comment.comment_author}}</div>
+        {% endfor %}
+        </div>
+        <div style="margin-bottom:300px;">
             <input class="comment_content" type="text" placeholder="댓글 달기" />
-            <input class="sbmbtn" type="submit" onclick="onClickBtnCMT({{ subject.id }})" value="게시" />
-        </form>
+            <button class="" type="submit" onclick="onClickCom({{ feed.id }})">{% csrf_token %}게시</button>
+        </div>
     </div>
+    {% endfor %}
+    
+
+
+    <script>
+        const request = new XMLHttpRequest();
+        const comrequest = new XMLHttpRequest();
+
+        const onClickLike = (id) => {
+            const url = "/feed/like/";
+            request.open("POST", url, true);
+            request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            request.send(JSON.stringify({ id }));
+        };
+
+        const handleResponse = () => {
+            if (request.status <= 400) {
+                const { id, type } = JSON.parse(request.response);
+                const element = document.querySelector(`#post-${id} div button`);
+                const origin = element.innerText;
+                const [typeStr, num] = origin.split(" ");
+                const count = Number(num) + 1;
+                element.innerText = `${typeStr} ${count}`;
+                console.log(typeStr, count);
+            }
+        };
+
+        const onClickCom = (id) => {
+            const input = document.querySelector(`#post-${id} div input`);
+            const content = input.value;
+            const url = "/feed/comment/";
+            comrequest.open("POST", url, true);
+            comrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            comrequest.send(JSON.stringify({ id, content }));
+            input.value = "";
+        };
+
+        const handleResponseCom = () => {
+            if (comrequest.status <= 400) {
+                const { id, comment, writer } = JSON.parse(comrequest.response);
+                console.log(id);
+                const element = document.querySelector(`#post-${id} div .comment_t`);
+                const comnum = document.querySelector(`#post-${id} div .comment_number`);
+
+                const origin = comnum.innerText;
+                const [typeStr, num] = origin.split(" ");
+                const count = Number(num) + 1;
+                comnum.innerText= `${typeStr} ${count}`;
+                console.log(typeStr, count)
+
+                const create_com = document.createElement("div");
+                create_com.innerText = `${comment} - ${writer}`;
+                element.appendChild(create_com);
+            }
+        };
+
+        request.onreadystatechange = () => {
+            if (request.readyState === XMLHttpRequest.DONE) {
+                handleResponse();
+            }
+        };
+        comrequest.onreadystatechange = () => {
+            if (comrequest.readyState === XMLHttpRequest.DONE) {
+                handleResponseCom();
+            }
+        };
+    </script>
+    
+    {% endblock %}
 </div>
-{% endfor %}
-
-<script>
-    const request = new XMLHttpRequest();
-
-    const onClickBtn = (id, type) => {
-        const url = "/feed/";
-        request.open("POST", url, true);
-        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.send(JSON.stringify({ id: id, type: type }));
-    };
-
-    const handleResponse = () => {
-        if (request.status <= 400) {
-            const { id, type } = JSON.parse(request.response);
-
-            const element = document.querySelector(`#post-${id} button[value=${type}]`);
-            const origin = element.innerText;
-            const [typeStr, num] = origin.split(" ");
-            const count = Number(num) + 1;
-            element.innerText = `${typeStr} ${count}`;
-        }
-    };
-
-    request.onreadystatechange = () => {
-        if (request.readyState === XMLHttpRequest.DONE) {
-            handleResponse();
-        }
-    };
-
-    const onClickBtnCMT = (id) => {
-        const url = "/feed/";
-        const value = document.querySelector(`.comment_create-${id} .comment_content`);
-        request.open("POST", url, true);
-        request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        request.send(JSON.stringify({ id: id }));
-    };
-</script>
-{% endblock %}
