@@ -33,21 +33,22 @@
 <div class="row" style="margin-top: 30px">
 <div class= "feed_main col-lg-6">
 <span style="font-size: 25px"><b>HOT 피드</b></span>
+
 <ul class="list-group " style="max-width: 35rem;">
     {% for feed in feed_2 %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
-      {{feed.feed_title}} 
+        {{feed.feed_title}} 
         <span class="badge badge-danger badge-pill">
             <i class="fas fa-heart"></i> {{feed.feed_like}}
         </span>
-    </li>
-      {% endfor %}
-  {% comment %} 
-  {% for element in commentlist %}
-    <p>댓글:{{element}}</p>
+        {%for i in "x"|rjust:"5"%}
+            {% if forloop.counter0 == i %}
+                <p>댓글:</p>
+            {% endif %}
+        {% endfor %}
     {% endfor %}
-      <p>댓글:{{element}}</p>  {% endcomment %}
       
+    </li>
 </ul>
 </div>
 
