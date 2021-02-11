@@ -6,6 +6,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 from .forms import ShowForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 
 def profile_block(request):
@@ -65,9 +67,15 @@ def profile_block(request):
 
 
 def main(request):
-    users = Profile.objects.get(id=request.user.pk)
-    pk = users.pk
-    actors = users.like_actor.all().order_by('people_name')
+    # try:
+    #     username = Profile.objects.get(pk=request.user.pk)
+    # except Profile.DoesNotExist:
+    #     username = None
+    username = Profile.objects.filter(id=request.user.id)
+    if username:
+        actors = username.like_actor.all().order_by('people_name')
+    else:
+        actors = []
 
     show_1 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 최신 순
     show_2 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 리뷰 많은 순
@@ -93,8 +101,6 @@ def main(request):
     print(wantshow)
 
     ctx = {
-        'users': users,
-        'actors': actors,
         'show_1': show_1,
         'show_2': show_2,
         'feed_1': feed_1,
