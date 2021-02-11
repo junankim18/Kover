@@ -7,7 +7,7 @@
     <span style="font-size: 25px"><b>최근 개봉 공연</b></span>
     <br />
     {% for show in show_1 %}
-    <img src="{{show.show_poster.url}}" width="250px" />
+    <a href="{%url 'kover:show_detail' show.id%}"><img src="{{show.show_poster.url}}" width="250px" /></a>
     {% endfor %}
   </div>
 
@@ -15,7 +15,7 @@
     <span style="font-size: 25px"><b>많은 리뷰를 받은 공연</b></span>
     <br />
     {% for show in show_2 %}
-    <img src="{{show.show_poster.url}}" width="250px" />
+    <a href="{%url 'kover:show_detail' show.id%}"><img src="{{show.show_poster.url}}" width="250px" /></a>
     {% endfor %}
   </div>
 
@@ -24,7 +24,7 @@
     <br />
     {% for actor in actors%}
     {% for show in actor.show_actor.all %}
-    <img src="{{show.show_poster.url}}" width="250px" />
+    <a href="{%url 'kover:show_detail' show.id%}"><img src="{{show.show_poster.url}}" width="250px" /></a>
     {% endfor %}
     {% endfor %}
   </div>
@@ -41,11 +41,6 @@
         <span class="badge badge-danger badge-pill">
             <i class="fas fa-heart"></i> {{feed.feed_like}}
         </span>
-        {%for i in "x"|rjust:"5"%}
-            {% if forloop.counter0 == i %}
-                <p>댓글:</p>
-            {% endif %}
-        {% endfor %}
     {% endfor %}
       
     </li>

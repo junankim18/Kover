@@ -91,7 +91,7 @@ def main(request):
         'show_2': show_2,
         'feed_1': feed_1,
         'feed_2': feed_2,
-        'commentlist': commentlist
+        'commentlist': commentlist,
     }
     return render(request, 'kover/main.html', ctx)
 
@@ -106,9 +106,9 @@ def profile_geo(request):
 
 def feed_page(request):
     feeds = Feed_post.objects.all()
-    comlist = {}
-    for i in range(5):
-        comlist.append(len(feeds[i].comment_post.all()))
+    comlist = []
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feeds': feeds,
         'comlist': comlist
