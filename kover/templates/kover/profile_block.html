@@ -38,8 +38,8 @@
         <div class="container justify-content-center row align-items-center my-5">
             <div class="hallbox card text-center w-100 h-200">
                 <p>방문한 총 공연장 수 : {{overlapnum}}</p>
-                {% for show in wantlist %}
-                <div>{{show.show_hall}}</div>
+                {% for hall in wantlist %}
+                <div>{{hall}}</div>
                 {% endfor %}
             </div>
             <div class="border hallbox card text-center w-100 h-200">

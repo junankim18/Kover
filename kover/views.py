@@ -21,20 +21,16 @@ def profile_block(request):
     wantlist = []  # 공연장 리스트중에서 중복된 값 제거
     renum = {}  # 공연장 리스트중에서 중복된 값 카운트
 
-    # 중복된 리스트의 요소 제거
-    for i in range(hallnum):
-        for j in range(hallnum):
-            if i >= j:
-                pass
-            elif showlist[i].show_hall == showlist[j].show_hall:
-                pass
-            else:
-                wantlist.append(showlist[i])
-    overlapnum = len(wantlist)
-
     # 공연장 리스트
     for i in range(hallnum):
         halllist.append(showlist[i].show_hall)
+
+    # 중복된 리스트의 요소 제거
+    for i in halllist:
+        if i not in wantlist:
+            wantlist.append(i)
+
+    overlapnum = len(wantlist)
 
     for i in halllist:
         try:
@@ -78,11 +74,23 @@ def main(request):
 
     feed_1 = Feed_post.objects.all().order_by(
         '-feed_created_at')[:5]  # 피드 최신 순
-    feed_2 = Feed_post.objects.order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
+    feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
 
     commentlist = []
     for feedind in feed_2:
         commentlist.append(len(feedind.comment_post.all()))
+
+    actorshow = []
+    wantshow = []
+    for actor in actors:
+        for show in actor.show_actor.all():
+            actorshow.append(show)
+
+    for j in actorshow:
+        if j not in wantshow:
+            wantshow.append(j)
+
+    print(wantshow)
 
     ctx = {
         'users': users,
@@ -92,6 +100,7 @@ def main(request):
         'feed_1': feed_1,
         'feed_2': feed_2,
         'commentlist': commentlist,
+        'wantshow': wantshow,
     }
     return render(request, 'kover/main.html', ctx)
 
