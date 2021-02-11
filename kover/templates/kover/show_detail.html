@@ -60,7 +60,7 @@
                 </span>
     {% comment %} --------배우 이미지, 배역 -------- {% endcomment %}
                     <div class="row actor_info">
-                        {% for people in peoples %}
+                        {% for people in show.show_actor.all %}
                         <div class="col-3 col-md-auto col-lg-3 col-xl-3" >
                             <div class="actor text-center">
                                 <img class="mx-auto rounded-circle mb-3" src="{{people.people_img.url}}" alt="배우 이미지" width=100px, height=100px   />
