@@ -73,7 +73,7 @@ def main(request):
     #     username = None
     username = Profile.objects.filter(id=request.user.id)
     if username:
-        actors = username.like_actor.all().order_by('people_name')
+        actors = username[0].like_actor.all().order_by('people_name')
     else:
         actors = []
 
