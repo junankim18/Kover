@@ -98,8 +98,6 @@ def main(request):
         if j not in wantshow:
             wantshow.append(j)
 
-    print(wantshow)
-
     ctx = {
         'show_1': show_1,
         'show_2': show_2,
