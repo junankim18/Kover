@@ -44,7 +44,6 @@
                 const [typeStr, num] = origin.split(" ");
                 const count = Number(num) + 1;
                 element.innerText = `${typeStr} ${count}`;
-                console.log(typeStr, count);
             }
         };
 
@@ -61,7 +60,6 @@
         const handleResponseCom = () => {
             if (comrequest.status <= 400) {
                 const { id, comment, writer } = JSON.parse(comrequest.response);
-                console.log(id);
                 const element = document.querySelector(`#post-${id} div .comment_t`);
                 const comnum = document.querySelector(`#post-${id} div .comment_number`);
 
@@ -69,7 +67,6 @@
                 const [typeStr, num] = origin.split(" ");
                 const count = Number(num) + 1;
                 comnum.innerText = `${typeStr} ${count}`;
-                console.log(typeStr, count);
 
                 const create_com = document.createElement("div");
                 create_com.innerText = `${comment} - ${writer}`;
