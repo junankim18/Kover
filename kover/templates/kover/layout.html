@@ -53,29 +53,14 @@
           <li class="nav-item">
             <a class="nav-link" href="/">리뷰</a>
           </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="/profile_block"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              프로필
-            </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="/logout">로그아웃</a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+          <li>
+            <a class="nav-link" href="{% url 'login:logout' %}">로그아웃</a>
           </li>
 
           {% else %}
           <!--로그인 안된 상태면-->
           <li class="nav-item">
-            <a class="nav-link" href="/feed">로그인</a>
+            <a class="nav-link" href="{% url 'login:login' %}">로그인</a>
           </li>
 
           {% endif %}
