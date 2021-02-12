@@ -8,8 +8,10 @@ import json
 from .forms import ShowForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.db.models.query import Q
 
 
+@login_required
 def profile_block(request):
     users = Profile.objects.get(id=request.user.pk)
     pk = users.pk
@@ -109,6 +111,7 @@ def main(request):
     return render(request, 'kover/main.html', ctx)
 
 
+@login_required
 def profile_geo(request):
     shows = Show.objects.all()
     ctx = {
@@ -178,16 +181,23 @@ def press_com(comrequest):
         return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname})
 
 
+@login_required
 def create_watched_show(request):
-    if request.method == 'POST':
-        form = ShowForm(request.POST, request.FILES)
-        if form.is_valid():
-            show = form.save()
-            new_pk = show.id
-            return redirect('kover:profile_block', new_pk)
-    elif request.method == 'GET':
-        form = ShowForm()
-        ctx = {
-            'form': form
-        }
-        return render(request, 'kover/watched_show.html', ctx)
+    users = Profile.objects.get(id=request.user.id)
+    watchedshows = users.watched_show.all()
+    shows = Show.objects.all()
+    unwatchedplays = []
+    unwatchedmusicals = []
+    for show in shows:
+        if show not in watchedshows and show not in unwatchedplays and show.show_type == 'play':
+            unwatchedplays.append(show)
+        elif show not in watchedshows and show not in unwatchedmusicals and show.show_type == 'musical':
+            unwatchedmusicals.append(show)
+
+            # plays = Show.objects.filter(Q(show_type='play'))
+            # musicals = Show.objects.filter(Q(show_type='musical'))
+    ctx = {
+        'plays': unwatchedplays,
+        'musicals': unwatchedmusicals
+    }
+    return render(request, 'kover/watched_show.html', ctx)

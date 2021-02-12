@@ -19,9 +19,8 @@ urlpatterns = [
     path('feed/like/', views.press_like, name='press_like'),  # 피드-메인),
     path('feed/comment/', views.press_com, name='press_com'),  # 피드-메인),
     # path('feed/question', views,  name=''),  # 질문),
-    # path('contents/<int:pk>/', views, name=''),  # 공연별 디테일),
     path('contents/<int:pk>/', views.show_detail,
-         name='show_detail'),  # 공연별 댓글),
+         name='show_detail'),  # 공연별 디테일),
     # path('contents/<int:pk>/review', views, name=''),  # 공연별 리뷰),
     # 공연 평가할 수 있는 페이지-작품들의 리스트가 뜬다)
     path('contents/', views.create_watched_show, name='create_watched_show'),
