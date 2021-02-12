@@ -1,11 +1,14 @@
 {% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 <title>Kover | contents</title>
 <div>
-    <p><br /><br /><br /><br /><br /><br /></p>
+    <p><br /><br /><br /></p>
+</div>
+<div>
+    <h4>{{users}}님, 아직 평가하지 않은 작품들이 많아요!<br /></h4>
 </div>
 <div>
     {% comment %} 아직 관람하지 않은 연극들의 리스트 {% endcomment %}
-    <p>연극</p>
+    <h4>연극</h4>
     {% for play in plays %}
     <div>
         <a href="{%url 'kover:show_detail' play.id %}">
@@ -18,7 +21,7 @@
 {% endfor %}
 <div>
     {% comment %} 아직 관람하지 않은 뮤지컬들의 리스트 {% endcomment %}
-    <p>뮤지컬</p>
+    <h4>뮤지컬</h4>
     {% for musical in musicals %}
     <div>
         <a href="{%url 'kover:show_detail' musical.id%}">

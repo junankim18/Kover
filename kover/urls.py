@@ -24,6 +24,8 @@ urlpatterns = [
     # path('contents/<int:pk>/review', views, name=''),  # 공연별 리뷰),
     # 공연 평가할 수 있는 페이지-작품들의 리스트가 뜬다)
     path('contents/', views.create_watched_show, name='create_watched_show'),
+    path('contents/review/', views.create_review,
+         name='create_review'),  # 작품별 댓글달기 기능
     # path('place/<int:pk>/', views, name=''),  # 공연장 디테일),
     # path('search/', views, name=''),  # 검색했을때),
 ]

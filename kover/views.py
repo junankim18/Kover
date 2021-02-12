@@ -136,11 +136,13 @@ def show_detail(request, pk):
     show = Show.objects.get(id=pk)
     peoples = People.objects.all()
     reviews = show.review_show.all()
+    revnum = len(reviews)
     ctx = {
         'pk': pk,
         'show': show,
         'peoples': peoples,
         'reviews': reviews,
+        'revnum': revnum,
     }
     return render(request, 'kover/show_detail.html', ctx)
 
@@ -197,7 +199,34 @@ def create_watched_show(request):
             # plays = Show.objects.filter(Q(show_type='play'))
             # musicals = Show.objects.filter(Q(show_type='musical'))
     ctx = {
+        'users': users,
         'plays': unwatchedplays,
         'musicals': unwatchedmusicals
     }
     return render(request, 'kover/watched_show.html', ctx)
+
+
+@ method_decorator(csrf_exempt)
+def create_review(comrequest):
+    if comrequest.method == 'GET':
+        return render(comrequest, 'kover/show_detail.html')
+    elif comrequest.method == 'POST':
+        request = json.loads(comrequest.body)
+        show_id = request['id']
+        content = request['content']
+        show = Show.objects.get(id=show_id)
+        user_id = comrequest.user.id
+        user = Profile.objects.get(id=user_id)
+        nickname = user.nickname
+        if content:
+            review = Review(review_author=user,
+                            review_show=show,
+                            review_grade=5,
+                            review_watched_at='2021-01-01',
+                            review_content=content)
+            review.save()
+        return JsonResponse({'id': show_id,
+                             'comment': review.review_content,
+                             'writer': user.nickname,
+                             'date': review.review_watched_at,
+                             'grade': review.review_grade})
