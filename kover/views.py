@@ -138,10 +138,10 @@ def show_detail(request, pk):
     peoples = People.objects.all()
     reviews = show.review_show.all()
     show_times = show.show_times.all()
-    mygrade = []
+    mygrade = 0
     for rev in username.review_author.all():
         if show.id == rev.review_show.id:
-            mygrade.append(rev.review_grade)
+            mygrade = rev.review_grade
     revnum = len(reviews)
     ctx = {
         'username': username,
@@ -151,7 +151,7 @@ def show_detail(request, pk):
         'reviews': reviews,
         'revnum': revnum,
         'show_times': show_times,
-        'mygrade': mygrade[0],
+        'mygrade': mygrade,
     }
     return render(request, 'kover/show_detail.html', ctx)
 
