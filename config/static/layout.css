@@ -57,3 +57,10 @@
     margin-left: 90%;
     z-index: 30;
 }
+.y250 {
+    height: 250px;
+    overflow-y: hidden;
+}
+.none {
+    display: none;
+}

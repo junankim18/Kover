@@ -82,14 +82,19 @@
         </div>
         <div class="justify-content-center row align-items-center my-5">
             <div class="col-md-4 mb-5">
-                <div class="card h-100">
-                    <div class="card-body text-center">
+                <div class="card">
+                    <div class="card-body text-center y250">
                         <p class="card-text">
-                            예매 페이지 내 세부정보(스크립트 등)
+                            {{show.show_detail|linebreaksbr}}
                         </p>
                     </div>
                     <div class="card-footer text-center">
-                        <a href="#" class="btn btn-light btn-sm ">자세히 보기</a>
+                        <div class='seemore'>
+                            <a href="javascript:void(0)" onclick='seeMore()' class="btn btn-light btn-sm">자세히 보기</a>
+                        </div>
+                        <div class='seeless none'>
+                            <a href="javascript:void(0)" onclick='seeLess()' class="btn btn-light btn-sm">간략히 보기</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -136,6 +141,27 @@
     </div>
 
     <script>
+        const seeMore=()=>{
+            const showdetailbox = document.querySelector('.show_info_detail .card div');
+            showdetailbox.classList.remove('y250');
+            
+            const showdetailtextbox = showdetailbox.nextElementSibling;
+            const detailtext1 = showdetailtextbox.querySelector('.seemore');
+            detailtext1.classList.add('none')
+            const detailtext2 = showdetailtextbox.querySelector('.seeless');
+            detailtext2.classList.remove('none')
+        }
+        const seeLess=()=>{
+            const showdetailbox = document.querySelector('.show_info_detail .card div');
+            showdetailbox.classList.add('y250')
+
+            const showdetailtextbox = showdetailbox.nextElementSibling;
+            const detailtext1 = showdetailtextbox.querySelector('.seemore');
+            detailtext1.classList.remove('none')
+            const detailtext2 = showdetailtextbox.querySelector('.seeless');
+            detailtext2.classList.add('none')
+        }
+
         const comrequest = new XMLHttpRequest();
 
         const onClickCom = (id) => {
