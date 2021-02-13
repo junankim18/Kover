@@ -133,16 +133,25 @@ def feed_page(request):
 
 
 def show_detail(request, pk):
+    username = Profile.objects.get(id=request.user.id)
     show = Show.objects.get(id=pk)
     peoples = People.objects.all()
     reviews = show.review_show.all()
+    show_times = show.show_times.all()
+    mygrade = []
+    for rev in username.review_author.all():
+        if show.id == rev.review_show.id:
+            mygrade.append(rev.review_grade)
     revnum = len(reviews)
     ctx = {
+        'username': username,
         'pk': pk,
         'show': show,
         'peoples': peoples,
         'reviews': reviews,
         'revnum': revnum,
+        'show_times': show_times,
+        'mygrade': mygrade[0],
     }
     return render(request, 'kover/show_detail.html', ctx)
 

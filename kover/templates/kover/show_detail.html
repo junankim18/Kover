@@ -23,11 +23,22 @@
                     <b>공연일</b> {{show.show_date_start}} ~ {{show.show_date_end}}
                 </li>
                 <li>
-                    <b>공연시간</b> {{show.show_times}} 인터미션 {{show.show_intermission}} 분
+                    <b>공연시간</b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 인터미션 {{show.show_intermission}} 분
                 </li>
                 <li>
                     <b>연출</b> {{show.show_director}}
                 </li>
+                {% if show in username.watched_show.all %}
+                <li>
+                    <b>내 별점</b> {{mygrade}}
+                </li>
+                {% else %}
+                <li>
+                    <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
+                        내가 본 공연 추가하기
+                    </button>
+                </li>
+                {% endif %}
             </ul>
         </div>
     </div>

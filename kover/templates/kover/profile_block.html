@@ -14,12 +14,14 @@
     </div>
     <div class="justify-content-center row align-items-center my-5">
         {% for show in shows%}
-        <div class="showdetailbox card text-center">
-            <img class="card-img-top" src="{{show.show_poster.url}}" alt="" width="150px" />
-            <p><small> {{show.show_name}}</small></p>
-            <p><small> {{show.show_hall}}</small></p>
-            <p><small> 런타임 : {{show.show_runtime}}</small></p>
-        </div>
+        <a href="{%url 'kover:show_detail' show.id%}">
+            <div class="showdetailbox card text-center">
+                <img class="card-img-top" src="{{show.show_poster.url}}" alt="" width="150px" />
+                <p><small> {{show.show_name}}</small></p>
+                <p><small> {{show.show_hall}}</small></p>
+                <p><small> 런타임 : {{show.show_runtime}}</small></p>
+            </div>
+        </a>
         {% endfor %} {% for i in "x"|rjust:"1" %}
         <div class="showdetailbox card text-center h-100 w-30">
             <div class="">
