@@ -9,6 +9,7 @@ from .forms import ShowForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.db.models.query import Q
+from datetime import date, timedelta, datetime
 
 
 @login_required
@@ -138,6 +139,13 @@ def show_detail(request, pk):
     peoples = People.objects.all()
     reviews = show.review_show.all().order_by('-id')
     show_times = show.show_times.all()
+    showdatelist = []
+    delta = (show.show_date_end - show.show_date_start).days
+    for i in range(delta):
+        showdatelist.append(datetime.date(
+            show.show_date_start) + timedelta(days=i))
+    print('날짜')
+    print(datetime.date(show.show_date_end))
     mygrade = 0
     for rev in username.review_author.all():
         if show.id == rev.review_show.id:
@@ -152,6 +160,7 @@ def show_detail(request, pk):
         'revnum': revnum,
         'show_times': show_times,
         'mygrade': mygrade,
+        'showdatelist': showdatelist,
     }
     return render(request, 'kover/show_detail.html', ctx)
 
@@ -192,7 +201,7 @@ def press_com(comrequest):
         return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname})
 
 
-@login_required
+@ login_required
 def create_watched_show(request):
     users = Profile.objects.get(id=request.user.id)
     watchedshows = users.watched_show.all()

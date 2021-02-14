@@ -28,6 +28,11 @@
                 <li>
                     <b>연출</b> {{show.show_director}}
                 </li>
+                <li>
+                    <b>날짜</b> {% for date in showdatelist %}
+                    {{date}}
+                    {% endfor %}
+                </li>
                 {% if show in username.watched_show.all %}
                 <li>
                     <b>내 별점</b> {{mygrade}}
@@ -119,6 +124,16 @@
                     리뷰 {{revnum}} 개
                 </h4>
                 <div>
+                    날짜 선택하기 <br>
+                    {% for date in showdatelist %}
+                    <input type='radio' name='date'>{{date}}</input>
+                    {% endfor %}
+                </div>
+                <div>
+                    별점 선택하기 <br>
+                    
+                </div>
+                <div class='revinput'>
                     <input class='comment_content' type="text" placeholder="리뷰를 작성해보세요">
                     <button type='submit' onclick="onClickCom({{show.id}})"
                         class='btn btn-outline-dark btn-sm ml-5 mb-1'>
@@ -177,7 +192,7 @@
 
         const onClickCom = (id) => {
             const url = '/contents/review/';
-            const input = document.querySelector(`.show_review div input`)
+            const input = document.querySelector(`.show_review .revinput input`)
             const content = input.value;
             comrequest.open('POST', url, true);
             comrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -200,7 +215,7 @@
 
                 const create_com = document.createElement("div");
                 create_com.innerText = `${comment} - ${writer}`;
-                element.appendChild(create_com);
+                element.insertBefore(create_com, element.firstChild);
             }
         };
 
