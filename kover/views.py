@@ -136,7 +136,7 @@ def show_detail(request, pk):
     username = Profile.objects.get(id=request.user.id)
     show = Show.objects.get(id=pk)
     peoples = People.objects.all()
-    reviews = show.review_show.all()
+    reviews = show.review_show.all().order_by('-id')
     show_times = show.show_times.all()
     mygrade = 0
     for rev in username.review_author.all():
