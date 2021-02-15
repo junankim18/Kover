@@ -24,7 +24,7 @@
 
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <a class="navbar-brand" href="/"><img src="/static/kover.png" alt="kover" width="130px" /></a>
+            <a class="navbar-brand" href="/">Kover</a>
             <button
                 class="navbar-toggler"
                 type="button"
@@ -51,47 +51,23 @@
                         <a class="nav-link" href="/profile_block">프로필</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/contents">리뷰등록</a>
+                        <a class="nav-link" href="/">리뷰</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a
-                            class="nav-link dropdown-toggle"
-                            href="/profile_block"
-                            id="navbarDropdown"
-                            role="button"
-                            data-toggle="dropdown"
-                            aria-haspopup="true"
-                            aria-expanded="false"
-                        >
-                            설정
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a
-                                class="dropdown-item"
-                                href="{% url 'login:logout' %}?next={{request.path}}"
-                                onclick="return confirm('로그아웃 하시겠습니까?');"
-                                >로그아웃</a
-                            >
-                            <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">더보기</a>
-                        </div>
+                    <li>
+                        <a class="nav-link" href="{% url 'login:logout' %}">로그아웃</a>
                     </li>
 
                     {% else %}
                     <!--로그인 안된 상태면-->
                     <li class="nav-item">
-                        <a class="nav-link" href="/feed">피드</a>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link" href="{%url 'login:login'%}">로그인</a>
+                        <a class="nav-link" href="{% url 'login:login' %}">로그인</a>
                     </li>
 
                     {% endif %}
                 </ul>
                 <form class="form-inline my-2 my-lg-0">
                     <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">Search</button>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
                 </form>
             </div>
         </nav>
@@ -101,7 +77,7 @@
         <footer>
             {% block footer %}
             <div class="footer">
-                <small>2021 KOVER</small>
+                <small>KOVER</small>
                 <br />
             </div>
 
