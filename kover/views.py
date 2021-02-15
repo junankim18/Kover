@@ -134,6 +134,11 @@ def feed_page(request):
     return render(request, 'kover/feed_layout.html', ctx)
 
 
+def feed_musical_lib(request):
+    
+    return render(request, 'kover/feed_musical_lib.html')
+
+
 def show_detail(request, pk):
     username = Profile.objects.get(id=request.user.id)
     show = Show.objects.get(id=pk)
@@ -169,7 +174,7 @@ def press_like(request):
     if request.method == 'GET':
         feed_list = Feed_post.objects.all()
         ctx = {"feeds": feed_list}
-        return render(request, 'insta/feed_layout.html', ctx)
+        return render(request, 'kover/feed_layout.html', ctx)
     elif request.method == 'POST':
         request = json.loads(request.body)
         feed_id = request['id']
@@ -184,7 +189,7 @@ def press_com(comrequest):
     if comrequest.method == 'GET':
         feed_list = Feed_post.objects.all()
         ctx = {"feeds": feed_list}
-        return render(comrequest, 'insta/feed_layout.html', ctx)
+        return render(comrequest, 'kover/feed_layout.html', ctx)
     elif comrequest.method == 'POST':
         request = json.loads(comrequest.body)
         feed_id = request['id']

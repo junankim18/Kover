@@ -1,0 +1,8 @@
+{% extends "feed_part.html" %} 
+
+{% block part %}
+{% if feed.feed_type == "musical_lib" %}
+    {% block parts %}
+    {% endblock %}
+{% endif %}
+{% endblock %}
