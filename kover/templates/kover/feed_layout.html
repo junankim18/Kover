@@ -1,5 +1,4 @@
-{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%}
-{% block content %} {% comment %}
+{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %} {% comment %}
 <div></div>
 {% endcomment %} {% for feed in feeds%}
 <title>Kover | feed</title>
@@ -11,13 +10,9 @@
         <div class="author">{{ feed.feed_author }}</div>
         <div class="feed_created_at">{{ feed.feed_created_at }}</div>
         <button type="submit" onclick="onClickLike({{ feed.id }})">추천 {{ feed.feed_like }}</button>
-        {% endfor %} 
-        {% for com in comlist %}
-        <div class='comment_number'>
-            댓글수 {{com}}
-        </div>
-        {% endfor %}
-        {% for feed in feeds%}
+        {% endfor %} {% for com in comlist %}
+        <div class="comment_number">댓글수 {{com}}</div>
+        {% endfor %} {% for feed in feeds%}
         <div class="comment_t">
             댓글 {% for comment in feed.comment_post.all %}
             <div class="comment">{{ comment.comment_content }} - {{comment.comment_author}}</div>
@@ -49,7 +44,6 @@
                 const [typeStr, num] = origin.split(" ");
                 const count = Number(num) + 1;
                 element.innerText = `${typeStr} ${count}`;
-                console.log(typeStr, count);
             }
         };
 
@@ -66,15 +60,13 @@
         const handleResponseCom = () => {
             if (comrequest.status <= 400) {
                 const { id, comment, writer } = JSON.parse(comrequest.response);
-                console.log(id);
                 const element = document.querySelector(`#post-${id} div .comment_t`);
                 const comnum = document.querySelector(`#post-${id} div .comment_number`);
 
                 const origin = comnum.innerText;
                 const [typeStr, num] = origin.split(" ");
                 const count = Number(num) + 1;
-                comnum.innerText= `${typeStr} ${count}`;
-                console.log(typeStr, count)
+                comnum.innerText = `${typeStr} ${count}`;
 
                 const create_com = document.createElement("div");
                 create_com.innerText = `${comment} - ${writer}`;

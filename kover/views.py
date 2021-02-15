@@ -6,8 +6,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
 from .forms import ShowForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from django.db.models.query import Q
+from datetime import date, timedelta, datetime
+from dateutil.parser import *
 
 
+@login_required
 def profile_block(request):
     users = Profile.objects.get(id=request.user.pk)
     pk = users.pk
@@ -21,20 +27,16 @@ def profile_block(request):
     wantlist = []  # 공연장 리스트중에서 중복된 값 제거
     renum = {}  # 공연장 리스트중에서 중복된 값 카운트
 
-    # 중복된 리스트의 요소 제거
-    for i in range(hallnum):
-        for j in range(hallnum):
-            if i >= j:
-                pass
-            elif showlist[i].show_hall == showlist[j].show_hall:
-                pass
-            else:
-                wantlist.append(showlist[i])
-    overlapnum = len(wantlist)
-
     # 공연장 리스트
     for i in range(hallnum):
         halllist.append(showlist[i].show_hall)
+
+    # 중복된 리스트의 요소 제거
+    for i in halllist:
+        if i not in wantlist:
+            wantlist.append(i)
+
+    overlapnum = len(wantlist)
 
     for i in halllist:
         try:
@@ -69,33 +71,49 @@ def profile_block(request):
 
 
 def main(request):
-    users = Profile.objects.get(id=request.user.pk)
-    pk = users.pk
-    actors = users.like_actor.all().order_by('people_name')
+    # try:
+    #     username = Profile.objects.get(pk=request.user.pk)
+    # except Profile.DoesNotExist:
+    #     username = None
+    username = Profile.objects.filter(id=request.user.id)
+    if username:
+        actors = username[0].like_actor.all().order_by('people_name')
+    else:
+        actors = []
 
     show_1 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 최신 순
     show_2 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 리뷰 많은 순
 
     feed_1 = Feed_post.objects.all().order_by(
         '-feed_created_at')[:5]  # 피드 최신 순
-    feed_2 = Feed_post.objects.order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
+    feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
 
     commentlist = []
     for feedind in feed_2:
         commentlist.append(len(feedind.comment_post.all()))
 
+    actorshow = []
+    wantshow = []
+    for actor in actors:
+        for show in actor.show_actor.all():
+            actorshow.append(show)
+
+    for j in actorshow:
+        if j not in wantshow:
+            wantshow.append(j)
+
     ctx = {
-        'users': users,
-        'actors': actors,
         'show_1': show_1,
         'show_2': show_2,
         'feed_1': feed_1,
         'feed_2': feed_2,
-        'commentlist': commentlist
+        'commentlist': commentlist,
+        'wantshow': wantshow,
     }
     return render(request, 'kover/main.html', ctx)
 
 
+@login_required
 def profile_geo(request):
     shows = Show.objects.all()
     ctx = {
@@ -117,14 +135,31 @@ def feed_page(request):
 
 
 def show_detail(request, pk):
+    username = Profile.objects.get(id=request.user.id)
     show = Show.objects.get(id=pk)
     peoples = People.objects.all()
-    reviews = show.review_show.all()
+    reviews = show.review_show.all().order_by('-id')
+    show_times = show.show_times.all()
+    showdatelist = []
+    delta = (show.show_date_end - show.show_date_start).days
+    for i in range(delta):
+        showdatelist.append(datetime.date(
+            show.show_date_start) + timedelta(days=i))
+    mygrade = 0
+    for rev in username.review_author.all():
+        if show.id == rev.review_show.id:
+            mygrade = rev.review_grade
+    revnum = len(reviews)
     ctx = {
+        'username': username,
         'pk': pk,
         'show': show,
         'peoples': peoples,
         'reviews': reviews,
+        'revnum': revnum,
+        'show_times': show_times,
+        'mygrade': mygrade,
+        'showdatelist': showdatelist,
     }
     return render(request, 'kover/show_detail.html', ctx)
 
@@ -165,16 +200,69 @@ def press_com(comrequest):
         return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname})
 
 
+@ login_required
 def create_watched_show(request):
-    if request.method == 'POST':
-        form = ShowForm(request.POST, request.FILES)
-        if form.is_valid():
-            show = form.save()
-            new_pk = show.id
-            return redirect('kover:profile_block', new_pk)
-    elif request.method == 'GET':
-        form = ShowForm()
-        ctx = {
-            'form': form
-        }
-        return render(request, 'kover/watched_show.html', ctx)
+    users = Profile.objects.get(id=request.user.id)
+    watchedshows = users.watched_show.all()
+    shows = Show.objects.all()
+    unwatchedplays = []
+    unwatchedmusicals = []
+    for show in shows:
+        if show not in watchedshows and show not in unwatchedplays and show.show_type == 'play':
+            unwatchedplays.append(show)
+        elif show not in watchedshows and show not in unwatchedmusicals and show.show_type == 'musical':
+            unwatchedmusicals.append(show)
+
+            # plays = Show.objects.filter(Q(show_type='play'))
+            # musicals = Show.objects.filter(Q(show_type='musical'))
+    ctx = {
+        'users': users,
+        'plays': unwatchedplays,
+        'musicals': unwatchedmusicals
+    }
+    return render(request, 'kover/watched_show.html', ctx)
+
+
+@ method_decorator(csrf_exempt)
+def create_review(comrequest):
+    if comrequest.method == 'GET':
+        return render(comrequest, 'kover/show_detail.html')
+    elif comrequest.method == 'POST':
+        request = json.loads(comrequest.body)
+        show_id = request['id']
+        content = request['content']
+        seldate = request['seldate']
+        yyyy = seldate[:4]
+        mm = seldate[5:9]
+        dd = seldate[-3:]
+        mm = mm.strip()
+        dd = dd.strip()
+        if len(mm) == 2:
+            mm = '0'+mm[:1]
+        elif len(mm) == 3:
+            mm = mm[:2]
+        if len(dd) == 2:
+            dd = '0'+dd[:1]
+        elif len(dd) == 3:
+            dd = dd[:2]
+        date = yyyy+'-'+mm+'-'+dd
+        show = Show.objects.get(id=show_id)
+        user_id = comrequest.user.id
+        user = Profile.objects.get(id=user_id)
+        nickname = user.nickname
+        if content:
+            review = Review(review_author=user,
+                            review_show=show,
+                            review_grade=5,
+                            review_watched_at=date,
+                            review_content=content)
+            review.save()
+        return JsonResponse({'id': show_id,
+                             'comment': review.review_content,
+                             'writer': user.nickname,
+                             'date': review.review_watched_at,
+                             'grade': review.review_grade,
+                             'yyyy': yyyy,
+                             'mm': mm,
+                             'dd': dd,
+                             })

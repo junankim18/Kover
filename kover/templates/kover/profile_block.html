@@ -14,12 +14,14 @@
     </div>
     <div class="justify-content-center row align-items-center my-5">
         {% for show in shows%}
-        <div class="showdetailbox card text-center">
-            <img class="img-fluid card-img-top" src="{{show.show_poster.url}}" alt="" width="150px" />
-            <p><small> {{show.show_name}}</small></p>
-            <p><small> {{show.show_hall}}</small></p>
-            <p><small> 런타임 : {{show.show_runtime}}</small></p>
-        </div>
+        <a href="{%url 'kover:show_detail' show.id%}">
+            <div class="showdetailbox card text-center">
+                <img class="card-img-top" src="{{show.show_poster.url}}" alt="" width="150px" />
+                <p><small> {{show.show_name}}</small></p>
+                <p><small> {{show.show_hall}}</small></p>
+                <p><small> 런타임 : {{show.show_runtime}}</small></p>
+            </div>
+        </a>
         {% endfor %} {% for i in "x"|rjust:"1" %}
         <div class="showdetailbox card text-center h-100 w-30 ml-3 my-5">
             <div class="">
@@ -38,8 +40,8 @@
         <div class="container justify-content-center row align-items-center my-3">
             <div class="hallbox card text-center w-100 h-200">
                 <p>방문한 총 공연장 수 : {{overlapnum}}</p>
-                {% for show in wantlist %}
-                <div>{{show.show_hall}}</div>
+                {% for hall in wantlist %}
+                <div>{{hall}}</div>
                 {% endfor %}
             </div>
             <div class="border hallbox card text-center w-100 h-200">

@@ -2,69 +2,67 @@
 {% block content %}
 <title>Kover | main</title>
 <div class="main_body">
-<div class="show_list">
-  <div class="show_list_main">
-    <span style="font-size: 25px"><b>최근 개봉 공연</b></span>
-    <br />
-    {% for show in show_1 %}
-    <img src="{{show.show_poster.url}}" width="250px" />
-    {% endfor %}
-  </div>
+    <div class="show_list">
+        <div class="show_list_main">
+            <span style="font-size: 25px"><b>최근 개봉 공연</b></span>
+            <br />
+            {% for show in show_1 %}
+            <a class='showimg' href="{%url 'kover:show_detail' show.id%}"><img src="{{show.show_poster.url}}" width="250px" /></a>
+            {% endfor %}
+        </div>
 
-  <div class="show_list_main" style="margin-top: 30px">
-    <span style="font-size: 25px"><b>많은 리뷰를 받은 공연</b></span>
-    <br />
-    {% for show in show_2 %}
-    <img src="{{show.show_poster.url}}" width="250px" />
-    {% endfor %}
-  </div>
+        <div class="show_list_main" style="margin-top: 30px">
+            <span style="font-size: 25px"><b>많은 리뷰를 받은 공연</b></span>
+            <br />
+            {% for show in show_2 %}
+            <a class='showimg' href="{%url 'kover:show_detail' show.id %}"><img src="{{show.show_poster.url}}" width="250px" /></a>
+            {% endfor %}
+        </div>
 
-  <div class="show_list_main" style="margin-top: 35px">
-    <span style="font-size: 25px"><b>내 배우의 공연</b></span>
-    <br />
-    {% for actor in actors%}
-    {% for show in actor.show_actor.all %}
-    <img src="{{show.show_poster.url}}" width="250px" />
-    {% endfor %}
-    {% endfor %}
-  </div>
+        <div class="show_list_main" style="margin-top: 35px">
+            <span style="font-size: 25px"><b>내 배우의 공연</b></span>
+            <br />
+            {% if user.is_authenticated %}
+                {% for show in wantshow %}
+                <a class='showimg' href="{%url 'kover:show_detail' show.id %}"><img src="{{show.show_poster.url}}" width="250px" /></a>
+                {% endfor %}
+            {% else %}
+                <p><br>로그인하고 내 최애 배우를 추가하세요 <br> Kover가 최애 배우의 최근 공연을 보여드릴게요:) <br> </p>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 30px">
+        <div class="feed_main col-lg-6">
+            <span style="font-size: 25px"><b>HOT 피드</b></span>
+
+            <ul class="list-group " style="max-width: 35rem;">
+                {% for feed in feed_2 %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{feed.feed_title}}
+                    <span class="badge badge-danger badge-pill">
+                        <i class="fas fa-heart"></i> {{feed.feed_like}}
+                    </span>
+                    {% endfor %}
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="feed_main col-lg-6">
+            <span style="font-size: 25px"><b>최근 피드</b></span>
+            <ul class="list-group " style="max-width: 35rem;">
+                {% for feed in feed_1 %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{feed.feed_type}}
+                    <span class="badge badge-white badge-pill">{{feed.feed_title}}</span>
+                </li>
+                {% endfor %}</p>
+            </ul>
+        </div>
+    </div>
+
 </div>
-
-<div class="row" style="margin-top: 30px">
-<div class= "feed_main col-lg-6">
-<span style="font-size: 25px"><b>HOT 피드</b></span>
-<ul class="list-group " style="max-width: 35rem;">
-    {% for feed in feed_2 %}
-    <li class="list-group-item d-flex justify-content-between align-items-center">
-      {{feed.feed_title}} 
-        <span class="badge badge-danger badge-pill">
-            <i class="fas fa-heart"></i> {{feed.feed_like}}
-        </span>
-    </li>
-      {% endfor %}
-  {% comment %} 
-  {% for element in commentlist %}
-    <p>댓글:{{element}}</p>
-    {% endfor %}
-      <p>댓글:{{element}}</p>  {% endcomment %}
-      
-</ul>
-</div>
-
-<div class= "feed_main col-lg-6">
-<span style="font-size: 25px"><b>최근 피드</b></span>
-<ul class="list-group " style="max-width: 35rem;">
-    {% for feed in feed_1 %}
-  <li class="list-group-item d-flex justify-content-between align-items-center">
-      {{feed.feed_type}} 
-    <span class="badge badge-white badge-pill">{{feed.feed_title}}</span>
-  </li>
-  {% endfor %}</p>
-</ul>
-</div>
-</div>
-
-  </div>
 </div>
 </div>
 {% endblock %}
