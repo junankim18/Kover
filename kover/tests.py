@@ -1,14 +1,5 @@
-actorshow = [1, 2, 1, 3]
-wantshow = []
-# for actor in actors:
-#     for show in actor.show_actor.all():
-#         actorshow.append(show)
-for i in range(len(actorshow)):
-    for j in range(len(actorshow)):
-        if i <= j:
-            pass
-        elif actorshow[i] == actorshow[j]:
-            pass
-        else:
-            wantshow.append(actorshow[i])
-print(wantshow)
+import datetime
+date = 2021-03-28
+date = datetime.date(date)
+date = date.strfdate('%Y- %m- %d-')
+print(date)

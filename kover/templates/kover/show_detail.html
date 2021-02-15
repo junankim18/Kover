@@ -126,7 +126,7 @@
                 <div>
                     날짜 선택하기 <br>
                     {% for date in showdatelist %}
-                    <input type='radio' name='date'>{{date}}</input>
+                    <input type='radio' name='date' value="{{date}}">{{date}}</input>
                     {% endfor %}
                 </div>
                 <div>
@@ -194,27 +194,39 @@
             const url = '/contents/review/';
             const input = document.querySelector(`.show_review .revinput input`)
             const content = input.value;
+            const radiodate = document.getElementsByName('date');
+            let seldate = null;
+            for(var i=0;i<radiodate.length;i++){
+                if(radiodate[i].checked==true){
+                    seldate = radiodate[i].value;
+                    radiodate[i].checked = false;
+                }
+            }
+            if(seldate == null){
+                alert('관람날짜를 선택하세요')
+            }else{
             comrequest.open('POST', url, true);
             comrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            comrequest.send(JSON.stringify({ id, content }));
+            comrequest.send(JSON.stringify({ id, content, seldate }));
             input.value='';
+            }
         }
 
         const handleResponseCom = () => {
             if (comrequest.status <= 400) {
-                const { id, comment, writer, date, grade } = JSON.parse(comrequest.response);
+                const { id, comment, writer, date, grade, yyyy, mm, dd } = JSON.parse(comrequest.response);
                 const element = document.querySelector(`.show_review .reviewbox`);
                 const comnum = document.querySelector(`.show_review h4`);
 
                 const origin = comnum.innerText;
                 const [typeStr, num, 개] = origin.split(" ");
-                console.log(num)
+                
                 const count = Number(num) + 1;
-                console.log(count)
+                
                 comnum.innerText = `${typeStr} ${count} 개`;
 
                 const create_com = document.createElement("div");
-                create_com.innerText = `${comment} - ${writer}`;
+                create_com.innerText = `${yyyy}년 ${mm}월 ${dd}일 - ${comment} - ${writer}`;
                 element.insertBefore(create_com, element.firstChild);
             }
         };

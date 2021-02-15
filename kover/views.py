@@ -10,6 +10,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.db.models.query import Q
 from datetime import date, timedelta, datetime
+from dateutil.parser import *
 
 
 @login_required
@@ -144,8 +145,6 @@ def show_detail(request, pk):
     for i in range(delta):
         showdatelist.append(datetime.date(
             show.show_date_start) + timedelta(days=i))
-    print('날짜')
-    print(datetime.date(show.show_date_end))
     mygrade = 0
     for rev in username.review_author.all():
         if show.id == rev.review_show.id:
@@ -232,6 +231,21 @@ def create_review(comrequest):
         request = json.loads(comrequest.body)
         show_id = request['id']
         content = request['content']
+        seldate = request['seldate']
+        yyyy = seldate[:4]
+        mm = seldate[5:9]
+        dd = seldate[-3:]
+        mm = mm.strip()
+        dd = dd.strip()
+        if len(mm) == 2:
+            mm = '0'+mm[:1]
+        elif len(mm) == 3:
+            mm = mm[:2]
+        if len(dd) == 2:
+            dd = '0'+dd[:1]
+        elif len(dd) == 3:
+            dd = dd[:2]
+        date = yyyy+'-'+mm+'-'+dd
         show = Show.objects.get(id=show_id)
         user_id = comrequest.user.id
         user = Profile.objects.get(id=user_id)
@@ -240,11 +254,15 @@ def create_review(comrequest):
             review = Review(review_author=user,
                             review_show=show,
                             review_grade=5,
-                            review_watched_at='2021-01-01',
+                            review_watched_at=date,
                             review_content=content)
             review.save()
         return JsonResponse({'id': show_id,
                              'comment': review.review_content,
                              'writer': user.nickname,
                              'date': review.review_watched_at,
-                             'grade': review.review_grade})
+                             'grade': review.review_grade,
+                             'yyyy': yyyy,
+                             'mm': mm,
+                             'dd': dd,
+                             })
