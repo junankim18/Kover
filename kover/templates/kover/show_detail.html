@@ -131,7 +131,6 @@
                 </div>
                 <div>
                     별점 선택하기 <br>
-                    
                 </div>
                 <div class='revinput'>
                     <input class='comment_content' type="text" placeholder="리뷰를 작성해보세요">
@@ -157,6 +156,12 @@
                     <div class='rev_middle text-center'>
                         {{review.review_content}}
                     </div>
+                    {% if review.review_author == username %}
+                        <div class='delbox'>
+                            <button type='submit' onclick='onClickDel({{show.id}}, {{review.id}})' class='btn btn-outline-dark btn-sm ml-5 mb-1'>
+                            {% csrf_token %}리뷰 삭제하기</button>
+                        </div>
+                    {% endif %}
                     <div class='rev_bottom'>
                     </div>
                 </div>
@@ -189,6 +194,7 @@
         }
 
         const comrequest = new XMLHttpRequest();
+        const delrequest = new XMLHttpRequest();
 
         const onClickCom = (id) => {
             const url = '/contents/review/';
