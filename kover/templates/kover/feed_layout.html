@@ -37,6 +37,37 @@
         </div>
     </div>
     {% endfor %}
+
+    
+    <div class="row" style="margin-top: 30px">
+        <div class="feed_main col-lg-6">
+            <span style="font-size: 25px"><b>HOT 피드</b></span>
+
+            <ul class="list-group " style="max-width: 35rem;">
+                {% for feed in feed_2 %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{feed.feed_title}}
+                    <span class="badge badge-danger badge-pill">
+                        <i class="fas fa-heart"></i> {{feed.feed_like}}
+                    </span>
+                    {% endfor %}
+
+                </li>
+            </ul>
+        </div>
+
+        <div class="feed_main col-lg-6">
+            <span style="font-size: 25px"><b>최근 피드</b></span>
+            <ul class="list-group " style="max-width: 35rem;">
+                {% for feed in feed_1 %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{feed.feed_type}}
+                    <span class="badge badge-white badge-pill">{{feed.feed_title}}</span>
+                </li>
+                {% endfor %}</p>
+            </ul>
+        </div>
+    </div>
     
 
 
