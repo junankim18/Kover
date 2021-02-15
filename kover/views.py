@@ -147,12 +147,12 @@ def show_detail(request, pk):
             show.show_date_start) + timedelta(days=i))
     mygrade = 0
     if username:
-        for rev in username.review_author.all():
+        for rev in username[0].review_author.all():
             if show.id == rev.review_show.id:
                 mygrade = rev.review_grade
     revnum = len(reviews)
     ctx = {
-        'username': username,
+        'username': username[0],
         'pk': pk,
         'show': show,
         'peoples': peoples,
