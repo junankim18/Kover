@@ -33,16 +33,18 @@
                     {{date}}
                     {% endfor %}
                 </li>
-                {% if show in username.watched_show.all %}
-                <li>
-                    <b>내 별점</b> {{mygrade}}
-                </li>
-                {% else %}
-                <li>
-                    <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
-                        내가 본 공연 추가하기
-                    </button>
-                </li>
+                {% if user.is_authenticated %}
+                    {% if show in username.watched_show.all %}
+                    <li>
+                        <b>내 별점</b> {{mygrade}}
+                    </li>
+                    {% else %}
+                    <li>
+                        <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
+                            내가 본 공연 추가하기
+                        </button>
+                    </li>
+                    {% endif %}
                 {% endif %}
             </ul>
         </div>
