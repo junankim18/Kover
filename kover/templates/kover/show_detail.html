@@ -33,16 +33,23 @@
                     {{date}}
                     {% endfor %}
                 </li>
-                {% if show in username.watched_show.all %}
-                <li>
-                    <b>내 별점</b> {{mygrade}}
-                </li>
-                {% else %}
-                <li>
-                    <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
-                        내가 본 공연 추가하기
-                    </button>
-                </li>
+                {% if user.is_authenticated %}
+                    {% if show in username.watched_show.all %}
+                    <li>
+                        <b>내 별점</b> {{mygrade}}
+                    </li>
+                    {% else %}
+                    <li>
+                    <b>내 별점</b>
+                        <span class="star-rating">
+                            <input type="radio" name="rating" value="1" /><i></i> <input type="radio" name="rating" value="2" /><i></i>
+                            <input type="radio" name="rating" value="3" /><i></i> <input type="radio" name="rating" value="4" /><i></i>
+                            <input type="radio" name="rating" value="5" /><i></i> <input type="radio" name="rating" value="6" /><i></i>
+                            <input type="radio" name="rating" value="7" /><i></i> <input type="radio" name="rating" value="8" /><i></i>
+                            <input type="radio" name="rating" value="9" /><i></i> <input type="radio" name="rating" value="10" /><i></i>
+                        </span>
+                    </li>
+                    {% endif %}
                 {% endif %}
             </ul>
         </div>

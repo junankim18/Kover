@@ -135,7 +135,7 @@ def feed_page(request):
 
 
 def show_detail(request, pk):
-    username = Profile.objects.get(id=request.user.id)
+    username = Profile.objects.filter(id=request.user.id)
     show = Show.objects.get(id=pk)
     peoples = People.objects.all()
     reviews = show.review_show.all().order_by('-id')
@@ -146,12 +146,13 @@ def show_detail(request, pk):
         showdatelist.append(datetime.date(
             show.show_date_start) + timedelta(days=i))
     mygrade = 0
-    for rev in username.review_author.all():
-        if show.id == rev.review_show.id:
-            mygrade = rev.review_grade
+    if username:
+        for rev in username[0].review_author.all():
+            if show.id == rev.review_show.id:
+                mygrade = rev.review_grade
     revnum = len(reviews)
     ctx = {
-        'username': username,
+        'username': username[0],
         'pk': pk,
         'show': show,
         'peoples': peoples,
