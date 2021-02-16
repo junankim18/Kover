@@ -152,7 +152,7 @@ def show_detail(request, pk):
                 mygrade = rev.review_grade
     revnum = len(reviews)
     ctx = {
-        'username': username[0],
+        'username': username,
         'pk': pk,
         'show': show,
         'peoples': peoples,

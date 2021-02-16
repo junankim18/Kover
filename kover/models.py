@@ -63,6 +63,16 @@ class Show(models.Model):
         return self.show_name
 
 
+class Casting(models.Model):
+    casting_role = models.CharField(max_length=50, verbose_name='캐스팅 역할')
+    casting_show = models.ForeignKey(
+        Show, related_name='casting_show', on_delete=models.CASCADE)
+    casting_time = models.ForeignKey(
+        Time, related_name='casting_time', on_delete=models.CASCADE)
+    casting_actor = models.ForeignKey(
+        People, related_name='casting_actor', on_delete=models.DO_NOTHING)
+
+
 class User(AbstractUser):
     followers = models.ManyToManyField(
         settings.AUTH_USER_MODEL,
