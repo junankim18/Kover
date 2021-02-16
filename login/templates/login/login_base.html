@@ -1,4 +1,4 @@
-{% extends "kover/layout.html" %}
+{% extends "layout.html" %}
 {% block extra_head %} 
 {% load socialaccount %}
 {% providers_media_js %}
@@ -162,12 +162,17 @@
                 <button type="submit" class="btn">
                     LOG IN
                 </button>
-                <button type="submit" class="btn" id='google' onClick="location.href="{% provider_login_url 'google' %}"">
-                    <i class="fab fa-google"></i>
-                </button>
-                <button type="submit" class="btn" id='naver' onClick="location.href="{% provider_login_url 'naver' %}"">
-                    <span class="fa fa-a"></span><br/>
-                </button>
+                <a href="{% provider_login_url 'google' %}">
+                    <button type="submit" class="btn" id='google'>
+                        <i class="fab fa-google"></i>
+                    </button>
+                </a>
+                <a href="{% provider_login_url 'naver' %}">
+                    <button type="submit" class="btn" id='naver'>
+                        <span class="fa fa-a"></span><br/>
+                    </button>
+                </a>
+            
                 <div class="bottomText">
                     Don't you have ID? <a href="#">sign up</a>
                 </div>
