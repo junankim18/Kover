@@ -118,3 +118,9 @@
     object-position: center;
     object-fit: cover;
 }
+.show_list_main img {
+    width: 230px;
+    height: 282px;
+    object-position: center;
+    object-fit: cover;
+}
