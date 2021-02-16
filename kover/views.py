@@ -122,8 +122,33 @@ def profile_geo(request):
     return render(request, 'kover/profile_geo.html', ctx)
 
 
+def feed_main(request):
+    username = Profile.objects.filter(id=request.user.id)
+    if username:
+        actors = username[0].like_actor.all().order_by('people_name')
+    else:
+        actors = []
+    
+    feed_1 = Feed_post.objects.all().order_by(
+        '-feed_created_at')[:5]  # 피드 최신 순
+    feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
+
+    comlist = []
+    for feed in feed_2:
+        comlist.append(len(feed.comment_post.all()))
+
+    ctx = {
+        'feed_1': feed_1,
+        'feed_2': feed_2,
+        'comlist': comlist,
+    }
+    return render(request, 'kover/feed_main.html', ctx)
+
+
+#def feed_page(request, pk):
 def feed_page(request):
-    feeds = Feed_post.objects.all()
+    feeds= Feed_post.objects.all()
+    #feeds = Feed_post.objects.get(id=pk)
     comlist = []
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
@@ -131,7 +156,34 @@ def feed_page(request):
         'feeds': feeds,
         'comlist': comlist
     }
-    return render(request, 'kover/feed_layout.html', ctx)
+    return render(request, 'kover/feed_page.html', ctx)
+
+
+def feed_musical_lib(request):
+    
+    return render(request, 'kover/feed_musical_lib.html')
+
+def feed_musical_inf(request):
+    username = Profile.objects.filter(id=request.user.id)
+    if username:
+        actors = username[0].like_actor.all().order_by('people_name')
+    else:
+        actors = []
+
+    # feeds = Feed_post.objects.filter()
+
+    feeds = Feed_post.objects.filter(feed_type='musical_inf').order_by(
+        '-feed_created_at')[:]  # 피드 최신 순
+
+    comlist = []
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
+
+    ctx = {
+        'feeds': feeds,
+        'comlist': comlist,
+    }
+    return render(request, 'kover/feed_musical_inf.html')
 
 
 def show_detail(request, pk):
@@ -169,7 +221,7 @@ def press_like(request):
     if request.method == 'GET':
         feed_list = Feed_post.objects.all()
         ctx = {"feeds": feed_list}
-        return render(request, 'insta/feed_layout.html', ctx)
+        return render(request, 'kover/feed_layout.html', ctx)
     elif request.method == 'POST':
         request = json.loads(request.body)
         feed_id = request['id']
@@ -184,7 +236,7 @@ def press_com(comrequest):
     if comrequest.method == 'GET':
         feed_list = Feed_post.objects.all()
         ctx = {"feeds": feed_list}
-        return render(comrequest, 'insta/feed_layout.html', ctx)
+        return render(comrequest, 'kover/feed_layout.html', ctx)
     elif comrequest.method == 'POST':
         request = json.loads(comrequest.body)
         feed_id = request['id']
