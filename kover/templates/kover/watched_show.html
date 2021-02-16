@@ -1,14 +1,34 @@
-{% extends 'kover/layout.html'%} {%block content%}
-<div class="">
-    <form action="" method="POST">
-        {% csrf_token %}
-        <table>
-            {{ form.as_table }}
-        </table>
-        <br />
-        <input type="submit" value="저장하기" />
-        <br />
-    </form>
-    <br />
+{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
+<title>Kover | contents</title>
+<div>
+    <p><br /><br /><br /></p>
 </div>
-{%endblock%}
+<div>
+    <h4>{{users}}님, 아직 평가하지 않은 작품들이 많아요!<br /></h4>
+</div>
+<div>
+    {% comment %} 아직 관람하지 않은 연극들의 리스트 {% endcomment %}
+    <h4>연극</h4>
+    {% for play in plays %}
+    <div>
+        <a href="{%url 'kover:show_detail' play.id %}">
+            <p>{{play.show_name}}</p>
+            <img src="{{play.show_poster.url}}" alt="" width="150px" />
+        </a>
+    </div>
+</div>
+
+{% endfor %}
+<div>
+    {% comment %} 아직 관람하지 않은 뮤지컬들의 리스트 {% endcomment %}
+    <h4>뮤지컬</h4>
+    {% for musical in musicals %}
+    <div>
+        <a href="{%url 'kover:show_detail' musical.id%}">
+            <p>{{musical.show_name}}</p>
+            <img src="{{musical.show_poster.url}}" alt="" width="150px" />
+        </a>
+    </div>
+</div>
+
+{% endfor %} {%endblock%}

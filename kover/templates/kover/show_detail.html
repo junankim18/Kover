@@ -3,130 +3,256 @@
 <title>
     Kover | contents
 </title>
-
+<div>
     {% comment %} 메인 포스터 {% endcomment %}
-        <div class="show_info justify-content-center row align-items-center my-5">
-            <div class="justify-content-center ml-4 col-md-2">
-                <img class="img-fluid rounded mb-4 mb-lg-0" src="{{show.show_poster.url}}" alt="공연 포스터">
-            </div>
-    {% comment %} 공연 정보 {% endcomment %}
-            <div class="col-md-7">
-                <h4>{{show.show_name}}</h4>
-                <ul style='list-style:none;'>
-                    <li >
-                        <b>전체 평균 평점</b> 
-                    </li>
-                    <li>
-                        <b>장소</b>  <a href='#'>{{show.show_hall}}<a>
-                    </li>
-                    <li>
-                        <b>공연일</b>  {{show.show_date_start}} ~ {{show.show_date_end}}
-                    </li>
-                    <li>
-                        <b>공연시간</b>  {{show.show_times}} 인터미션 {{show.show_intermission}} 분
-                    </li>
-                    <li>   
-                        <b>연출</b>  {{show.show_director}}
-                    </li>
-                </ul>
-            </div>
+    <div class="show_info justify-content-center row align-items-center my-5">
+        <div class="justify-content-center ml-4 col-md-2">
+            <img class="img-fluid rounded mb-4 mb-lg-0" src="{{show.show_poster.url}}" alt="공연 포스터">
         </div>
-    {% comment %} 상단 메뉴바 {% endcomment %}
-        <hr>
-        <ul class="nav justify-content-center mb-4">
-            <li class="nav-item">
-              <a class="nav-link active col-md-auto ml-4" href="#">캐스팅</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link col-md-auto ml-4 " href="#">캐스팅 일정 조회</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link col-md-auto ml-4" href="#">공연 정보</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link active col-md-auto ml-4" href="#">리뷰</a>
-            </li>
-        </ul>
-    {% comment %} ----------캐스팅 정보--------- {% endcomment %}
-        <hr>
-        <section class="justify-content-center row align-items-center" id="show_actor">
-            <div class="container justify-content-center">
-                <span>
-                    <h4 class="section-heading text-left mb-3 ml-5 ">캐스팅
-                        <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
-                        캐스팅 일정 조회
-                        </button>
-                    </h4>
-                </span>
-    {% comment %} --------배우 이미지, 배역 -------- {% endcomment %}
-                    <div class="row actor_info">
-                        {% for people in peoples %}
-                        <div class="col-3 col-md-auto col-lg-3 col-xl-3" >
-                            <div class="actor text-center">
-                                <img class="mx-auto rounded-circle mb-3" src="{{people.people_img.url}}" alt="배우 이미지" width=100px, height=100px   />
-                                <h5>{{people.people_name}}</h5>
-                                <p class="text-muted">{{people.people_type}}</p>                 
-                            </div>
-                        </div>
+        {% comment %} 공연 정보 {% endcomment %}
+        <div class="col-md-7">
+            <h4>{{show.show_name}}</h4>
+            <ul style='list-style:none;'>
+                <li>
+                    <b>전체 평균 평점</b>
+                </li>
+                <li>
+                    <b>장소</b> <a href='#'>{{show.show_hall}}<a>
+                </li>
+                <li>
+                    <b>공연일</b> {{show.show_date_start}} ~ {{show.show_date_end}}
+                </li>
+                <li>
+                    <b>공연시간</b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 인터미션 {{show.show_intermission}} 분
+                </li>
+                <li>
+                    <b>연출</b> {{show.show_director}}
+                </li>
+                <li>
+                    <b>날짜</b> {% for date in showdatelist %}
+                    {{date}}
                     {% endfor %}
+                </li>
+                {% if user.is_authenticated %}
+                    {% if show in username.watched_show.all %}
+                    <li>
+                        <b>내 별점</b> {{mygrade}}
+                    </li>
+                    {% else %}
+                    <li>
+                    <b>내 별점</b>
+                        <span class="star-rating">
+                            <input type="radio" name="rating" value="1" /><i></i> <input type="radio" name="rating" value="2" /><i></i>
+                            <input type="radio" name="rating" value="3" /><i></i> <input type="radio" name="rating" value="4" /><i></i>
+                            <input type="radio" name="rating" value="5" /><i></i> <input type="radio" name="rating" value="6" /><i></i>
+                            <input type="radio" name="rating" value="7" /><i></i> <input type="radio" name="rating" value="8" /><i></i>
+                            <input type="radio" name="rating" value="9" /><i></i> <input type="radio" name="rating" value="10" /><i></i>
+                        </span>
+                    </li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    {% comment %} 상단 메뉴바 {% endcomment %}
+    <hr>
+    <ul class="nav justify-content-center mb-4">
+        <li class="nav-item">
+            <a class="nav-link active col-md-auto ml-4" href="#">캐스팅</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link col-md-auto ml-4 " href="#">캐스팅 일정 조회</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link col-md-auto ml-4" href="#">공연 정보</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active col-md-auto ml-4" href="#">리뷰</a>
+        </li>
+    </ul>
+    {% comment %} ----------캐스팅 정보--------- {% endcomment %}
+    <hr>
+    <section class="justify-content-center row align-items-center" id="show_actor">
+        <div class="container justify-content-center">
+            <span>
+                <h4 class="section-heading text-left mb-3 ml-5 ">캐스팅
+                    <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
+                        캐스팅 일정 조회
+                    </button>
+                </h4>
+            </span>
+            {% comment %} --------배우 이미지, 배역 -------- {% endcomment %}
+            <div class="row actor_info">
+                {% for people in show.show_actor.all %}
+                <div class="col-3 col-md-auto col-lg-3 col-xl-3">
+                    <div class="actor text-center">
+                        <img class="mx-auto rounded-circle mb-3" src="{{people.people_img.url}}" alt="배우 이미지"
+                            width=100px, height=100px />
+                        <h5>{{people.people_name}}</h5>
+                        <p class="text-muted">{{people.people_type}}</p>
                     </div>
-            </div>
-        </section>
-{% comment %} -----------세부 내역------------ {% endcomment %}
-        <div class='show_info_detail'>
-            <div class = 'container mt-4'>
-                <div  class="section-heading ml-6">
-                    <h4 class='section-heading text-left mb-3 ml-5'>공연 정보</h4>
                 </div>
+                {% endfor %}
             </div>
-            <div class="justify-content-center row align-items-center my-5">
-                <div class="col-md-4 mb-5">
-                    <div class="card h-100">
-                        <div class="card-body text-center">
-                            <p class="card-text">
-                                예매 페이지 내 세부정보(스크립트 등)
-                            </p>
+        </div>
+    </section>
+    {% comment %} -----------세부 내역------------ {% endcomment %}
+    <div class='show_info_detail'>
+        <div class='container mt-4'>
+            <div class="section-heading ml-6">
+                <h4 class='section-heading text-left mb-3 ml-5'>공연 정보</h4>
+            </div>
+        </div>
+        <div class="justify-content-center row align-items-center my-5">
+            <div class="col-md-4 mb-5">
+                <div class="card">
+                    <div class="card-body text-center y250">
+                        <p class="card-text">
+                            {{show.show_detail|linebreaksbr}}
+                        </p>
+                    </div>
+                    <div class="card-footer text-center">
+                        <div class='seemore'>
+                            <a href="javascript:void(0)" onclick='seeMore()' class="btn btn-light btn-sm">자세히 보기</a>
                         </div>
-                        <div class="card-footer text-center">
-                            <a href="#" class="btn btn-light btn-sm ">자세히 보기</a>
+                        <div class='seeless none'>
+                            <a href="javascript:void(0)" onclick='seeLess()' class="btn btn-light btn-sm">간략히 보기</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-{% comment %} 리뷰(제작중) {% endcomment %}
-        <div class='show_review'>
-            <div class = 'container mt-4'>
-                <div  class="section-heading ml-6">
-                    <h4 class='section-heading text-left mb-3 ml-5'>
-                    리뷰
-                    <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
-                    내 리뷰 등록하기
-                        </button>
-                    </h4>
+    </div>
+    {% comment %} 리뷰(제작중) {% endcomment %}
+    <div class='show_review'>
+        <div class='container mt-4'>
+            <div class="section-heading ml-6">
+                <h4 class='section-heading text-left mb-3 ml-5'>
+                    리뷰 {{revnum}} 개
+                </h4>
+                <div>
+                    날짜 선택하기 <br>
+                    {% for date in showdatelist %}
+                    <input type='radio' name='date' value="{{date}}">{{date}}</input>
+                    {% endfor %}
                 </div>
                 <div>
-                    {% for review in reviews %}
-                        <div class="revbox panel">
-                            <div class='rev_upper'>
-                                {{review.review_grade}}
-                            </div>
-                            <div class='rev_middle text-center'>
-                                {{review.review_content}}
-                            </div>
-                            <div class='rev_bottom'>
-                            </div>
-                        </div>
-                        <hr>
-                    {% endfor %}
+                    별점 선택하기 <br>
+                </div>
+                <div class='revinput'>
+                    <input class='comment_content' type="text" placeholder="리뷰를 작성해보세요">
+                    <button type='submit' onclick="onClickCom({{show.id}})"
+                        class='btn btn-outline-dark btn-sm ml-5 mb-1'>
+                        {%csrf_token%}
+                        내 리뷰 등록하기
+                    </button>
                 </div>
             </div>
+            <div class='reviewbox'>
+                {% for review in reviews %}
+                <div class="revbox panel">
+                    <div class='rev_upper'>
+                        평점 : {{review.review_grade}}
+                    </div>
+                    <div>
+                        관람일자 : {{review.review_watched_at}}
+                    </div>
+                    <div>
+                        작성자 : {{review.review_author}}
+                    </div>
+                    <div class='rev_middle text-center'>
+                        {{review.review_content}}
+                    </div>
+                    {% if review.review_author == username %}
+                        <div class='delbox'>
+                            <button type='submit' onclick='onClickDel({{show.id}}, {{review.id}})' class='btn btn-outline-dark btn-sm ml-5 mb-1'>
+                            {% csrf_token %}리뷰 삭제하기</button>
+                        </div>
+                    {% endif %}
+                    <div class='rev_bottom'>
+                    </div>
+                </div>
+                <hr>
+                {% endfor %}
+            </div>
         </div>
+    </div>
+
+    <script>
+        const seeMore=()=>{
+            const showdetailbox = document.querySelector('.show_info_detail .card div');
+            showdetailbox.classList.remove('y250');
+            
+            const showdetailtextbox = showdetailbox.nextElementSibling;
+            const detailtext1 = showdetailtextbox.querySelector('.seemore');
+            detailtext1.classList.add('none')
+            const detailtext2 = showdetailtextbox.querySelector('.seeless');
+            detailtext2.classList.remove('none')
+        }
+        const seeLess=()=>{
+            const showdetailbox = document.querySelector('.show_info_detail .card div');
+            showdetailbox.classList.add('y250')
+
+            const showdetailtextbox = showdetailbox.nextElementSibling;
+            const detailtext1 = showdetailtextbox.querySelector('.seemore');
+            detailtext1.classList.remove('none')
+            const detailtext2 = showdetailtextbox.querySelector('.seeless');
+            detailtext2.classList.add('none')
+        }
+
+        const comrequest = new XMLHttpRequest();
+        const delrequest = new XMLHttpRequest();
+
+        const onClickCom = (id) => {
+            const url = '/contents/review/';
+            const input = document.querySelector(`.show_review .revinput input`)
+            const content = input.value;
+            const radiodate = document.getElementsByName('date');
+            let seldate = null;
+            for(var i=0;i<radiodate.length;i++){
+                if(radiodate[i].checked==true){
+                    seldate = radiodate[i].value;
+                    radiodate[i].checked = false;
+                }
+            }
+            if(seldate == null){
+                alert('관람날짜를 선택하세요')
+            }else{
+            comrequest.open('POST', url, true);
+            comrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            comrequest.send(JSON.stringify({ id, content, seldate }));
+            input.value='';
+            }
+        }
+
+        const handleResponseCom = () => {
+            if (comrequest.status <= 400) {
+                const { id, comment, writer, date, grade, yyyy, mm, dd } = JSON.parse(comrequest.response);
+                const element = document.querySelector(`.show_review .reviewbox`);
+                const comnum = document.querySelector(`.show_review h4`);
+
+                const origin = comnum.innerText;
+                const [typeStr, num, 개] = origin.split(" ");
+                
+                const count = Number(num) + 1;
+                
+                comnum.innerText = `${typeStr} ${count} 개`;
+
+                const create_com = document.createElement("div");
+                create_com.innerText = `${yyyy}년 ${mm}월 ${dd}일 - ${comment} - ${writer}`;
+                element.insertBefore(create_com, element.firstChild);
+            }
+        };
+
+        comrequest.onreadystatechange = () => {
+            if (comrequest.readyState === XMLHttpRequest.DONE) {
+                handleResponseCom();
+            }
+        };
+
+    </script>
 
 
 
-
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-{% endblock %}
+    {% endblock %}
+</div>

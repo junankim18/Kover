@@ -8,20 +8,22 @@
         <a href="">calender</a>
     </div>
 </div>
-<div class="container mt-2">
-    <div class="section-heading ml-6">
-        <h4 class="section-heading text-left mb-3 ml-5">공연 정보</h4>
+<div class="container-fluid mt-2 mb-3">
+    <div class="section-heading">
+        <h4 class="section-heading text-center mb-3">공연 정보</h4>
     </div>
     <div class="justify-content-center row align-items-center my-5">
         {% for show in shows%}
-        <div class="showdetailbox card text-center">
-            <img class="card-img-top" src="{{show.show_poster.url}}" alt="" width="150px" />
-            <p><small> {{show.show_name}}</small></p>
-            <p><small> {{show.show_hall}}</small></p>
-            <p><small> 런타임 : {{show.show_runtime}}</small></p>
-        </div>
+        <a href="{%url 'kover:show_detail' show.id%}">
+            <div class="showdetailbox card text-center">
+                <img class="card-img-top" src="{{show.show_poster.url}}" alt="" width="150px" />
+                <p><small> {{show.show_name}}</small></p>
+                <p><small> {{show.show_hall}}</small></p>
+                <p><small> 런타임 : {{show.show_runtime}}</small></p>
+            </div>
+        </a>
         {% endfor %} {% for i in "x"|rjust:"1" %}
-        <div class="showdetailbox card text-center h-100 w-30">
+        <div class="showdetailbox card text-center h-100 w-30 ml-3 my-5">
             <div class="">
                 <a href="{% url 'kover:create_watched_show'%}"><i class="fas fa-plus"></i></a>
                 <p>관람 작품 추가하기</p>
@@ -31,15 +33,15 @@
     </div>
 </div>
 <div class="container">
-    <div class="ml-4 col-5">
+    <div class=" justify-content-center row align-items-center">
         <div class="section-heading ml-6">
-            <h4 class="section-heading text-left mb-3 ml-5">공연장</h4>
+            <h4 class="section-heading text-left my-3">공연장</h4>
         </div>
-        <div class="container justify-content-center row align-items-center my-5">
+        <div class="container justify-content-center row align-items-center my-3">
             <div class="hallbox card text-center w-100 h-200">
                 <p>방문한 총 공연장 수 : {{overlapnum}}</p>
-                {% for show in wantlist %}
-                <div>{{show.show_hall}}</div>
+                {% for hall in wantlist %}
+                <div>{{hall}}</div>
                 {% endfor %}
             </div>
             <div class="border hallbox card text-center w-100 h-200">
@@ -49,9 +51,9 @@
         </div>
     </div>
     <div class="container">
-        <div class="ml-4 col-5">
+        <div class="justify-content-center row align-items-center my-5">
             <div class="section-heading ml-6">
-                <h4 class="section-heading text-left mb-3 ml-5">관심배우</h4>
+                <h4 class="section-heading text-left my-3">관심배우</h4>
             </div>
             <div class="actorbox">
                 <div class="actoriconl">
@@ -72,14 +74,14 @@
         </div>
     </div>
 </div>
-<div class="container container">
-    <div class="">
-        <div class="section-heading ml-6">
-            <h4 class="section-heading text-left mb-3 ml-5">나의 리뷰</h4>
+<div class="container">
+    <div class="justify-content-center row align-items-center">
+        <div class="section-heading">
+            <h4 class="section-heading text-left mt-3">나의 리뷰</h4>
         </div>
-        <div class="container justify-content-center row align-items-center my-5">
+        <div class="container justify-content-center row align-items-center my-1">
             {% for review in reviews %}
-            <div class="revbox card text-center w-50 h-100 mb-2">
+            <div class="revbox card text-center w-50 h-100 ml-2 mb-2">
                 <p>{{review.review_show}}</p>
                 <p>{{review.review_grade}} / 10</p>
                 <p>{{review.review_content}}</p>
@@ -87,15 +89,17 @@
             {% endfor %}
         </div>
     </div>
-    <div class="container">
-        <div class="section-heading ml-6">
-            <h4 class="section-heading text-left mb-3 ml-5">Favorites</h4>
+    <div class="container-fluid">
+        <div class="section-heading ml-6 mt-2">
+            <h4 class="section-heading text-center mb-4">Favorites</h4>
         </div>
-        <div class="container justify-content-center row align-items-center my-5">
+        <div class="justify-content-center row align-items-center">
             {% for favorite in favorites %}
-            <div class="card text-center w-100 h-100 col-3 col-md-auto col-lg-3 col-xl-3">
-                <img src="{{favorite.show_poster.url}}" alt="" width="150px" />
-                <p>{{favorite.show_name}}</p>
+            <div class='showdetailbox card text-center h-20 w-20 ml-3 my-5'>
+                <div class="">
+                    <img src="{{favorite.show_poster.url}}" class='card-img-top img-fluid' alt="" />
+                    <p>{{favorite.show_name}}</p>
+                </div>
             </div>
             {% endfor %}
         </div>
