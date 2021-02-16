@@ -74,76 +74,53 @@
 /*
 별점주기 css
 */
-.star-rating {
-    font-size: 0;
-    white-space: nowrap;
-    display: inline-block;
-    width: 500px;
-    height: 50px;
-    overflow: hidden;
-    position: relative;
-    background: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=");
-    background-size: contain;
+.rating {
+    border: none;
+    width: 180px;
 }
-.star-rating i {
-    opacity: 0;
+.rating > input {
+    display: none;
+}
+.rating > label:before {
+    content: "\f005";
+    font-family: "Font Awesome 5 Free";
+    margin: 3px;
+    font-size: 1.5rem;
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 600;
+}
+.rating > .half:before {
+    content: "\f089";
     position: absolute;
-    left: 0;
-    top: 0;
-    height: 100%;
-    width: 10%;
-    z-index: 1;
-    background: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=");
-    background-size: contain;
+    cursor: pointer;
+    font-weight: 600;
 }
-.star-rating input {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    opacity: 0;
-    display: inline-block;
-    width: 10%;
-    height: 100%;
-    margin: 0;
-    padding: 0;
-    z-index: 2;
-    position: relative;
+.rating > label {
+    color: #ddd;
+    float: right;
+    cursor: pointer;
 }
-.star-rating input:hover + i,
-.star-rating input:checked + i {
-    opacity: 1;
+.rating > input:checked ~ label,
+.rating:not(:checked) > label:hover,
+.rating:not(:checked) > label:hover ~ label {
+    color: #a593e0;
 }
-.star-rating i ~ i {
-    width: 20%;
+.rating > input:checked + label:hover,
+.rating > input:checked ~ label:hover,
+.rating > input:hover ~ input:checked ~ label,
+.rating > input:checked ~ input:hover ~ label {
+    color: #a593e0;
 }
-.star-rating i ~ i ~ i {
-    width: 30%;
+.showdetailbox .card-img-top {
+    width: 200px;
+    height: 245px;
+    object-position: center;
+    object-fit: cover;
 }
-.star-rating i ~ i ~ i ~ i {
-    width: 40%;
+.show_list_main img {
+    width: 230px;
+    height: 282px;
+    object-position: center;
+    object-fit: cover;
 }
-.star-rating i ~ i ~ i ~ i ~ i {
-    width: 50%;
-}
-.star-rating i ~ i ~ i ~ i ~ i ~ i {
-    width: 60%;
-}
-.star-rating i ~ i ~ i ~ i ~ i ~ i ~ i {
-    width: 70%;
-}
-.star-rating i ~ i ~ i ~ i ~ i ~ i ~ i ~ i {
-    width: 80%;
-}
-.star-rating i ~ i ~ i ~ i ~ i ~ i ~ i ~ i ~ i {
-    width: 90%;
-}
-.star-rating i ~ i ~ i ~ i ~ i ~ i ~ i ~ i ~ i ~ i {
-    width: 100%;
-}
-::after,
-::before {
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    text-align: center;
-    vertical-align: mi

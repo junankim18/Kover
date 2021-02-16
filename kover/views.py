@@ -15,7 +15,7 @@ from dateutil.parser import *
 
 @login_required
 def profile_block(request):
-    users = Profile.objects.get(id=request.user.pk)
+    users = Profile.objects.get(user=request.user)
     pk = users.pk
     shows = users.watched_show.all()
     actors = users.like_actor.all().order_by('people_name')
@@ -202,9 +202,10 @@ def show_detail(request, pk):
         for rev in username[0].review_author.all():
             if show.id == rev.review_show.id:
                 mygrade = rev.review_grade
+        username = username[0]
     revnum = len(reviews)
     ctx = {
-        'username': username[0],
+        'username': username,
         'pk': pk,
         'show': show,
         'peoples': peoples,
@@ -318,4 +319,33 @@ def create_review(comrequest):
                              'yyyy': yyyy,
                              'mm': mm,
                              'dd': dd,
+                             })
+
+
+@method_decorator(csrf_exempt)
+def star_rate(starrequest):
+    if starrequest.method == 'GET':
+        return render(starrequest, 'kover/show_detail.html')
+    elif starrequest.method == 'POST':
+        request = json.loads(starrequest.body)
+        show_id = request['show_id']
+        star_rate = request['value']
+        user_id = starrequest.user.id
+        user = Profile.objects.get(id=user_id)
+        show = Show.objects.get(id=show_id)
+
+        review = Review(
+            review_author=user,
+            review_show=show,
+            review_grade=star_rate,
+            review_watched_at='2999-12-31',
+            review_content='.'
+        )
+        review.save()
+        user.watched_show.add(show)
+
+        print(review.review_watched_at)
+        return JsonResponse({'show_id': show_id,
+                             'writer': user.nickname,
+                             'star_rate': review.review_grade,
                              })
