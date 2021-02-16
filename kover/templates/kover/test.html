@@ -5,90 +5,104 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Document</title>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.2/css/all.css" integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu" crossorigin="anonymous">
         <style>
-            .star-rating {
-                font-size: 0;
-                white-space: nowrap;
-                display: inline-block;
-                width: 500px;
-                height: 50px;
-                overflow: hidden;
-                position: relative;
-                background: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjREREREREIiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=");
-                background-size: contain;
-            }
-            .star-rating i {
-                opacity: 0;
-                position: absolute;
-                left: 0;
-                top: 0;
-                height: 100%;
-                width: 10%;
-                z-index: 1;
-                background: url("data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIGVuYWJsZS1iYWNrZ3JvdW5kPSJuZXcgMCAwIDIwIDIwIiB4bWw6c3BhY2U9InByZXNlcnZlIj48cG9seWdvbiBmaWxsPSIjRkZERjg4IiBwb2ludHM9IjEwLDAgMTMuMDksNi41ODMgMjAsNy42MzkgMTUsMTIuNzY0IDE2LjE4LDIwIDEwLDE2LjU4MyAzLjgyLDIwIDUsMTIuNzY0IDAsNy42MzkgNi45MSw2LjU4MyAiLz48L3N2Zz4=");
-                background-size: contain;
-            }
-            .star-rating input {
-                -moz-appearance: none;
-                -webkit-appearance: none;
-                opacity: 0;
-                display: inline-block;
-                width: 10%;
-                height: 100%;
+            *{
                 margin: 0;
                 padding: 0;
-                z-index: 2;
-                position: relative;
-            }
-            .star-rating input:hover + i,
-            .star-rating input:checked + i {
-                opacity: 1;
-            }
-            .star-rating i ~ i {
-                width: 20%;
-            }
-            .star-rating i ~ i ~ i {
-                width: 30%;
-            }
-            .star-rating i ~ i ~ i ~ i {
-                width: 40%;
-            }
-            .star-rating i ~ i ~ i ~ i ~ i {
-                width: 50%;
-            }
-            .star-rating i ~ i ~ i ~ i ~ i ~ i {
-                width: 60%;
-            }
-            .star-rating i ~ i ~ i ~ i ~ i ~ i ~ i {
-                width: 70%;
-            }
-            .star-rating i ~ i ~ i ~ i ~ i ~ i ~ i ~ i {
-                width: 80%;
-            }
-            .star-rating i ~ i ~ i ~ i ~ i ~ i ~ i ~ i ~ i {
-                width: 90%;
-            }
-            .star-rating i ~ i ~ i ~ i ~ i ~ i ~ i ~ i ~ i ~ i {
-                width: 100%;
-            }
-            ::after,
-            ::before {
-                height: 100%;
-                padding: 0;
-                margin: 0;
                 box-sizing: border-box;
-                text-align: center;
-                vertical-align: middle;
             }
+            html, body {
+                width: 100%;
+                height: 100%;
+            }
+            .container {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                height: 100%;
+            }
+            .rating-wrap{
+                max-width: 480px;
+                margin: auto;                
+                padding: 15px;
+                box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
+                text-align: center;
+            }
+            
+            .center{
+                width: 190px;
+                margin: auto;
+            }
+            #rating-value{
+
+            }
+            .rating{
+                border: none;
+                float: left;
+            }
+            .rating>input {
+                display: none;
+            }
+            .rating> label:before{
+                content: '\f005';
+                font-family: 'Font Awesome 5 Free';
+                margin: 5px;
+                font-size: 1.5rem;
+                display: inline-block;
+                cursor: pointer;
+                font-weight: 600;
+
+            }
+            .rating>.half:before{
+                content: '\f089';
+                position: absolute;
+                cursor: pointer;
+                font-weight: 600;
+            }
+            .rating >label{
+                color: #ddd;
+                float: right;
+                cursor: pointer;
+            }
+            .rating>input:checked ~ label,
+            .rating:not(:checked) > label:hover,
+            .rating:not(:checked) > label:hover ~ label {
+                color: #2ce679;
+            }
+            .rating>input:checked + label:hover,
+            .rating>input:checked ~ label:hover,
+            .rating>input:hover ~ input:checked ~ label,
+            .rating>input:checked ~ input:hover ~ label{
+                color: #2ddc44;
+            }
+
         </style>
+
+
     </head>
     <body>
-        <span class="star-rating">
-            <input type="radio" name="rating" value="1" /><i></i> <input type="radio" name="rating" value="2" /><i></i>
-            <input type="radio" name="rating" value="3" /><i></i> <input type="radio" name="rating" value="4" /><i></i>
-            <input type="radio" name="rating" value="5" /><i></i> <input type="radio" name="rating" value="6" /><i></i>
-            <input type="radio" name="rating" value="7" /><i></i> <input type="radio" name="rating" value="8" /><i></i>
-            <input type="radio" name="rating" value="9" /><i></i> <input type="radio" name="rating" value="10" /><i></i>
-        </span>
+        <div class="container">
+            <div class="rating-wrap">
+                <h2>star ratings</h2>
+                <div class="center">
+                    <div class="rating">
+                        <input type="radio" id='start5' name='rating' value='5'><label for="start5" class="full"></label>
+                        <input type="radio" id='start4.5' name='rating' value='4.5'><label for="start4.5" class="half"></label>
+                        <input type="radio" id='start4' name='rating' value='4'><label for="start4" class="full"></label>
+                        <input type="radio" id='start3.5' name='rating' value='3.5'><label for="start3.5" class="half"></label>
+                        <input type="radio" id='start3' name='rating' value='3'><label for="start3" class="full"></label>
+                        <input type="radio" id='start2.5' name='rating' value='2.5'><label for="start2.5" class="half"></label>
+                        <input type="radio" id='start2' name='rating' value='2'><label for="start2" class="full"></label>
+                        <input type="radio" id='start1.5' name='rating' value='1.5'><label for="start1.5" class="half"></label>
+                        <input type="radio" id='start1' name='rating' value='1'><label for="start1" class="full"></label>
+                        <input type="radio" id='start0.5' name='rating' value='0.5'><label for="start0.5" class="half"></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+
+        </script>
     </body>
 </html>
