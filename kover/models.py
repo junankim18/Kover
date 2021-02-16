@@ -91,11 +91,11 @@ class Profile(models.Model):
     profileimg = models.ImageField(
         upload_to='profile_image/%Y/%m/%d', verbose_name='프로필 이미지', blank=True)
     watched_show = models.ManyToManyField(
-        Show, related_name='watched_show', verbose_name='관람 공연')
+        Show, related_name='watched_show', verbose_name='관람 공연', blank=True)
     like_actor = models.ManyToManyField(
-        People, related_name='like_people', verbose_name='관심 배우')
+        People, related_name='like_people', verbose_name='관심 배우', blank=True)
     interested_show = models.ManyToManyField(
-        Show, related_name='interested_show', verbose_name='관심 공연')
+        Show, related_name='interested_show', verbose_name='관심 공연', blank=True)
     bio = models.TextField(verbose_name='자기 소개', blank=True)
     biolink = models.URLField(verbose_name='자기 사이트', blank=True)
 
