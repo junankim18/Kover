@@ -23,33 +23,44 @@
                     <b>공연일</b> {{show.show_date_start}} ~ {{show.show_date_end}}
                 </li>
                 <li>
-                    <b>공연시간</b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 인터미션 {{show.show_intermission}} 분
+                    <b>공연시간</b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 인터미션
+                    {{show.show_intermission}} 분
                 </li>
                 <li>
                     <b>연출</b> {{show.show_director}}
                 </li>
-                <li>
-                    <b>날짜</b> {% for date in showdatelist %}
-                    {{date}}
-                    {% endfor %}
-                </li>
                 {% if user.is_authenticated %}
-                    {% if show in username.watched_show.all %}
-                    <li>
-                        <b>내 별점</b> {{mygrade}}
-                    </li>
-                    {% else %}
-                    <li>
+                {% if show in username.watched_show.all %}
+                <li>
+                    <b>내 별점</b> {{mygrade}}
+                </li>
+                {% else %}
+                <li>
                     <b>내 별점</b>
-                        <span class="star-rating">
-                            <input type="radio" name="rating" value="1" /><i></i> <input type="radio" name="rating" value="2" /><i></i>
-                            <input type="radio" name="rating" value="3" /><i></i> <input type="radio" name="rating" value="4" /><i></i>
-                            <input type="radio" name="rating" value="5" /><i></i> <input type="radio" name="rating" value="6" /><i></i>
-                            <input type="radio" name="rating" value="7" /><i></i> <input type="radio" name="rating" value="8" /><i></i>
-                            <input type="radio" name="rating" value="9" /><i></i> <input type="radio" name="rating" value="10" /><i></i>
-                        </span>
-                    </li>
-                    {% endif %}
+                    <div class="rating">
+                        <input type="radio" id="start5" name="rating" value="5" onclick='onClickStar(value)'/><label for="start5"
+                            class="full"></label>
+                        <input type="radio" id="start4.5" name="rating" value="4.5" onclick='onClickStar(value)'/><label for="start4.5"
+                            class="half"></label>
+                        <input type="radio" id="start4" name="rating" value="4" onclick='onClickStar(value)'/><label for="start4"
+                            class="full"></label>
+                        <input type="radio" id="start3.5" name="rating" value="3.5" onclick='onClickStar(value)'/><label for="start3.5"
+                            class="half"></label>
+                        <input type="radio" id="start3" name="rating" value="3" onclick='onClickStar(value)'/><label for="start3"
+                            class="full"></label>
+                        <input type="radio" id="start2.5" name="rating" value="2.5" onclick='onClickStar(value)'/><label for="start2.5"
+                            class="half"></label>
+                        <input type="radio" id="start2" name="rating" value="2" onclick='onClickStar(value)'/><label for="start2"
+                            class="full"></label>
+                        <input type="radio" id="start1.5" name="rating" value="1.5" onclick='onClickStar(value)'/><label for="start1.5"
+                            class="half"></label>
+                        <input type="radio" id="start1" name="rating" value="1" onclick='onClickStar(value)'/><label for="start1"
+                            class="full"></label>
+                        <input type="radio" id="start0.5" name="rating" value="0.5" onclick='onClickStar(value)'/><label for="start0.5"
+                            class="half"></label>
+                    </div>
+                </li>
+                {% endif %}
                 {% endif %}
             </ul>
         </div>
@@ -138,14 +149,32 @@
                 </div>
                 <div>
                     별점 선택하기 <br>
-                        <span class="star-rating">
-                            <input type="radio" name="rating" value="1" /><i></i> <input type="radio" name="rating" value="2" /><i></i>
-                            <input type="radio" name="rating" value="3" /><i></i> <input type="radio" name="rating" value="4" /><i></i>
-                            <input type="radio" name="rating" value="5" /><i></i> <input type="radio" name="rating" value="6" /><i></i>
-                            <input type="radio" name="rating" value="7" /><i></i> <input type="radio" name="rating" value="8" /><i></i>
-                            <input type="radio" name="rating" value="9" /><i></i> <input type="radio" name="rating" value="10" /><i></i>
-                        </span>
-
+                    <div class="rating-wrap">
+                        <div class="center">
+                            <div class="rating">
+                                <input type="radio" id="start5" name="rating" value="5" /><label for="start5"
+                                    class="full"></label>
+                                <input type="radio" id="start4.5" name="rating" value="4.5" /><label for="start4.5"
+                                    class="half"></label>
+                                <input type="radio" id="start4" name="rating" value="4" /><label for="start4"
+                                    class="full"></label>
+                                <input type="radio" id="start3.5" name="rating" value="3.5" /><label for="start3.5"
+                                    class="half"></label>
+                                <input type="radio" id="start3" name="rating" value="3" /><label for="start3"
+                                    class="full"></label>
+                                <input type="radio" id="start2.5" name="rating" value="2.5" /><label for="start2.5"
+                                    class="half"></label>
+                                <input type="radio" id="start2" name="rating" value="2" /><label for="start2"
+                                    class="full"></label>
+                                <input type="radio" id="start1.5" name="rating" value="1.5" /><label for="start1.5"
+                                    class="half"></label>
+                                <input type="radio" id="start1" name="rating" value="1" /><label for="start1"
+                                    class="full"></label>
+                                <input type="radio" id="start0.5" name="rating" value="0.5" /><label for="start0.5"
+                                    class="half"></label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class='revinput'>
                     <input class='comment_content' type="text" placeholder="리뷰를 작성해보세요">
@@ -172,10 +201,11 @@
                         {{review.review_content}}
                     </div>
                     {% if review.review_author == username %}
-                        <div class='delbox'>
-                            <button type='submit' onclick='onClickDel({{show.id}}, {{review.id}})' class='btn btn-outline-dark btn-sm ml-5 mb-1'>
+                    <div class='delbox'>
+                        <button type='submit' onclick='onClickDel({{show.id}}, {{review.id}})'
+                            class='btn btn-outline-dark btn-sm ml-5 mb-1'>
                             {% csrf_token %}리뷰 삭제하기</button>
-                        </div>
+                    </div>
                     {% endif %}
                     <div class='rev_bottom'>
                     </div>
@@ -187,17 +217,17 @@
     </div>
 
     <script>
-        const seeMore=()=>{
+        const seeMore = () => {
             const showdetailbox = document.querySelector('.show_info_detail .card div');
             showdetailbox.classList.remove('y250');
-            
+
             const showdetailtextbox = showdetailbox.nextElementSibling;
             const detailtext1 = showdetailtextbox.querySelector('.seemore');
             detailtext1.classList.add('none')
             const detailtext2 = showdetailtextbox.querySelector('.seeless');
             detailtext2.classList.remove('none')
         }
-        const seeLess=()=>{
+        const seeLess = () => {
             const showdetailbox = document.querySelector('.show_info_detail .card div');
             showdetailbox.classList.add('y250')
 
@@ -206,6 +236,10 @@
             detailtext1.classList.remove('none')
             const detailtext2 = showdetailtextbox.querySelector('.seeless');
             detailtext2.classList.add('none')
+        }
+
+        const onClickStar=(value)=>{
+            alert(value)
         }
 
         const comrequest = new XMLHttpRequest();
@@ -217,19 +251,19 @@
             const content = input.value;
             const radiodate = document.getElementsByName('date');
             let seldate = null;
-            for(var i=0;i<radiodate.length;i++){
-                if(radiodate[i].checked==true){
+            for (var i = 0; i < radiodate.length; i++) {
+                if (radiodate[i].checked == true) {
                     seldate = radiodate[i].value;
                     radiodate[i].checked = false;
                 }
             }
-            if(seldate == null){
+            if (seldate == null) {
                 alert('관람날짜를 선택하세요')
-            }else{
-            comrequest.open('POST', url, true);
-            comrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            comrequest.send(JSON.stringify({ id, content, seldate }));
-            input.value='';
+            } else {
+                comrequest.open('POST', url, true);
+                comrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                comrequest.send(JSON.stringify({ id, content, seldate }));
+                input.value = '';
             }
         }
 
@@ -241,9 +275,9 @@
 
                 const origin = comnum.innerText;
                 const [typeStr, num, 개] = origin.split(" ");
-                
+
                 const count = Number(num) + 1;
-                
+
                 comnum.innerText = `${typeStr} ${count} 개`;
 
                 const create_com = document.createElement("div");

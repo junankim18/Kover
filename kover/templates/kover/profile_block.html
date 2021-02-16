@@ -16,7 +16,7 @@
         {% for show in shows%}
         <a href="{%url 'kover:show_detail' show.id%}">
             <div class="showdetailbox card text-center">
-                <img class="card-img-top" src="{{show.show_poster.url}}" alt="" width="150px" />
+                <img class="card-img-top" src="{{show.show_poster.url}}" alt="" />
                 <p><small> {{show.show_name}}</small></p>
                 <p><small> {{show.show_hall}}</small></p>
                 <p><small> 런타임 : {{show.show_runtime}}</small></p>
@@ -33,7 +33,7 @@
     </div>
 </div>
 <div class="container">
-    <div class=" justify-content-center row align-items-center">
+    <div class="justify-content-center row align-items-center">
         <div class="section-heading ml-6">
             <h4 class="section-heading text-left my-3">공연장</h4>
         </div>
@@ -95,9 +95,9 @@
         </div>
         <div class="justify-content-center row align-items-center">
             {% for favorite in favorites %}
-            <div class='showdetailbox card text-center h-20 w-20 ml-3 my-5'>
+            <div class="showdetailbox card text-center h-20 w-20 ml-3 my-5">
                 <div class="">
-                    <img src="{{favorite.show_poster.url}}" class='card-img-top img-fluid' alt="" />
+                    <img src="{{favorite.show_poster.url}}" class="card-img-top img-fluid" alt="" />
                     <p>{{favorite.show_name}}</p>
                 </div>
             </div>
