@@ -145,8 +145,10 @@ def feed_main(request):
     return render(request, 'kover/feed_main.html', ctx)
 
 
+#def feed_page(request, pk):
 def feed_page(request):
-    feeds = Feed_post.objects.all()
+    feeds= Feed_post.objects.all()
+    #feeds = Feed_post.objects.get(id=pk)
     comlist = []
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
@@ -168,9 +170,9 @@ def feed_musical_inf(request):
     else:
         actors = []
 
-    # feeds = Feed_post.objects.all()
+    # feeds = Feed_post.objects.filter()
 
-    feeds = Feed_post.objects.all().order_by(
+    feeds = Feed_post.objects.filter(feed_type='musical_inf').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
 
     comlist = []
