@@ -1,0 +1,48 @@
+{% extends "layout.html" %} 
+{% block extra_head %} {{block.super}} 
+{% endblock %}
+
+{% block content %}
+<title>Kover | 뮤지컬 정보 게시판</title>
+
+
+
+{% if feed.feed_type == "musical_inf" %}
+
+
+    <div class="row" style="margin-top: 30px">
+        <div class="feed_main col-lg-6">
+            <span style="font-size: 25px"><b>뮤지컬 정보 게시판</b></span>
+
+            <ul class="list-group " style="max-width: 35rem;">
+                {% for feed in feeds %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    {{feed.feed_title}}
+                    <span class="badge badge-danger badge-pill">
+                        <i class="fas fa-heart"></i> {{feed.feed_like}}
+                    </span>
+                    {% for com in comlist %}
+                        <div class='comment_number'>
+                            댓글수 {{com}}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+
+
+
+
+                </li>
+            </ul>
+        </div>
+
+        
+
+    </div>
+
+
+{% endif %}
+
+
+
+{% endblock %}
