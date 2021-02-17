@@ -413,3 +413,32 @@ def star_rate(starrequest):
                              'writer': user.nickname,
                              'star_rate': review.review_grade,
                              })
+
+
+def feed_main(request):
+    feeds = Feed_post.objects.all()
+
+    feed_1 = Feed_post.objects.filter(feed_type='play_lib').order_by(
+        '-feed_created_at')[:5]  # 연극-자유
+    feed_2 = Feed_post.objects.filter(feed_type='play_inf').order_by(
+        '-feed_created_at')[:5]  # 연극-정보
+    feed_3 = Feed_post.objects.filter(feed_type='musical_lib').order_by(
+        '-feed_created_at')[:5]  # 뮤지컬-자유
+    feed_4 = Feed_post.objects.filter(feed_type='musical_inf').order_by(
+        '-feed_created_at')[:5]  # 뮤지컬-정보
+    feed_5 = Feed_post.objects.filter(feed_type='question').order_by(
+        '-feed_created_at')[:5]  # 질문
+
+    comlist = []
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
+    ctx = {
+        'feeds': feeds,
+        'feed_1': feed_1,
+        'feed_2': feed_2,
+        'feed_3': feed_3,
+        'feed_4': feed_4,
+        'feed_5': feed_5,
+        'comlist': comlist
+    }
+    return render(request, 'kover/feed_main.html', ctx)
