@@ -12,6 +12,10 @@ from django.db.models.query import Q
 from datetime import date, timedelta, datetime
 from dateutil.parser import *
 
+''' 
+profile_block : 기본 프로필페이지 
+'''
+
 
 @login_required
 def profile_block(request):
@@ -70,11 +74,12 @@ def profile_block(request):
     return render(request, 'kover/profile_block.html', ctx)
 
 
+''' 
+main : 메인 페이지 
+'''
+
+
 def main(request):
-    # try:
-    #     username = Profile.objects.get(pk=request.user.pk)
-    # except Profile.DoesNotExist:
-    #     username = None
     username = Profile.objects.filter(id=request.user.id)
     if username:
         actors = username[0].like_actor.all().order_by('people_name')
@@ -113,6 +118,11 @@ def main(request):
     return render(request, 'kover/main.html', ctx)
 
 
+''' 
+profile_geo : 지도 프로필 페이지
+'''
+
+
 @login_required
 def profile_geo(request):
     shows = Show.objects.all()
@@ -120,6 +130,11 @@ def profile_geo(request):
         'shows': shows
     }
     return render(request, 'kover/profile_geo.html', ctx)
+
+
+''' 
+feed_page : 기본 커뮤니티페이지 
+'''
 
 
 def feed_page(request):
@@ -134,11 +149,22 @@ def feed_page(request):
     return render(request, 'kover/feed_layout.html', ctx)
 
 
+''' 
+show_detail : contents 상세보기 페이지 
+'''
+
+
 def show_detail(request, pk):
     username = Profile.objects.filter(id=request.user.id)
     show = Show.objects.get(id=pk)
     peoples = People.objects.all()
     reviews = show.review_show.all().order_by('-id')
+    star_rate_reviews = []
+    for review in reviews:
+        if review.review_content == '.':
+            star_rate_reviews.append(review)
+    revnum = len(reviews)-len(star_rate_reviews)
+
     show_times = show.show_times.all()
     showdatelist = []
     delta = (show.show_date_end - show.show_date_start).days
@@ -151,7 +177,6 @@ def show_detail(request, pk):
             if show.id == rev.review_show.id:
                 mygrade = rev.review_grade
         username = username[0]
-    revnum = len(reviews)
     ctx = {
         'username': username,
         'pk': pk,
@@ -164,6 +189,11 @@ def show_detail(request, pk):
         'showdatelist': showdatelist,
     }
     return render(request, 'kover/show_detail.html', ctx)
+
+
+''' 
+press_like : feed 페이지에서 좋아요를 눌렀을 때 
+'''
 
 
 @ method_decorator(csrf_exempt)
@@ -179,6 +209,11 @@ def press_like(request):
         feed.feed_like += 1
         feed.save()
         return JsonResponse({'id': feed_id})
+
+
+''' 
+press_com : feed 페이지에서 게시를 눌렀을 때 
+'''
 
 
 @ method_decorator(csrf_exempt)
@@ -200,6 +235,11 @@ def press_com(comrequest):
                                    comment_content=content, comment_post=feed)
             comment.save()
         return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname})
+
+
+''' 
+create_watched_show : 네비게이션 바에서  '리뷰등록'을 눌렀을 때, 아직 평가하지 않은 작품들의 리스트가 나온다
+'''
 
 
 @ login_required
@@ -225,6 +265,11 @@ def create_watched_show(request):
     return render(request, 'kover/watched_show.html', ctx)
 
 
+''' 
+create_review : contents detail 페이지에서 '내 리뷰 등록하기'를 눌렀을 때 
+'''
+
+
 @ method_decorator(csrf_exempt)
 def create_review(comrequest):
     if comrequest.method == 'GET':
@@ -233,6 +278,7 @@ def create_review(comrequest):
         request = json.loads(comrequest.body)
         show_id = request['id']
         content = request['content']
+        star = request['star']
         seldate = request['seldate']
         yyyy = seldate[:4]
         mm = seldate[5:9]
@@ -253,11 +299,15 @@ def create_review(comrequest):
         user = Profile.objects.get(id=user_id)
         nickname = user.nickname
         if content:
-            review = Review(review_author=user,
-                            review_show=show,
-                            review_grade=5,
-                            review_watched_at=date,
-                            review_content=content)
+            myreviews = Review.objects.filter(review_author=user)
+            for myreview in myreviews:
+                if myreview.review_show == show:
+                    review = myreview
+            review.review_author = user
+            review.review_show = show
+            review.review_grade = star
+            review.review_watched_at = date
+            review.review_content = content
             review.save()
         return JsonResponse({'id': show_id,
                              'comment': review.review_content,
@@ -270,7 +320,12 @@ def create_review(comrequest):
                              })
 
 
-@method_decorator(csrf_exempt)
+''' 
+star_rate : contents detail 페이지에서 별점을 눌렀을 때 
+'''
+
+
+@ method_decorator(csrf_exempt)
 def star_rate(starrequest):
     if starrequest.method == 'GET':
         return render(starrequest, 'kover/show_detail.html')
