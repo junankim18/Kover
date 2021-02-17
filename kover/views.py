@@ -12,8 +12,8 @@ from django.db.models.query import Q
 from datetime import date, timedelta, datetime
 from dateutil.parser import *
 
-''' 
-profile_block : 기본 프로필페이지 
+'''
+profile_block : 기본 프로필페이지
 '''
 
 
@@ -74,8 +74,8 @@ def profile_block(request):
     return render(request, 'kover/profile_block.html', ctx)
 
 
-''' 
-main : 메인 페이지 
+'''
+main : 메인 페이지
 '''
 
 
@@ -118,7 +118,7 @@ def main(request):
     return render(request, 'kover/main.html', ctx)
 
 
-''' 
+'''
 profile_geo : 지도 프로필 페이지
 '''
 
@@ -132,8 +132,8 @@ def profile_geo(request):
     return render(request, 'kover/profile_geo.html', ctx)
 
 
-''' 
-feed_page : 기본 커뮤니티페이지 
+'''
+feed_page : 기본 커뮤니티페이지
 '''
 
 
@@ -149,8 +149,8 @@ def feed_page(request):
     return render(request, 'kover/feed_layout.html', ctx)
 
 
-''' 
-show_detail : contents 상세보기 페이지 
+'''
+show_detail : contents 상세보기 페이지
 '''
 
 
@@ -191,8 +191,8 @@ def show_detail(request, pk):
     return render(request, 'kover/show_detail.html', ctx)
 
 
-''' 
-press_like : feed 페이지에서 좋아요를 눌렀을 때 
+'''
+press_like : feed 페이지에서 좋아요를 눌렀을 때
 '''
 
 
@@ -211,8 +211,8 @@ def press_like(request):
         return JsonResponse({'id': feed_id})
 
 
-''' 
-press_com : feed 페이지에서 게시를 눌렀을 때 
+'''
+press_com : feed 페이지에서 게시를 눌렀을 때
 '''
 
 
@@ -237,7 +237,7 @@ def press_com(comrequest):
         return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname})
 
 
-''' 
+'''
 create_watched_show : 네비게이션 바에서  '리뷰등록'을 눌렀을 때, 아직 평가하지 않은 작품들의 리스트가 나온다
 '''
 
@@ -265,8 +265,8 @@ def create_watched_show(request):
     return render(request, 'kover/watched_show.html', ctx)
 
 
-''' 
-create_review : contents detail 페이지에서 '내 리뷰 등록하기'를 눌렀을 때 
+'''
+create_review : contents detail 페이지에서 '내 리뷰 등록하기'를 눌렀을 때
 '''
 
 
@@ -320,8 +320,8 @@ def create_review(comrequest):
                              })
 
 
-''' 
-star_rate : contents detail 페이지에서 별점을 눌렀을 때 
+'''
+star_rate : contents detail 페이지에서 별점을 눌렀을 때
 '''
 
 
@@ -336,18 +336,27 @@ def star_rate(starrequest):
         user_id = starrequest.user.id
         user = Profile.objects.get(id=user_id)
         show = Show.objects.get(id=show_id)
+        review = 0
+        myreviews = Review.objects.filter(review_author=user)
 
-        review = Review(
-            review_author=user,
-            review_show=show,
-            review_grade=star_rate,
-            review_watched_at='2999-12-31',
-            review_content='.'
-        )
-        review.save()
-        user.watched_show.add(show)
+        for myreview in myreviews:
+            if myreview.review_show == show:
+                review = myreview
 
-        print(review.review_watched_at)
+        if review == 0:
+            review = Review(
+                review_author=user,
+                review_show=show,
+                review_grade=star_rate,
+                review_watched_at='2999-12-31',
+                review_content='.'
+            )
+            review.save()
+            user.watched_show.add(show)
+        else:
+            review.review_grade = star_rate
+            review.save()
+
         return JsonResponse({'show_id': show_id,
                              'writer': user.nickname,
                              'star_rate': review.review_grade,
