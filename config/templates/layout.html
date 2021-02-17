@@ -5,7 +5,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {% block extra_head %}
-        <link rel="stylesheet" href="{% static 'layout.css' %}" />
+        <link rel="stylesheet" href="{% static 'layout.css' %}?after" />
         <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
@@ -20,6 +20,17 @@
         />
 
         {% endblock extra_head %}
+        <style>
+            body {
+                overflow-x: hidden;
+                overflow-y: auto;
+            }
+            main {
+                margin-top: 100px;
+                margin-right: 150px;
+                margin-left: 150px;
+            }
+        </style>
     </head>
 
     <body>
