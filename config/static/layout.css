@@ -132,8 +132,18 @@ body {
     object-fit: cover;
 }
 .show_list_main img {
-    width: 215px;
-    height: 263px;
+    width: 220px;
+    height: 270px;
     object-position: center;
     object-fit: cover;
+    margin-bottom: 5px;
+}
+.playmusical {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 15px;
+}
+.show_list_main {
+    margin-right: 15px;
+    margin-bottom: 15px;
 }
