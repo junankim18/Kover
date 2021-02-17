@@ -30,13 +30,8 @@
                     <b>연출</b> {{show.show_director}}
                 </li>
                 {% if user.is_authenticated %}
-                    {% if show in username.watched_show.all %}
                     <li>
-                        <b>내 별점</b> {{mygrade}}
-                    </li>
-                    {% else %}
-                    <li>
-                        <b>내 별점</b>
+                        <b>내 별점</b> <span class='mygrade'>{{mygrade}}</span>
                         <div class="rating">
                             <input type="radio" id="star10" name="rating" value="10" onclick='onClickStar({{show.id}}, value)'/><label for="star10"
                                 class="full"></label>
@@ -60,7 +55,6 @@
                                 class="half"></label>
                         </div>
                     </li>
-                    {% endif %}
                 {% endif %}
             </ul>
         </div>
@@ -192,6 +186,17 @@
     </div>
 
     <script>
+        let mygrade = {{mygrade}};
+        let rate = null;
+        const radioCheck=()=>{
+            for(i=1;i<=10;i++){
+                if(mygrade==i){
+                    rate = document.querySelector(`#star${i}`);
+                    rate.checked=true;
+                }
+            }
+        };
+        radioCheck();
         const seeMore = () => {
             const showdetailbox = document.querySelector('.show_info_detail .card div');
             showdetailbox.classList.remove('y250');
@@ -224,6 +229,10 @@
             starrequest.open('POST', url, true);
             starrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
             starrequest.send(JSON.stringify({ show_id, value }));
+                            
+            const gradenum = document.querySelector('.mygrade');
+            gradenum.innerText = `${value}`
+
         }
 
         const onClickCom = (id) => {
@@ -231,19 +240,28 @@
             const input = document.querySelector(`.show_review .revinput input`)
             const content = input.value;
             const radiodate = document.getElementsByName('date');
+            const radiostar = document.getElementsByName('rating');
             let seldate = null;
+            let star = null;
             for (var i = 0; i < radiodate.length; i++) {
                 if (radiodate[i].checked == true) {
                     seldate = radiodate[i].value;
                     radiodate[i].checked = false;
                 }
+            };
+            for(var j=0;j<radiostar.length;j++){
+                if (radiostar[j].checked == true){
+                    star = radiostar[j].value;
+                }
             }
-            if (seldate == null) {
+            if(star == null){
+                alert('별점을 선택하세요')
+            }else if (seldate == null) {
                 alert('관람날짜를 선택하세요')
             } else {
                 comrequest.open('POST', url, true);
                 comrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-                comrequest.send(JSON.stringify({ id, content, seldate }));
+                comrequest.send(JSON.stringify({ id, content, seldate, star }));
                 input.value = '';
             }
         }
@@ -256,13 +274,11 @@
 
                 const origin = comnum.innerText;
                 const [typeStr, num, 개] = origin.split(" ");
-
                 const count = Number(num) + 1;
-
                 comnum.innerText = `${typeStr} ${count} 개`;
 
                 const create_com = document.createElement("div");
-                create_com.innerText = `${yyyy}년 ${mm}월 ${dd}일 - ${comment} - ${writer}`;
+                create_com.innerText = `${yyyy}년 ${mm}월 ${dd}일 - ${grade}- ${comment} - ${writer}`;
                 element.insertBefore(create_com, element.firstChild);
             }
         };

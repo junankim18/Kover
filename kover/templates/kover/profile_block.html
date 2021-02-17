@@ -10,7 +10,7 @@
 </div>
 <div class="container-fluid mt-2 mb-3">
     <div class="section-heading">
-        <h4 class="section-heading text-center mb-3">공연 정보</h4>
+        <h4 class="section-heading text-center mb-3">나의 공연 갤러리</h4>
     </div>
     <div class="justify-content-center row align-items-center my-5">
         {% for show in shows%}
@@ -19,7 +19,7 @@
                 <img class="card-img-top" src="{{show.show_poster.url}}" alt="" />
                 <p><small> {{show.show_name}}</small></p>
                 <p><small> {{show.show_hall}}</small></p>
-                <p><small> 런타임 : {{show.show_runtime}}</small></p>
+                <p><small> 내 별점 : {%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}} {%endif%}{%endfor%}</small></p>
             </div>
         </a>
         {% endfor %} {% for i in "x"|rjust:"1" %}
@@ -80,12 +80,16 @@
             <h4 class="section-heading text-left mt-3">나의 리뷰</h4>
         </div>
         <div class="container justify-content-center row align-items-center my-1">
-            {% for review in reviews %}
-            <div class="revbox card text-center w-50 h-100 ml-2 mb-2">
-                <p>{{review.review_show}}</p>
-                <p>{{review.review_grade}} / 10</p>
-                <p>{{review.review_content}}</p>
-            </div>
+            {% for review in reviews %} 
+                {% if review.review_content == "." %}
+
+                {%else%}
+                <div class="revbox card text-center w-50 h-100 ml-2 mb-2">
+                    <p>{{review.review_show}}</p>
+                    <p>{{review.review_grade}} / 10</p>
+                    <p>{{review.review_content}}</p>
+                </div>
+                {% endif %} 
             {% endfor %}
         </div>
     </div>
