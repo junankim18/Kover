@@ -5,7 +5,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {% block extra_head %}
-        <link rel="stylesheet" href="{% static 'layout.css' %}" />
+        <link rel="stylesheet" href="{% static 'layout.css' %}?after" />
         <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
@@ -79,12 +79,12 @@
                         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                             <a
                                 class="dropdown-item"
-                                href="{% url 'login:logout' %}?next={{request.path}}"
+                                href="{% url 'login:logout' %}?next={%url 'kover:main'%}"
                                 onclick="return confirm('로그아웃 하시겠습니까?');"
                                 >로그아웃</a
                             >
                             <div class="dropdown-divider"></div>
-                            <a class="dropdown-item" href="#">더보기</a>
+                            <a class="dropdown-item" href="/login/settings/">더보기</a>
                         </div>
                     </li>
 

@@ -1,184 +1,182 @@
-{% extends "layout.html" %}
-{% load socialaccount %}
+{% extends "layout.html" %} 
+{% load socialaccount %} 
 {% block extra_head %} 
 {{block.super}} 
-{%endblock%}
+{%endblock%} 
+{% block content %}
+<style>
+    * {
+        margin: 0px;
+        padding: 0px;
+        text-decoration: none;
+        font-family: sans-serif;
+    }
 
+    body {
+        background-color: #34495e;
+    }
 
+    .loginForm {
+        position: absolute;
+        width: 300px;
+        height: 500px;
+        padding: 30px, 20px;
+        background-color: #ffffff;
+        text-align: center;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-radius: 15px;
+    }
 
-    <body>
-        {% block content %}
-       <style>
-            *{
-            margin: 0px;
-            padding: 0px;
-            text-decoration: none;
-            font-family:sans-serif;
+    .loginForm h2 {
+        text-align: center;
+        margin: 30px;
+    }
 
-            }
+    .idForm {
+        border-bottom: 2px solid #adadad;
+        margin: 30px;
+        padding: 10px 10px;
+    }
 
-            body {
-            background-image: #34495e;
-            }
+    .passForm {
+        border-bottom: 2px solid #adadad;
+        margin: 30px;
+        padding: 10px 10px;
+    }
 
-            .loginForm {
-            position:absolute;
-            width:300px;
-            height:500px;
-            padding: 30px, 20px;
-            background-color:#FFFFFF;
-            text-align:center;
-            top:50%;
-            left:50%;
-            transform: translate(-50%,-50%);
-            border-radius: 15px;
-            }
+    .username {
+        width: 100%;
+        border: none;
+        outline: none;
+        color: #636e72;
+        font-size: 16px;
+        height: 25px;
+        background: none;
+    }
 
-            .loginForm h2{
-            text-align: center;
-            margin: 30px;
-            }
+    .password {
+        width: 100%;
+        border: none;
+        outline: none;
+        color: #636e72;
+        font-size: 16px;
+        height: 25px;
+        background: none;
+    }
 
-            .idForm{
-            border-bottom: 2px solid #adadad;
-            margin: 30px;
-            padding: 10px 10px;
-            }
+    .btn {
+        position: relative;
+        left: 40%;
+        transform: translateX(-50%);
+        margin-bottom: 10px;
+        width: 80%;
+        height: 40px;
+        background: linear-gradient(125deg, #81ecec, #6c5ce7, #81ecec);
+        background-position: left;
+        background-size: 200%;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: 0.4s;
+        display: inline;
+    }
 
-            .passForm{
-            border-bottom: 2px solid #adadad;
-            margin: 30px;
-            padding: 10px 10px;
-            }
+    .btn:hover {
+        background-position: right;
+    }
 
-            .username {
-            width: 100%;
-            border:none;
-            outline:none;
-            color: #636e72;
-            font-size:16px;
-            height:25px;
-            background: none;
-            }
+    .bottomText {
+        text-align: center;
+    }
 
-            .password {
-            width: 100%;
-            border:none;
-            outline:none;
-            color: #636e72;
-            font-size:16px;
-            height:25px;
-            background: none;
-            }
+    #google {
+        background-color: #f9ea8f;
+        background-image: linear-gradient(315deg, #f9ea8f 0%, #aff1da 74%);
+        background-position: left;
+        transform: translateX(-50%);
+        background-size: 200%;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: 0.4s;
+        display: inline;
+    }
 
-            .btn {
-            position:relative;
-            left:40%;
-            transform: translateX(-50%);
-            margin-bottom: 10px;
-            width:80%;
-            height:40px;
-            background: linear-gradient(125deg,#81ecec,#6c5ce7,#81ecec);
-            background-position: left;
-            background-size: 200%;
-            color:white;
-            font-weight: bold;
-            border:none;
-            cursor:pointer;
-            transition: 0.4s;
-            display:inline;
-            }
+    #google:hover {
+        background-position: right;
+    }
 
-            .btn:hover {
-            background-position: right;
-            }
+    #naver {
+        background-color: #7ee8fa;
+        background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
+        background-position: left;
+        transform: translateX(-50%);
+        background-size: 200%;
+        color: white;
+        font-weight: bold;
+        border: none;
+        cursor: pointer;
+        transition: 0.4s;
+        display: inline;
+    }
 
-            .bottomText {
-            text-align: center;
-            }
+    #naver:hover {
+        background-position: right;
+    }
 
-            #google {
-            background-color: #f9ea8f;
-            background-image: linear-gradient(315deg, #f9ea8f 0%, #aff1da 74%);
-            background-position: left;
-            transform: translateX(-50%);
-            background-size: 200%;
-            color:white;
-            font-weight: bold;
-            border:none;
-            cursor:pointer;
-            transition: 0.4s;
-            display:inline;
-            }
+    .fa-a:before {
+        font-family: Arial;
+        font-weight: bold;
+        font-size: 20px;
+        content: "N";
+    }
+    .pagebox {
+        height: 79.5vh;
+    }
+</style>
+<title>Kover | login</title>
 
-         #google:hover {
-            background-position: right;
-        }
-            
+<div class="pagebox">
+    <form method="post" class="loginForm" action="{% url 'login:login' %}">
+        {% csrf_token %} {% include "form_errors.html" %}
+        <h2><img src="/static/kover.png" alt="kover" width="130px" /></h2>
+        <div class="idForm">
+            <label for="username">사용자ID</label>
+            <input
+                type="text"
+                class="username"
+                name="username"
+                id="username"
+                value="{{ form.username.value|default_if_none:'' }}"
+            />
+        </div>
+        <div class="passForm">
+            <label for="password">비밀번호</label>
+            <input
+                type="password"
+                class="password"
+                name="password"
+                id="password"
+                value="{{ form.password.value|default_if_none:'' }}"
+            />
+        </div>
+        <button type="submit" class="btn">LOG IN</button>
+        <a href="{% provider_login_url 'google' method='oauth2' next='/login/settings/' %}">
+            <button type="button" class="btn" id="google">
+                <i class="fab fa-google"></i>
+            </button>
+        </a>
+        <a href="{% provider_login_url 'naver' method='oauth2' next='/login/settings/'%}">
+            <button type="button" class="btn" id="naver"><span class="fa fa-a"></span><br /></button>
+        </a>
 
-            #naver {
-            background-color: #7ee8fa;
-            background-image: linear-gradient(315deg, #7ee8fa 0%, #80ff72 74%);
-            background-position: left;
-            transform: translateX(-50%);
-            background-size: 200%;
-            color:white;
-            font-weight: bold;
-            border:none;
-            cursor:pointer;
-            transition: 0.4s;
-            display:inline;
-            }
-
-            #naver:hover {
-            background-position: right;
-            }
-            
-            .fa-a:before {
-                font-family: Arial;
-                font-weight: bold;
-                font-size: 20px;
-                content: 'N';
-
-            }
-
-        </style>
-
-
-            <form method="post" class="loginForm" action="{% url 'login:login' %}"> 
-                {% csrf_token %}
-                {% include "form_errors.html" %}
-                <h2><img src="/static/kover.png" alt="kover" width="130px"/></a>
-                </h2>
-                <div class="idForm">
-                    <label for="username">사용자ID</label>
-                    <input type="text" class="username" name="username" id="username" value="{{ form.username.value|default_if_none:'' }}">
-                </div>
-                <div class="passForm">
-                    <label for="password">비밀번호</label>
-                    <input type="password" class="password" name="password" id="password" value="{{ form.password.value|default_if_none:'' }}">
-                </div>
-                <button type="submit" class="btn">
-                    LOG IN
-                </button>
-                <a href="{% provider_login_url 'google' %}">
-                    <button type="button" class="btn" id='google'>
-                        <i class="fab fa-google"></i>
-                    </button>
-                </a>
-                <a href="{% provider_login_url 'naver' %}">
-                    <button type="button" class="btn" id='naver'>
-                        <span class="fa fa-a"></span><br/>
-                    </button>
-                </a>
-            
-                <div class="bottomText">
-                    Don't you have ID? <a href="#">sign up</a>
-                </div>
-            </form>
-
-            </div>
-        {% endblock %}
-    </body>
-
-
+        <div class="bottomText">
+            Don't you have ID? <a href="{%url 'login:signup'%}?next={%url 'login:settings'%}">sign up</a>
+        </div>
+    </form>
+</div>
+{% endblock %}
