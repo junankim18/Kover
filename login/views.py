@@ -55,6 +55,7 @@ def settings(request):
         username = username[0]
     else:
         username = 0
+
     ctx = {
         'username': username
     }
