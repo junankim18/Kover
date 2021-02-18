@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from django.db.models.query import Q
 from datetime import date, timedelta, datetime
 from dateutil.parser import *
+from django.db.models import Count
 
 
 @login_required
@@ -282,10 +283,13 @@ def feed_main(request):
         '-feed_created_at')[:5]  # 뮤지컬-정보
     feed_5 = Feed_post.objects.filter(feed_type='question').order_by(
         '-feed_created_at')[:5]  # 질문
+    # n = Feed_comment.objects.count()
+    comment_list = Feed_comment.objects.all()
 
     comlist = []
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
+
     ctx = {
         'feeds': feeds,
         'feed_1': feed_1,
