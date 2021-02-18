@@ -3,76 +3,100 @@
 <title>
     Kover | contents
 </title>
-<div>
+<style>
+.title{
+      background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+      width: 1000px;
+    }
+    header{
+        
+    }
+</style>
+<div class=' Page-header-content pt-5'>
+    <header class='title py-3'>
+        <div class='container'>
     {% comment %} 메인 포스터 {% endcomment %}
-    <div class="show_info justify-content-center row align-items-center my-5">
-        <div class="justify-content-center ml-4 col-md-2">
-            <img class="img-fluid rounded mb-4 mb-lg-0" src="{{show.show_poster.url}}" alt="공연 포스터">
+            <div class="show_info theme-bg-primary justify-content-center row align-items-center my-5">
+                <div class="justify-content-center ml-4 col-md-2">
+                    <img class="img-fluid rounded mb-4 mb-lg-0" src="{{show.show_poster.url}}" alt="공연 포스터">
+                </div>
+                {% comment %} 공연 정보 {% endcomment %}
+                <div data-aos="fade-down-right" class="col-md-7" >
+                    <h3>{{show.show_name}}</h3>
+                    <ul style='list-style:none;'>
+                        <li>
+                            <b>장소: </b> <a href='#'>{{show.show_hall}}<a>
+                        </li>
+                        <li>
+                            <b>공연일: </b> {{show.show_date_start}} ~ {{show.show_date_end}}
+                        </li>
+                        <li>
+                            <b>공연시간: </b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 
+                        </li>
+                        <li>
+                            <b>인터미션: </b> {{show.show_intermission}} 분
+                        </li>
+                        <li>
+                            <b>연출: </b> {{show.show_director}}
+                        </li>
+                        <li>
+                            <b>날짜: </b> {% for date in showdatelist %}
+                            {{date}}
+                            {% endfor %}
+                        </li>
+                        {% if user.is_authenticated %}
+                            {% if show in username.watched_show.all %}
+                            <li>
+                                <b>내 별점</b> {{mygrade}}
+                            </li>
+                            {% else %}
+                            <li>
+                            <b>내 별점</b>
+                                <span class="star-rating">
+                                    <input type="radio" name="rating" value="1" /><i></i> <input type="radio" name="rating" value="2" /><i></i>
+                                    <input type="radio" name="rating" value="3" /><i></i> <input type="radio" name="rating" value="4" /><i></i>
+                                    <input type="radio" name="rating" value="5" /><i></i> <input type="radio" name="rating" value="6" /><i></i>
+                                    <input type="radio" name="rating" value="7" /><i></i> <input type="radio" name="rating" value="8" /><i></i>
+                                    <input type="radio" name="rating" value="9" /><i></i> <input type="radio" name="rating" value="10" /><i></i>
+                                </span>
+                            </li>
+                            {% endif %}
+                        
+                        {% endif %}
+                    </ul>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    공연 정보
+                    </button>
+
+                    <div class="modal" id="myModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <!-- Modal Header -->
+                                <div class="modal-header">
+                                    <h4 class="modal-title">{{show.show_name}}</h4>
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                </div>
+
+                                <!-- Modal body -->
+                                <div class="modal-body">
+                                    {{show.show_detail|linebreaksbr}}
+                                </div>
+
+                                <!-- Modal footer -->
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        {% comment %} 공연 정보 {% endcomment %}
-        <div class="col-md-7">
-            <h4>{{show.show_name}}</h4>
-            <ul style='list-style:none;'>
-                <li>
-                    <b>전체 평균 평점</b>
-                </li>
-                <li>
-                    <b>장소</b> <a href='#'>{{show.show_hall}}<a>
-                </li>
-                <li>
-                    <b>공연일</b> {{show.show_date_start}} ~ {{show.show_date_end}}
-                </li>
-                <li>
-                    <b>공연시간</b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 인터미션 {{show.show_intermission}} 분
-                </li>
-                <li>
-                    <b>연출</b> {{show.show_director}}
-                </li>
-                <li>
-                    <b>날짜</b> {% for date in showdatelist %}
-                    {{date}}
-                    {% endfor %}
-                </li>
-                {% if user.is_authenticated %}
-                    {% if show in username.watched_show.all %}
-                    <li>
-                        <b>내 별점</b> {{mygrade}}
-                    </li>
-                    {% else %}
-                    <li>
-                    <b>내 별점</b>
-                        <span class="star-rating">
-                            <input type="radio" name="rating" value="1" /><i></i> <input type="radio" name="rating" value="2" /><i></i>
-                            <input type="radio" name="rating" value="3" /><i></i> <input type="radio" name="rating" value="4" /><i></i>
-                            <input type="radio" name="rating" value="5" /><i></i> <input type="radio" name="rating" value="6" /><i></i>
-                            <input type="radio" name="rating" value="7" /><i></i> <input type="radio" name="rating" value="8" /><i></i>
-                            <input type="radio" name="rating" value="9" /><i></i> <input type="radio" name="rating" value="10" /><i></i>
-                        </span>
-                    </li>
-                    {% endif %}
-                {% endif %}
-            </ul>
-        </div>
-    </div>
-    {% comment %} 상단 메뉴바 {% endcomment %}
-    <hr>
-    <ul class="nav justify-content-center mb-4">
-        <li class="nav-item">
-            <a class="nav-link active col-md-auto ml-4" href="#">캐스팅</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link col-md-auto ml-4 " href="#">캐스팅 일정 조회</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link col-md-auto ml-4" href="#">공연 정보</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active col-md-auto ml-4" href="#">리뷰</a>
-        </li>
-    </ul>
+    </header>
     {% comment %} ----------캐스팅 정보--------- {% endcomment %}
-    <hr>
-    <section class="justify-content-center row align-items-center" id="show_actor">
+    <section class="justify-content-center row align-items-center py-5" id="show_actor">
         <div class="container justify-content-center">
             <span>
                 <h4 class="section-heading text-left mb-3 ml-5 ">캐스팅
@@ -96,36 +120,16 @@
             </div>
         </div>
     </section>
-    {% comment %} -----------세부 내역------------ {% endcomment %}
-    <div class='show_info_detail'>
-        <div class='container mt-4'>
-            <div class="section-heading ml-6">
-                <h4 class='section-heading text-left mb-3 ml-5'>공연 정보</h4>
-            </div>
-        </div>
-        <div class="justify-content-center row align-items-center my-5">
-            <div class="col-md-4 mb-5">
-                <div class="card">
-                    <div class="card-body text-center y250">
-                        <p class="card-text">
-                            {{show.show_detail|linebreaksbr}}
-                        </p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <div class='seemore'>
-                            <a href="javascript:void(0)" onclick='seeMore()' class="btn btn-light btn-sm">자세히 보기</a>
-                        </div>
-                        <div class='seeless none'>
-                            <a href="javascript:void(0)" onclick='seeLess()' class="btn btn-light btn-sm">간략히 보기</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    
+    <div class='container-fluid'>
+        <div class='testimonials flickity-enabled is-draggable'tabindex='0'>
         </div>
     </div>
+
+
     {% comment %} 리뷰(제작중) {% endcomment %}
-    <div class='show_review'>
-        <div class='container mt-4'>
+    <div class='show_review container-fluid'>
+        <div class='container cmt-4'>
             <div class="section-heading ml-6">
                 <h4 class='section-heading text-left mb-3 ml-5'>
                     리뷰 {{revnum}} 개
