@@ -13,9 +13,7 @@ from datetime import date, timedelta, datetime
 from dateutil.parser import *
 from django.db.models import Count
 
-'''
-profile_block : 기본 프로필페이지
-'''
+# profile_block : 기본 프로필페이지
 
 
 @login_required
@@ -75,9 +73,7 @@ def profile_block(request):
     return render(request, 'kover/profile_block.html', ctx)
 
 
-'''
-main : 메인 페이지
-'''
+# main : 메인 페이지
 
 
 def main(request):
@@ -119,9 +115,7 @@ def main(request):
     return render(request, 'kover/main.html', ctx)
 
 
-'''
-profile_geo : 지도 프로필 페이지
-'''
+# profile_geo : 지도 프로필 페이지
 
 
 @login_required
@@ -158,14 +152,19 @@ def feed_main(request):
 
 # def feed_page(request):
 def feed_page(request, pk):
-    
-    # feeds= Feed_post.objects.all()
+    if request.user not in User.objects.all():
+        users = 0
+    else:
+        users = Profile.objects.filter(user=request.user)
+        users = users[0]
+        # feeds= Feed_post.objects.all()
     feed = Feed_post.objects.get(pk=pk)
-  
+    print(users in feed.feed_like.all())
     comlist = []
     # for feed in feeds:
     comlist.append(len(feed.comment_post.all()))
     ctx = {
+        'users': users,
         'feed': feed,
         'comlist': comlist
     }
@@ -203,6 +202,7 @@ def feed_musical_inf(request):
     }
     return render(request, 'kover/feed_board.html', ctx)
 
+
 def feed_play_lib(request):
     feed = Feed_post.objects.filter(feed_type='play_lib')
     feeds = Feed_post.objects.filter(feed_type='play_lib').order_by(
@@ -216,6 +216,7 @@ def feed_play_lib(request):
         'comlist': comlist,
     }
     return render(request, 'kover/feed_board.html', ctx)
+
 
 def feed_play_inf(request):
     feed = Feed_post.objects.filter(feed_type='play_inf')
@@ -231,6 +232,7 @@ def feed_play_inf(request):
     }
     return render(request, 'kover/feed_board.html', ctx)
 
+
 def feed_question(request):
     feed = Feed_post.objects.filter(feed_type='question')
     feeds = Feed_post.objects.filter(feed_type='question').order_by(
@@ -245,9 +247,8 @@ def feed_question(request):
     }
     return render(request, 'kover/feed_board.html', ctx)
 
-'''
-show_detail : contents 상세보기 페이지
-'''
+
+# show_detail : contents 상세보기 페이지
 
 
 def show_detail(request, pk):
@@ -287,10 +288,7 @@ def show_detail(request, pk):
     return render(request, 'kover/show_detail.html', ctx)
 
 
-'''
-press_like : feed 페이지에서 좋아요를 눌렀을 때
-'''
-
+# press_like : feed 페이지에서 좋아요를 눌렀을 때
 
 @ method_decorator(csrf_exempt)
 def press_like(request):
@@ -299,17 +297,33 @@ def press_like(request):
         ctx = {"feeds": feed_list}
         return render(request, 'kover/feed_layout.html', ctx)
     elif request.method == 'POST':
+        users = Profile.objects.get(user=request.user)
         request = json.loads(request.body)
         feed_id = request['id']
         feed = Feed_post.objects.get(id=feed_id)
-        feed.feed_like += 1
+        feed.feed_like.add(users)
         feed.save()
         return JsonResponse({'id': feed_id})
 
+# press_dislike : feed 페이지에서 좋아요를 눌렀을 때
 
-'''
-press_com : feed 페이지에서 게시를 눌렀을 때
-'''
+
+@ method_decorator(csrf_exempt)
+def press_dislike(drequest):
+    if drequest.method == 'GET':
+        feed_list = Feed_post.objects.all()
+        ctx = {"feeds": feed_list}
+        return render(drequest, 'kover/feed_layout.html', ctx)
+    elif drequest.method == 'POST':
+        liketype = False
+        request = json.loads(drequest.body)
+        feed_id = request['id']
+        feed = Feed_post.objects.get(id=feed_id)
+        feed.feed_like -= 1
+        feed.save()
+        return JsonResponse({'id': feed_id, 'liketype': liketype})
+
+# press_com : feed 페이지에서 게시를 눌렀을 때
 
 
 @ method_decorator(csrf_exempt)
@@ -333,10 +347,7 @@ def press_com(comrequest):
         return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname})
 
 
-'''
-create_watched_show : 네비게이션 바에서  '리뷰등록'을 눌렀을 때, 아직 평가하지 않은 작품들의 리스트가 나온다
-'''
-
+# create_watched_show : 네비게이션 바에서  '리뷰등록'을 눌렀을 때, 아직 평가하지 않은 작품들의 리스트가 나온다
 
 @ login_required
 def create_watched_show(request):
@@ -362,9 +373,7 @@ def create_watched_show(request):
     return render(request, 'kover/watched_show.html', ctx)
 
 
-'''
-create_review : contents detail 페이지에서 '내 리뷰 등록하기'를 눌렀을 때
-'''
+# create_review : contents detail 페이지에서 '내 리뷰 등록하기'를 눌렀을 때
 
 
 @ method_decorator(csrf_exempt)
@@ -417,9 +426,7 @@ def create_review(comrequest):
                              })
 
 
-'''
-star_rate : contents detail 페이지에서 별점을 눌렀을 때
-'''
+# star_rate : contents detail 페이지에서 별점을 눌렀을 때
 
 
 @ method_decorator(csrf_exempt)
