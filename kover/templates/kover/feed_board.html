@@ -3,14 +3,14 @@
 {% endblock %}
 
 {% block content %}
-<title>Kover | {{feed.feed_type}}</title>
+<title>Kover | {{feed.get_feed_type_display}}</title>
 hello
 
 HELLO<BR />
 hello
 <div class="row" style="margin-top: 30px">
     <div class="feed_main col-lg-6">
-        <span style="font-size: 25px"><b>{{feed.feed_type}}</b></span>
+        <span style="font-size: 25px"><b>{{feed.get_feed_type_display}}</b></span>
         <ul class="list-group " style="max-width: 35rem;">
             {% for feed in feeds %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
