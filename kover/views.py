@@ -191,6 +191,48 @@ def feed_musical_inf(request):
     }
     return render(request, 'kover/feed_board.html', ctx)
 
+def feed_play_lib(request):
+    feed = Feed_post.objects.filter(feed_type='play_lib')
+    feeds = Feed_post.objects.filter(feed_type='play_lib').order_by(
+        '-feed_created_at')[:]  # 피드 최신 순
+    comlist = []
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
+    ctx = {
+        'feed': feed,
+        'feeds': feeds,
+        'comlist': comlist,
+    }
+    return render(request, 'kover/feed_board.html', ctx)
+
+def feed_play_inf(request):
+    feed = Feed_post.objects.filter(feed_type='play_inf')
+    feeds = Feed_post.objects.filter(feed_type='play_inf').order_by(
+        '-feed_created_at')[:]  # 피드 최신 순
+    comlist = []
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
+    ctx = {
+        'feed': feed,
+        'feeds': feeds,
+        'comlist': comlist,
+    }
+    return render(request, 'kover/feed_board.html', ctx)
+
+def feed_question(request):
+    feed = Feed_post.objects.filter(feed_type='question')
+    feeds = Feed_post.objects.filter(feed_type='question').order_by(
+        '-feed_created_at')[:]  # 피드 최신 순
+    comlist = []
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
+    ctx = {
+        'feed': feed,
+        'feeds': feeds,
+        'comlist': comlist,
+    }
+    return render(request, 'kover/feed_board.html', ctx)
+
 
 def show_detail(request, pk):
     username = Profile.objects.get(id=request.user.id)
