@@ -1,20 +1,13 @@
 {% extends "layout.html" %} 
-{% block extra_head %} {{block.super}} 
+{% block extra_head %} 
+{{block.super}} 
 {% endblock %} 
-
 {% block content %} 
-{% comment %}
-<div></div>
-{% endcomment %} 
-{% for feed in feeds%}
-<title style="margin-top: 300px;">Kover | feed</title>
-{% block part %}
+<title style="margin-top: 300px">Kover | feed</title>
+{% block part %} 
 {% endblock %}
 
 <h1>{{ feed.feed_type }}</h1>
-
-
-
 
 <div id="post-{{feed.id}}" class="wrapper">
     <div>
@@ -23,24 +16,19 @@
         <div class="author">{{ feed.feed_author }}</div>
         <div class="feed_created_at">{{ feed.feed_created_at }}</div>
         <button type="submit" onclick="onClickLike({{ feed.id }})">추천 {{ feed.feed_like }}</button>
-        {% endfor %} 
         {% for com in comlist %}
-        <div class='comment_number'>
-            댓글수 {{com}}
-        </div>
-        {% endfor %}
-        {% for feed in feeds%}
+        <div class="comment_number">댓글수 {{com}}</div>
+        {% endfor %} 
         <div class="comment_t">
             댓글 {% for comment in feed.comment_post.all %}
             <div class="comment">{{ comment.comment_content }} - {{comment.comment_author}}</div>
-            {% endfor %}
+        {% endfor %}
         </div>
-        <div style="margin-bottom:300px;">
+        <div style="margin-bottom: 300px">
             <input class="comment_content" type="text" placeholder="댓글 달기" />
             <button class="" type="submit" onclick="onClickCom({{ feed.id }})">{% csrf_token %}게시</button>
         </div>
     </div>
-    {% endfor %}
 
     <script>
         const request = new XMLHttpRequest();
@@ -102,5 +90,5 @@
             }
         };
     </script>
-    {% endblock %}
 </div>
+{% endblock %}
