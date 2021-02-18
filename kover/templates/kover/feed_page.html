@@ -11,7 +11,13 @@
         <div class="content">{{ feed.feed_content }}</div>
         <div class="author">{{ feed.feed_author }}</div>
         <div class="feed_created_at">{{ feed.feed_created_at }}</div>
-        <button type="submit" onclick="onClickLike({{ feed.id }})">추천 {{ feed.feed_like }}</button>
+        {% if users in feed.feed_like.all %}
+            <button class='alreadyliked' onclick="onClickLiked()">추천 {{feed.feed_like.all.count}} </button>
+        {%else%}
+            <button class="likebtn" type="submit" onclick="onClickLike({{ feed.id }})">추천 {{feed.feed_like.all.count}}</button>
+            <button class='alreadyliked none' onclick="onClickLiked()">추천 {{feed.feed_like.all.count}} </button>
+        {% endif %}
+
         {% for com in comlist %}
         <div class="comment_number">댓글수 {{com}}</div>
         {% endfor %}
@@ -29,22 +35,33 @@
     <script>
         const request = new XMLHttpRequest();
         const comrequest = new XMLHttpRequest();
-
+        const users = '{{users}}';
         const onClickLike = (id) => {
-            const url = "/feed/like/";
-            request.open("POST", url, true);
-            request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            request.send(JSON.stringify({ id }));
+            if(users == false){
+                alert('로그인 후 추천 가능합니다')
+            }else{
+                const url = "/feed/like/";
+                request.open("POST", url, true);
+                request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+                request.send(JSON.stringify({ id }));
+            }
         };
+        const onClickLiked=()=>{
+            alert('이미 추천한 피드입니다')
+        }
 
         const handleResponse = () => {
             if (request.status <= 400) {
                 const { id, type } = JSON.parse(request.response);
-                const element = document.querySelector(`#post-${id} div button`);
-                const origin = element.innerText;
+                const element = document.querySelector(`#post-${id} div .likebtn`);
+                const likeelement = document.querySelector(`#post-${id} div .alreadyliked`);
+                const origin = likeelement.innerText;
                 const [typeStr, num] = origin.split(" ");
                 const count = Number(num) + 1;
-                element.innerText = `${typeStr} ${count}`;
+                likeelement.innerText = `${typeStr} ${count}`;
+                element.classList.add('none');
+                likeelement.classList.remove('none');
+
             }
         };
 
