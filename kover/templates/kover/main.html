@@ -45,12 +45,12 @@
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     {{feed.feed_title}}
                     <span class="badge badge-danger badge-pill">
-                        <i class="fas fa-heart"></i> {{feed.feed_like}}
+                        <i class="fas fa-heart"></i> {{feed.feed_like.all.count}}
                     </span>
                     <span class="badge badge-danger badge-pill">
                         <i class="fas fa-heart"></i> 댓글수{{feed.comment_post.all.count}}
                     </span>
-                    {% endfor %}
+                {% endfor %}
 
                 </li>
             </ul>

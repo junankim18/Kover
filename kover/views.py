@@ -90,10 +90,6 @@ def main(request):
         '-feed_created_at')[:5]  # 피드 최신 순
     feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
 
-    commentlist = []
-    for feedind in feed_2:
-        commentlist.append(len(feedind.comment_post.all()))
-
     actorshow = []
     wantshow = []
     for actor in actors:
@@ -109,7 +105,6 @@ def main(request):
         'show_2': show_2,
         'feed_1': feed_1,
         'feed_2': feed_2,
-        'commentlist': commentlist,
         'wantshow': wantshow,
     }
     return render(request, 'kover/main.html', ctx)
