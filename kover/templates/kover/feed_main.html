@@ -1,24 +1,27 @@
-{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%}
+{% extends "layout.html" %} 
+{% block extra_head %} 
+{{block.super}} 
+{%endblock%}
 {% block content %}
 <title>Kover | feed_main</title>
 
 <nav aria-label="breadcrumb">
   <ol class="breadcrumb light">
     <li class="breadcrumb-item"><a href="#">Home</a></li>
-    <li class="breadcrumb-item"><a href="#">연극-자유</a></li>
-    <li class="breadcrumb-item"><a href="#">연극-정보</a></li>
-    <li class="breadcrumb-item"><a href="#">뮤지컬-자유</a></li>
-    <li class="breadcrumb-item"><a href="#">뮤지컬-정보</a></li>
-    <li class="breadcrumb-item"><a href="#">질문</a></li>
+    <li class="breadcrumb-item"><a href="/feed/play_lib">연극-자유</a></li>
+    <li class="breadcrumb-item"><a href="/feed/play_inf">연극-정보</a></li>
+    <li class="breadcrumb-item"><a href="/feed/musical_lib">뮤지컬-자유</a></li>
+    <li class="breadcrumb-item"><a href="/feed/musical_inf">뮤지컬-정보</a></li>
+    <li class="breadcrumb-item"><a href="/feed/question">질문</a></li>
   </ol>
 </nav>
 
 <div class="feeds_main" style="margin-bottom: 100px">
-  <b style="font-size: 25px">연극 - 자유</b>
+  <a href="/feed/play_lib"><b style="font-size: 25px">연극 - 자유</b></a>
   <div class="list-group">
     {% for feed in feed_1 %}
     <a
-      href="#"
+      href="{%url 'kover:feed_page' feed.id%}"
       class="list-group-item list-group-item-action flex-column align-items-start"
     >
       <div class="d-flex w-100 justify-content-between">
@@ -43,11 +46,11 @@
 </div>
 
 <div class="feeds_main" style="margin-bottom: 100px">
-  <b style="font-size: 25px">연극 - 정보</b>
+  <a href="/feed/play_inf"><b style="font-size: 25px">연극 - 정보</b></a>
   <div class="list-group">
     {% for feed in feed_2 %}
     <a
-      href="#"
+      href="{%url 'kover:feed_page' feed.id%}"
       class="list-group-item list-group-item-action flex-column align-items-start"
     >
       <div class="d-flex w-100 justify-content-between">
@@ -72,11 +75,11 @@
 </div>
 
 <div class="feeds_main" style="margin-bottom: 100px">
-  <b style="font-size: 25px">뮤지컬 - 자유</b>
+  <a href="/feed/musical_lib"><b style="font-size: 25px">뮤지컬 - 자유</b></a>
   <div class="list-group">
     {% for feed in feed_3 %}
     <a
-      href="#"
+      href="{%url 'kover:feed_page' feed.id%}"
       class="list-group-item list-group-item-action flex-column align-items-start"
     >
       <div class="d-flex w-100 justify-content-between">
@@ -101,11 +104,11 @@
 </div>
 
 <div class="feeds_main" style="margin-bottom: 100px">
-  <b style="font-size: 25px">뮤지컬 - 정보</b>
+  <a href="/feed/musical_inf"><b style="font-size: 25px">뮤지컬 - 정보</b></a>
   <div class="list-group">
     {% for feed in feed_4 %}
     <a
-      href="#"
+      href="{%url 'kover:feed_page' feed.id%}"
       class="list-group-item list-group-item-action flex-column align-items-start"
     >
       <div class="d-flex w-100 justify-content-between">
@@ -130,11 +133,11 @@
 </div>
 
 <div class="feeds_main" style="margin-bottom: 100px">
-  <b style="font-size: 25px">질문</b>
+  <a href="/feed/question"><b style="font-size: 25px">질문</b></a>
   <div class="list-group">
     {% for feed in feed_5 %}
     <a
-      href="#"
+      href="{%url 'kover:feed_page' feed.id%}"
       class="list-group-item list-group-item-action flex-column align-items-start"
     >
       <div class="d-flex w-100 justify-content-between">
