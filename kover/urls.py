@@ -10,15 +10,17 @@ urlpatterns = [
          name='profile_block'),  # 개인 프로필-block),
     path('profile_geo/', views.profile_geo,
          name='profile_geo'),  # 개인 프로필-geo),
-    # path('settings/', views, name=''),  # 설정),
     # path('feed/play_inf', views, name=''),  # 연극-정보),
     # path('feed/play_lib', views, name=''),  # 연극-자유),
-    path('feed/musical_inf', views.feed_musical_inf, name='feed_musical_inf'),  # 뮤지컬-정보),
-    path('feed/musical_lib', views.feed_musical_lib, name='feed_musical_lib'),  # 뮤지컬-자유),
+    path('feed/musical_inf', views.feed_musical_inf,
+         name='feed_musical_inf'),  # 뮤지컬-정보),
+    path('feed/musical_lib', views.feed_musical_lib,
+         name='feed_musical_lib'),  # 뮤지컬-자유),
     path('feed/', views.feed_main, name='feed_main'),  # 피드-메인),
     path('feed/like/', views.press_like, name='press_like'),  # 피드-메인),
     path('feed/comment/', views.press_com, name='press_com'),  # 피드-메인),
-    path('feed/page/', views.feed_page, name='feed_page'),  # 피드-게시물 하나의 상세 페이지),
+    # 피드-게시물 하나의 상세 페이지),
+    path('feed/page/', views.feed_page, name='feed_page'),
     # path('feed/question', views,  name=''),  # 질문),
     path('contents/<int:pk>/', views.show_detail,
          name='show_detail'),  # 공연별 디테일),
@@ -33,7 +35,3 @@ urlpatterns = [
     # path('place/<int:pk>/', views, name=''),  # 공연장 디테일),
     # path('search/', views, name=''),  # 검색했을때),
 ]
-
-
-
-

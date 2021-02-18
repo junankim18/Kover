@@ -138,7 +138,7 @@ def feed_main(request):
         actors = username[0].like_actor.all().order_by('people_name')
     else:
         actors = []
-    
+
     feed_1 = Feed_post.objects.all().order_by(
         '-feed_created_at')[:5]  # 피드 최신 순
     feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
@@ -155,14 +155,14 @@ def feed_main(request):
     return render(request, 'kover/feed_main.html', ctx)
 
 
-#def feed_page(request, pk):
+# def feed_page(request, pk):
 '''
 feed_page : 기본 커뮤니티페이지
 '''
 
 
 def feed_page(request):
-    feeds= Feed_post.objects.all()
+    feeds = Feed_post.objects.all()
     #feeds = Feed_post.objects.get(id=pk)
     comlist = []
     for feed in feeds:
@@ -175,8 +175,9 @@ def feed_page(request):
 
 
 def feed_musical_lib(request):
-    
+
     return render(request, 'kover/feed_musical_lib.html')
+
 
 def feed_musical_inf(request):
     username = Profile.objects.filter(id=request.user.id)
@@ -296,7 +297,8 @@ create_watched_show : 네비게이션 바에서  '리뷰등록'을 눌렀을 때
 
 @ login_required
 def create_watched_show(request):
-    users = Profile.objects.get(id=request.user.id)
+    users = Profile.objects.filter(user=request.user)
+    users = users[0]
     watchedshows = users.watched_show.all()
     shows = Show.objects.all()
     unwatchedplays = []
