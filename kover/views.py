@@ -164,23 +164,23 @@ def feed_musical_lib(request):
     return render(request, 'kover/feed_musical_lib.html')
 
 def feed_musical_inf(request):
-    username = Profile.objects.filter(id=request.user.id)
-    if username:
-        actors = username[0].like_actor.all().order_by('people_name')
-    else:
-        actors = []
+    # username = Profile.objects.filter(id=request.user.id)
+    # if username:
+    #     actors = username[0].like_actor.all().order_by('people_name')
+    # else:
+    #     actors = []
 
-    # feeds = Feed_post.objects.filter()
-
-    feeds = Feed_post.objects.filter(feed_type='musical_inf').order_by(
+    # feed= Feed_post.objects.all()
+    # feed = Feed_post.objects.get(pk=pk)
+    feed = Feed_post.objects.filter(feed_type='musical_inf').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
-
     comlist = []
-    for feed in feeds:
-        comlist.append(len(feed.comment_post.all()))
+    # for feed in feeds:
+    #     comlist.append(len(feed.comment_post.all()))
 
     ctx = {
-        'feeds': feeds,
+        'feed': feed,
+        # 'feeds': feeds,
         'comlist': comlist,
     }
     return render(request, 'kover/feed_musical_inf.html')
