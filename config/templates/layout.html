@@ -18,17 +18,14 @@
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
             crossorigin="anonymous"
         />
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
         {% endblock extra_head %}
         <style>
-            body {
-                overflow-x: hidden;
-                overflow-y: auto;
-            }
+
             main {
-                margin-top: 100px;
-                margin-right: 150px;
-                margin-left: 150px;
+                margin-top: 17px;
+
             }
         </style>
     </head>
@@ -118,6 +115,11 @@
 
             {% endblock %}
         </footer>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
+        <script> AOS.init(); </script>
+
+
         <script
             src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

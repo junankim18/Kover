@@ -25,14 +25,14 @@
     <header class='title py-3'>
         <div class='container'>
     {% comment %} 메인 포스터 {% endcomment %}
-            <div class="show_info theme-bg-primary justify-content-center row align-items-center">
-                <div class="justify-content-center ml-4 col-md-2">
-                    <img class="img-fluid rounded mb-4 mb-lg-0 w-10 h-30" src="{{show.show_poster.url}}" alt="공연 포스터">
+            <div  class="show_info theme-bg-primary justify-content-center row align-items-center">
+                <div data-aos="fade-right" data-aos-delay='500' data-duration='3000' class="justify-content-center ml-4 col-md-2">
+                    <img class="img-fluid rounded mb-4 mb-lg-0"src="{{show.show_poster.url}}" alt="공연 포스터">
                 </div>
                 {% comment %} 공연 정보 {% endcomment %}
-                <div data-aos="fade-down-right" class="col-md-7" >
-                    <h3>{{show.show_name}}</h3>
-                    <ul  style='list-style:none;'>
+                <div  class="col-md-7" >
+                    <h3 data-aos="fade-down" data-aos-delay='600' data-duration='3000'>{{show.show_name}}</h3>
+                    <ul  data-aos="fade-left" data-aos-delay='600' data-duration='3000' style='list-style:none;'>
                         <li class='mb-1'>
                             <b>장소: </b>{{show.show_hall}}<a>
                         </li>
@@ -82,7 +82,7 @@
                         
                         {% endif %}
                     </ul>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
+                    <button data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
                     공연 정보
                     </button>
 
@@ -116,15 +116,15 @@
     {% comment %} ----------캐스팅 정보--------- {% endcomment %}
     <section class="justify-content-center row align-items-center py-3" id="show_actor">
         <div class="container justify-content-center">
-            <span>
+            <div data-aos='fade-right' data-aos-anchor-placement='center-bottom' data-duration='100' data-aos-delay='1200'>
                 <h4 class="section-heading text-left mb-3 ml-5 ">캐스팅
                     <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
                         캐스팅 일정 조회
                     </button>
                 </h4>
-            </span>
+            </div>
             {% comment %} --------배우 이미지, 배역 -------- {% endcomment %}
-            <div class="row actor_info">
+            <div class="row actor_info" data-aos='fade-up' data-aos-anchor-placement='center-bottom' data-duration='100' data-aos-delay='1200'>
                 {% for people in show.show_actor.all %}
                 <div class="col-3 col-md-auto col-lg-3 col-xl-3">
                     <div class="actor text-center">
@@ -146,7 +146,7 @@
 
 
         {% comment %} 리뷰(제작중) {% endcomment %}
-    <div class='container review-container bg-light py-5'>
+    <div class='container review-container bg-light py-5 px-6' data-aos='fade-right' data-aos-offset='200' data-aos-delay='200' data-aos-easing='ease-in-sine'>
         <div class='show_review container-fluid  h-100 w-100'>
             <div class='card cmt-4'>
                 <div class="card-title section-heading ml-6">
@@ -161,16 +161,16 @@
                         {% endfor %}
                     </div>
                     <div class='revinput text-right mr-3'>
-                        <input class='comment_content' type="text" size='60' placeholder='리뷰를 작성해보세요:)'>
+                        <input class='comment_content text-center' type="text" size='70' placeholder='리뷰를 작성해보세요:)'>
                         <button type='submit' onclick="onClickCom({{show.id}})"
-                            class='btn btn-outline-dark btn-sm ml-5 mb-1'>
+                            class=' btn btn-outline-dark btn-sm ml-5 mb-1'>
                             {%csrf_token%}
                             내 리뷰 등록하기
                         </button>
                     </div>
                     <hr>
                 </div>
-                <div class='reviewbox'>
+                <div class='reviewbox' >
                     {% for review in reviews %}
                         {% if review.review_content == '.' %}
 
