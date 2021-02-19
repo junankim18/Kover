@@ -123,17 +123,7 @@ def profile_geo(request):
 
 
 def feed_main(request):
-<<<<<<< HEAD
-    username = Profile.objects.filter(id=request.user.id)
-    if username:
-        actors = username[0].like_actor.all().order_by('people_name')
-    else:
-        actors = []
-
-    feed_1 = Feed_post.objects.all().order_by(
-        '-feed_created_at')[:5]  # 피드 최신 순
-    feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
-=======
+    
     feeds = Feed_post.objects.all()
 
     feed_1 = Feed_post.objects.filter(feed_type='play_lib').order_by(
@@ -146,7 +136,6 @@ def feed_main(request):
         '-feed_created_at')[:5]  # 뮤지컬-정보
     feed_5 = Feed_post.objects.filter(feed_type='question').order_by(
         '-feed_created_at')[:5]  # 질문
->>>>>>> elly2
 
     comlist = []
     for feed in feeds:
