@@ -125,6 +125,7 @@ def profile_geo(request):
 def feed_main(request):
     feeds = Feed_post.objects.all()
 
+    feed_0 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
     feed_1 = Feed_post.objects.filter(feed_type='play_lib').order_by(
         '-feed_created_at')[:5]  # 연극-자유
     feed_2 = Feed_post.objects.filter(feed_type='play_inf').order_by(
@@ -241,6 +242,21 @@ def feed_question(request):
     feed = Feed_post.objects.filter(feed_type='question')
     feeds = Feed_post.objects.filter(feed_type='question').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
+    comlist = []
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
+    ctx = {
+        'feed': feed,
+        'feeds': feeds,
+        'comlist': comlist,
+    }
+    return render(request, 'kover/feed_board.html', ctx)
+
+
+def feed_hot_feed(request):
+    feed = Feed_post.objects.all()
+    feeds = Feed_post.objects.all().order_by('-feed_like')[:]  
+    # 피드 좋아요 많은 순
     comlist = []
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))

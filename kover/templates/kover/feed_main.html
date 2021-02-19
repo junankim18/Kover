@@ -4,7 +4,8 @@
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb light">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="">Home</a></li>
+        <li class="breadcrumb-item"><a href="/feed/hot_feed">HOT</a></li>
         <li class="breadcrumb-item"><a href="/feed/play_lib">연극-자유</a></li>
         <li class="breadcrumb-item"><a href="/feed/play_inf">연극-정보</a></li>
         <li class="breadcrumb-item"><a href="/feed/musical_lib">뮤지컬-자유</a></li>
@@ -12,6 +13,27 @@
         <li class="breadcrumb-item"><a href="/feed/question">질문</a></li>
     </ol>
 </nav>
+
+<div class="feeds_main" style="margin-bottom: 100px">
+    <a href="/feed/hot_feed"><b style="font-size: 25px">HOT 피드</b></a>
+    <div class="list-group">
+        {% for feed in feeds  %}
+        <a
+            href="{%url 'kover:feed_page' feed.id%}"
+            class="list-group-item list-group-item-action flex-column align-items-start"
+        >
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{feed.feed_title}}</h5>
+                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} 댓글 {{feed.comment_post.all.count}}</small>
+            </div>
+            <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
+        </a>
+        {% endfor %}
+    </div>
+    <div class="form-row float-right" style="margin-top: 20px">
+        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/hot_feed'">더 보기</button>
+    </div>
+</div>
 
 <div class="feeds_main" style="margin-bottom: 100px">
     <a href="/feed/play_lib"><b style="font-size: 25px">연극 - 자유</b></a>
@@ -23,7 +45,7 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} 댓글 {{feed.comment_post.all.count}}</small>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
@@ -44,7 +66,7 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} 댓글 {{feed.comment_post.all.count}}</small>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
@@ -65,7 +87,7 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} 댓글 {{feed.comment_post.all.count}}</small>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
@@ -86,7 +108,7 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} 댓글 {{feed.comment_post.all.count}}</small>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
@@ -107,7 +129,7 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} 댓글 {{feed.comment_post.all.count}}</small>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
