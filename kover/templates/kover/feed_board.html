@@ -1,11 +1,14 @@
-{% extends "layout.html" %} {% block extra_head %} {{block.super}} {% endblock %} {% block content %}
-<title>Kover | {{feed.feed_type}}</title>
-hello HELLO<br />
+{% extends "layout.html" %}
+{% block extra_head %} {{block.super}}
+{% endblock %}
+
+{% block content %}
+<title>Kover | {{feed.get_feed_type_display}}</title>
 hello
 <div class="row" style="margin-top: 30px">
     <div class="feed_main col-lg-6">
-        <span style="font-size: 25px"><b>{{feed.feed_type}}</b></span>
-        <ul class="list-group" style="max-width: 35rem">
+        <span style="font-size: 25px"><b>{{feed.get_feed_type_display}}</b></span>
+        <ul class="list-group " style="max-width: 35rem;">
             {% for feed in feeds %}
             <li class="list-group-item d-flex justify-content-between align-items-center">
                 <a href="{% url 'kover:feed_page' feed.id %}"> {{feed.feed_title}} </a>
