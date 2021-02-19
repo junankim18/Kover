@@ -18,12 +18,12 @@
             <button class='alreadyliked none' onclick="onClickLiked()">추천 {{feed.feed_like.all.count}} </button>
         {% endif %}
 
-        {% for com in comlist %}
-        <div class="comment_number">댓글수 {{com}}</div>
-        {% endfor %}
+        
+        <div class="comment_number">댓글수 {{feed.comment_post.all.count}} </div>
         <div class="comment_t">
             댓글 {% for comment in feed.comment_post.all %}
-            <div class="comment">{{ comment.comment_content }} - {{comment.comment_author}}</div>
+            <div class="comment">
+            {{ comment.comment_content }} - {{comment.comment_author}} / {{comment.comment_created_at}}</div>
             {% endfor %}
         </div>
         <div style="margin-bottom: 300px">

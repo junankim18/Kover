@@ -4,8 +4,8 @@
 
 {% block content %}
 <title>Kover | {{feed.get_feed_type_display}}</title>
-<div class="row" style="margin-top: 30px">
-    <div class="feed_main col-lg-6">
+<div class="row" style="margin-top: 30px; margin-bottom: 100px">
+    <div class="feed_main col-xl-12">
         <span style="font-size: 25px"><b>{{feed.get_feed_type_display}}</b></span>
         <ul class="list-group " style="max-width: 35rem;">
             {% for feed in feeds %}
@@ -17,7 +17,7 @@
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
                 <span class="badge badge-danger badge-pill"> <i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </span>
-                <div class="comment_number">댓글수 </div>
+                <div class="comment_number">댓글수 {{feed.comment_post.all.count}}</div>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
