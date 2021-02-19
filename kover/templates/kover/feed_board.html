@@ -19,10 +19,24 @@
                 <span class="badge badge-danger badge-pill"> <i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </span>
                 <div class="comment_number">댓글수 {{feed.comment_post.all.count}}</div>
             </div>
-            <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
+            <p class="mb-1">{{feed.feed_content|truncatechars:30}}  </p>
         </a>
             {% endfor %}
         </ul>
     </div>
+
+    {% if posts.has_previous %}
+    <a href="?page=1">맨 앞으로</a> 
+    <a href="?page={{posts.previous_page_number}}">이전으로</a>
+    {% endif %}
+    <span>post.number</span>
+    <span>/</span>
+    <span>{{post.pagenator.num_pages}}</span>
+    {% if posts.has_next %}
+    <a href="?page={{posts.next_page_number}}">다음으로</a>
+    <a href="?page={{posts.previous_page_number}}">맨 뒤로</a>
+    {% endif %}
 </div>
+
+
 {% endblock %}

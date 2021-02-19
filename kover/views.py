@@ -12,6 +12,7 @@ from django.db.models.query import Q
 from datetime import date, timedelta, datetime
 from dateutil.parser import *
 from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # profile_block : 기본 프로필페이지
 
@@ -181,12 +182,24 @@ def feed_musical_lib(request):
     feeds = Feed_post.objects.filter(feed_type='musical_lib').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
 

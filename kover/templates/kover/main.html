@@ -61,7 +61,7 @@
             <ul class="list-group " style="max-width: 35rem;">
                 {% for feed in feed_1 %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    <a href="/feed/{{feed.feed_type}}">{{feed.get_feed_type_display}}</a>
+                    <a href="/feed/{{feed.feed_type}}">  {{feed.get_feed_type_display}}</a>
                     <a href="{%url 'kover:feed_page' feed.id%}"><span class="badge badge-white badge-pill">{{feed.feed_title}}</span></a>
                 </li>
                 {% endfor %}</p>
