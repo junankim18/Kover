@@ -28,8 +28,7 @@ class Hall(models.Model):
 class People(models.Model):
     people_type = models.CharField(max_length=30, verbose_name='직업')
     people_name = models.CharField(max_length=30, verbose_name='이름')
-    people_img = models.ImageField(
-        upload_to='people_image/%Y/%m/%d', verbose_name='배우 사진', blank=True)
+    people_img = models.URLField(verbose_name='인물사진url', blank=True)
     people_birth = models.DateField(verbose_name='생년월일', null=True)
 
     def __str__(self):
@@ -43,8 +42,7 @@ class Show(models.Model):
     )
     show_type = models.CharField(max_length=20, choices=TYPE_OF_SHOW)
     show_name = models.CharField(max_length=50, verbose_name='공연 이름')
-    show_poster = models.ImageField(
-        upload_to='poster_image/%Y/%m/%d', verbose_name='공연 포스터', blank=True)
+    show_poster = models.URLField(verbose_name='공연 포스터 url', blank=True)
     show_hall = models.ForeignKey(
         Hall, related_name='show_hall', on_delete=models.DO_NOTHING)
     show_date_start = models.DateTimeField(verbose_name='공연 시작일', null=True)

@@ -1,8 +1,4 @@
-{% extends "layout.html" %} 
-{% block extra_head %} 
-{{block.super}} 
-{%endblock%} 
-{% block content %}
+{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 
 <title>Kover | block profile</title>
 <div class="card text-black my-5 py-4 text-center">
@@ -24,7 +20,12 @@
                 <img class="card-img-top" src="{{show.show_poster.url}}" alt="" />
                 <p><small> {{show.show_name}}</small></p>
                 <p><small> {{show.show_hall}}</small></p>
-                <p><small> 내 별점 : {%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}} {%endif%}{%endfor%}</small></p>
+                <p>
+                    <small>
+                        내 별점 : {%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}}
+                        {%endif%}{%endfor%}</small
+                    >
+                </p>
             </div>
         </a>
         {% endfor %} {% for i in "x"|rjust:"1" %}
@@ -67,7 +68,7 @@
                 <div class="actorcontainer">
                     {% for actor in actors %}
                     <div class="actordetailbox">
-                        <img src="{{actor.people_img.url}}" alt="" width="150px" />
+                        <img src="{{actor.people_img}}" alt="" width="150px" />
                         <p>{{actor.people_name}} {{actor.people_type}}</p>
                     </div>
                     {% endfor %}
@@ -85,17 +86,13 @@
             <h4 class="section-heading text-left mt-3">나의 리뷰</h4>
         </div>
         <div class="container justify-content-center row align-items-center my-1">
-            {% for review in reviews %} 
-                {% if review.review_content == "." %}
-
-                {%else%}
-                <div class="revbox card text-center w-50 h-100 ml-2 mb-2">
-                    <p>{{review.review_show}}</p>
-                    <p>{{review.review_grade}} / 10</p>
-                    <p>{{review.review_content}}</p>
-                </div>
-                {% endif %} 
-            {% endfor %}
+            {% for review in reviews %} {% if review.review_content == "." %} {%else%}
+            <div class="revbox card text-center w-50 h-100 ml-2 mb-2">
+                <p>{{review.review_show}}</p>
+                <p>{{review.review_grade}} / 10</p>
+                <p>{{review.review_content}}</p>
+            </div>
+            {% endif %} {% endfor %}
         </div>
     </div>
     <div class="container-fluid">
