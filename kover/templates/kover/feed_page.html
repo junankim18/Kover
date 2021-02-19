@@ -13,7 +13,7 @@
         <div class="feed_created_at">{{ feed.feed_created_at }}</div>
         {% if users in feed.feed_like.all %}
             <button class='alreadyliked' onclick="onClickLiked()">추천 {{feed.feed_like.all.count}} </button>
-        {%else%}
+        {% else %}
             <button class="likebtn" type="submit" onclick="onClickLike({{ feed.id }})">추천 {{feed.feed_like.all.count}}</button>
             <button class='alreadyliked none' onclick="onClickLiked()">추천 {{feed.feed_like.all.count}} </button>
         {% endif %}
