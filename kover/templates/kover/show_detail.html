@@ -6,115 +6,79 @@
 <style>
 .title{
       background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
-      width: 1000px;
+
     }
     header{
         
+    }
+    .delbox{
+    float: right;
+}
+    .revbox{
+        height: 120px
+    }
+    a{
+        text-decoration-line:none;
     }
 </style>
 <div class=' Page-header-content pt-5'>
     <header class='title py-3'>
         <div class='container'>
     {% comment %} 메인 포스터 {% endcomment %}
-<<<<<<< HEAD
-    <div class="show_info justify-content-center row align-items-center my-5">
-        <div class="justify-content-center ml-4 col-md-2">
-            <img class="img-fluid rounded mb-4 mb-lg-0" src="{{show.show_poster.url}}" alt="공연 포스터">
-        </div>
-        {% comment %} 공연 정보 {% endcomment %}
-        <div class="col-md-7">
-            <h4>{{show.show_name}}</h4>
-            <ul style='list-style:none;'>
-                <li>
-                    <b>전체 평균 평점</b>
-                </li>
-                <li>
-                    <b>장소</b> <a href='#'>{{show.show_hall}}<a>
-                </li>
-                <li>
-                    <b>공연일</b> {{show.show_date_start}} ~ {{show.show_date_end}}
-                </li>
-                <li>
-                    <b>공연시간</b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 인터미션
-                    {{show.show_intermission}} 분
-                </li>
-                <li>
-                    <b>연출</b> {{show.show_director}}
-                </li>
-                {% if user.is_authenticated %}
-                    <li>
-                        <b>내 별점</b> <span class='mygrade'>{{mygrade}}</span>
-                        <div class="rating">
-                            <input type="radio" id="star10" name="rating" value="10" onclick='onClickStar({{show.id}}, value)'/><label for="star10"
-                                class="full"></label>
-                            <input type="radio" id="star9" name="rating" value="9" onclick='onClickStar({{show.id}}, value)'/><label for="star9"
-                                class="half"></label>
-                            <input type="radio" id="star8" name="rating" value="8" onclick='onClickStar({{show.id}}, value)'/><label for="star8"
-                                class="full"></label>
-                            <input type="radio" id="star7" name="rating" value="7" onclick='onClickStar({{show.id}}, value)'/><label for="star7"
-                                class="half"></label>
-                            <input type="radio" id="star6" name="rating" value="6" onclick='onClickStar({{show.id}}, value)'/><label for="star6"
-                                class="full"></label>
-                            <input type="radio" id="star5" name="rating" value="5" onclick='onClickStar({{show.id}}, value)'/><label for="star5"
-                                class="half"></label>
-                            <input type="radio" id="star4" name="rating" value="4" onclick='onClickStar({{show.id}}, value)'/><label for="star4"
-                                class="full"></label>
-                            <input type="radio" id="star3" name="rating" value="3" onclick='onClickStar({{show.id}}, value)'/><label for="star3"
-                                class="half"></label>
-                            <input type="radio" id="star2" name="rating" value="2" onclick='onClickStar({{show.id}}, value)'/><label for="star2"
-                                class="full"></label>
-                            <input type="radio" id="star1" name="rating" value="1" onclick='onClickStar({{show.id}}, value)'/><label for="star1"
-                                class="half"></label>
-                        </div>
-                    </li>
-                {% endif %}
-            </ul>
-=======
-            <div class="show_info theme-bg-primary justify-content-center row align-items-center my-5">
+            <div class="show_info theme-bg-primary justify-content-center row align-items-center">
                 <div class="justify-content-center ml-4 col-md-2">
-                    <img class="img-fluid rounded mb-4 mb-lg-0" src="{{show.show_poster.url}}" alt="공연 포스터">
+                    <img class="img-fluid rounded mb-4 mb-lg-0 w-10 h-30" src="{{show.show_poster.url}}" alt="공연 포스터">
                 </div>
                 {% comment %} 공연 정보 {% endcomment %}
                 <div data-aos="fade-down-right" class="col-md-7" >
                     <h3>{{show.show_name}}</h3>
-                    <ul style='list-style:none;'>
-                        <li>
-                            <b>장소: </b> <a href='#'>{{show.show_hall}}<a>
+                    <ul  style='list-style:none;'>
+                        <li class='mb-1'>
+                            <b>장소: </b>{{show.show_hall}}<a>
                         </li>
-                        <li>
-                            <b>공연일: </b> {{show.show_date_start}} ~ {{show.show_date_end}}
+                        <li class='mb-1'>
+                            <b>공연일: </b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 
                         </li>
-                        <li>
-                            <b>공연시간: </b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 
+                        <li class='mb-1'>
+                            <b>공연시간: </b> {{show.show_date_start}} ~ {{show.show_date_end}}
                         </li>
-                        <li>
+                        <li class='mb-1'>
                             <b>인터미션: </b> {{show.show_intermission}} 분
                         </li>
-                        <li>
+                        <li class='mb-1'>
                             <b>연출: </b> {{show.show_director}}
                         </li>
-                        <li>
+                        <li class='mb-1'>
                             <b>날짜: </b> {% for date in showdatelist %}
                             {{date}}
                             {% endfor %}
                         </li>
                         {% if user.is_authenticated %}
-                            {% if show in username.watched_show.all %}
                             <li>
-                                <b>내 별점</b> {{mygrade}}
+                                <b>내 별점</b> <span class='mygrade'>{{mygrade}}</span>
+                                <div class="rating">
+                                    <input type="radio" id="star10" name="rating" value="10" onclick='onClickStar({{show.id}}, value)'/><label for="star10"
+                                        class="full"></label>
+                                    <input type="radio" id="star9" name="rating" value="9" onclick='onClickStar({{show.id}}, value)'/><label for="star9"
+                                        class="half"></label>
+                                    <input type="radio" id="star8" name="rating" value="8" onclick='onClickStar({{show.id}}, value)'/><label for="star8"
+                                        class="full"></label>
+                                    <input type="radio" id="star7" name="rating" value="7" onclick='onClickStar({{show.id}}, value)'/><label for="star7"
+                                        class="half"></label>
+                                    <input type="radio" id="star6" name="rating" value="6" onclick='onClickStar({{show.id}}, value)'/><label for="star6"
+                                        class="full"></label>
+                                    <input type="radio" id="star5" name="rating" value="5" onclick='onClickStar({{show.id}}, value)'/><label for="star5"
+                                        class="half"></label>
+                                    <input type="radio" id="star4" name="rating" value="4" onclick='onClickStar({{show.id}}, value)'/><label for="star4"
+                                        class="full"></label>
+                                    <input type="radio" id="star3" name="rating" value="3" onclick='onClickStar({{show.id}}, value)'/><label for="star3"
+                                        class="half"></label>
+                                    <input type="radio" id="star2" name="rating" value="2" onclick='onClickStar({{show.id}}, value)'/><label for="star2"
+                                        class="full"></label>
+                                    <input type="radio" id="star1" name="rating" value="1" onclick='onClickStar({{show.id}}, value)'/><label for="star1"
+                                        class="half"></label>
+                                </div>
                             </li>
-                            {% else %}
-                            <li>
-                            <b>내 별점</b>
-                                <span class="star-rating">
-                                    <input type="radio" name="rating" value="1" /><i></i> <input type="radio" name="rating" value="2" /><i></i>
-                                    <input type="radio" name="rating" value="3" /><i></i> <input type="radio" name="rating" value="4" /><i></i>
-                                    <input type="radio" name="rating" value="5" /><i></i> <input type="radio" name="rating" value="6" /><i></i>
-                                    <input type="radio" name="rating" value="7" /><i></i> <input type="radio" name="rating" value="8" /><i></i>
-                                    <input type="radio" name="rating" value="9" /><i></i> <input type="radio" name="rating" value="10" /><i></i>
-                                </span>
-                            </li>
-                            {% endif %}
                         
                         {% endif %}
                     </ul>
@@ -147,11 +111,10 @@
                     </div>
                 </div>
             </div>
->>>>>>> adrian
         </div>
     </header>
     {% comment %} ----------캐스팅 정보--------- {% endcomment %}
-    <section class="justify-content-center row align-items-center py-5" id="show_actor">
+    <section class="justify-content-center row align-items-center py-3" id="show_actor">
         <div class="container justify-content-center">
             <span>
                 <h4 class="section-heading text-left mb-3 ml-5 ">캐스팅
@@ -182,59 +145,70 @@
     </div>
 
 
-    {% comment %} 리뷰(제작중) {% endcomment %}
-    <div class='show_review container-fluid'>
-        <div class='container cmt-4'>
-            <div class="section-heading ml-6">
-                <h4 class='section-heading text-left mb-3 ml-5'>
-                    리뷰 {{revnum}} 개
-                </h4>
-                <div>
-                    날짜 선택하기 <br>
-                    {% for date in showdatelist %}
-                    <input type='radio' name='date' value="{{date}}">{{date}}</input>
-                    {% endfor %}
-                </div>
-                <div class='revinput'>
-                    <input class='comment_content' type="text"size='80' placeholder='리뷰를 작성해보세요:)'>
-                    <button type='submit' onclick="onClickCom({{show.id}})"
-                        class='btn btn-outline-dark btn-sm ml-5 mb-1'>
-                        {%csrf_token%}
-                        내 리뷰 등록하기
-                    </button>
-                </div>
-            </div>
-            <div class='reviewbox'>
-                {% for review in reviews %}
-                    {% if review.review_content == '.' %}
-
-                    {%else%}
-                    <div class="revbox panel">
-                        <div class='rev_upper'>
-                            평점 : {{review.review_grade}}
-                        </div>
-                        <div>
-                            관람일자 : {{review.review_watched_at}}
-                        </div>
-                        <div>
-                            작성자 : {{review.review_author}}
-                        </div>
-                        <div class='rev_middle text-center'>
-                            {{review.review_content}}
-                        </div>
-                        {% if review.review_author == username %}
-                        <div class='delbox'>
-                            <button type='submit' onclick='onClickDel({{show.id}}, {{review.id}})'
-                                class='btn btn-outline-dark btn-sm ml-5 mb-1'>
-                                {% csrf_token %}리뷰 삭제하기</button>
-                        </div>
-                        {% endif %}
-                        <div class='rev_bottom'>
-                        </div>
+        {% comment %} 리뷰(제작중) {% endcomment %}
+    <div class='container review-container bg-light py-5'>
+        <div class='show_review container-fluid  h-100 w-100'>
+            <div class='card cmt-4'>
+                <div class="card-title section-heading ml-6">
+                    <h4 class='section-heading text-left my-3 ml-5'>
+                        리뷰 {{revnum}} 개
+                    </h4>
+                    <hr>
+                    <div class='ml-3'>
+                        날짜 선택하기 <br>
+                        {% for date in showdatelist %}
+                        <input type='radio' name='date' value="{{date}}">{{date}}</input>
+                        {% endfor %}
+                    </div>
+                    <div class='revinput text-right mr-3'>
+                        <input class='comment_content' type="text" size='60' placeholder='리뷰를 작성해보세요:)'>
+                        <button type='submit' onclick="onClickCom({{show.id}})"
+                            class='btn btn-outline-dark btn-sm ml-5 mb-1'>
+                            {%csrf_token%}
+                            내 리뷰 등록하기
+                        </button>
                     </div>
                     <hr>
-                    {% endif %}
-                {% endfor %}
+                </div>
+                <div class='reviewbox'>
+                    {% for review in reviews %}
+                        {% if review.review_content == '.' %}
+
+                        {%else%}
+                        <div class="revbox panel mx-3">
+                            <span class='rev_upper'>
+                                평점 : {{review.review_grade}}
+                            </span>
+                            <span style='float:right;'>
+                                관람일자 : {{review.review_watched_at}}
+                            </span>
+                            <br>
+                            <span style='float:right;'>
+                                작성자 : {{review.review_author}}
+                            </span>
+                            <div class='rev_middle text-center'>
+                                {{review.review_content}}
+                            </div>
+                            {% if review.review_author == username %}
+                            <div class='delbox'>
+                                <a class='text-right'>
+                                    <button type='submit' onclick='onClickDel({{show.id}}, {{review.id}})'
+                                        class='btn btn-outline-dark btn-sm ml-5 mb-1'>
+                                        {% csrf_token %}
+                                        리뷰 삭제하기
+                                    </button>
+                                </a>
+                            </div>
+                            <br>
+                            <hr>
+                            {% endif %}
+                            <div class='rev_bottom'>
+                            </div>
+                        </div>
+
+                        {% endif %}
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>

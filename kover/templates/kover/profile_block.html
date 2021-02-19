@@ -3,14 +3,24 @@
 {{block.super}} 
 {%endblock%} 
 {% block content %}
+<style>
+.my-level{
+    background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+}
+.delbox{
+    float: right;
+}
+</style>
 
 <title>Kover | block profile</title>
-<div class="card text-black my-5 py-4 text-center">
-    <div class="panel-body ml-4 mt-6 row">
-        <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
-    </div>
-    <div class="text-right mr-4">
-        <a href="">calender</a>
+<div class='container-fluid'>
+    <div class=" py-4 my-1 text-center my-level">
+        <div class="panel-body ml-4 mt-6 row">
+            <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
+        </div>
+        <div class="text-right mr-4">
+            <a href="">calender</a>
+        </div>
     </div>
 </div>
 <div class="container-fluid mt-2 mb-3">
