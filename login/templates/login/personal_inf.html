@@ -1,0 +1,415 @@
+{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css" />
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<style>
+          button {
+            all: unset;
+            background-color: #A593E0;
+            color: white;
+            padding: 5px 20px;
+            border-radius: 5px;
+          }
+          .modalbox {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            position: fixed;
+            top: 0px;
+            left: 0px;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+          .modal_overlay {
+            background-color: rgba(0, 0, 0, 0.6);
+            width: 100%;
+            height: 100%;
+            position: absolute;
+          }
+          .modal_content {
+            background-color: white;
+            border-radius: 15px;
+            padding: 70px 10px;
+            position: relative;
+            width: 30%;
+            text-align: center;
+          }
+          .none {
+            display: none;
+          }
+
+          /* BASIC */
+
+          body {
+            font-family: "Poppins", sans-serif;
+            height: 100vh;
+          }
+
+          a {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 500;
+            color: #566270;
+          }
+
+          li {
+              margin-top: 10px;
+          }
+
+          h2 {
+            text-align: center;
+            font-size: 16px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-block;
+            margin: 40px 8px 10px 8px;
+          }
+
+          /* STRUCTURE */
+
+          .wrapper {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: center;
+            width: 100%;
+            min-height: 100%;
+            padding: 20px;
+          }
+
+          #formContent {
+            -webkit-border-radius: 10px 10px 10px 10px;
+            border-radius: 10px 10px 10px 10px;
+            background: #fff;
+            padding: 30px;
+            width: 90%;
+            max-width: 450px;
+            position: relative;
+            padding: 0px;
+            -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+            box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
+            text-align: center;
+          }
+
+          /* TABS */
+
+          /* FORM TYPOGRAPHY*/
+
+          input[type="button"],
+          input[type="submit"],
+          input[type="reset"] {
+            background-color: #A593E0;
+            border: none;
+            color: white;
+            padding: 15px 80px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            font-size: 13px;
+            {% comment %} 버튼 그림자 {% endcomment %}
+            -webkit-box-shadow: 0 10px 30px 0 rgba(0, 0,0, 0.2);
+            box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.2);
+            -webkit-border-radius: 5px 5px 5px 5px;
+            border-radius: 5px 5px 5px 5px;
+            margin: 5px 20px 20px 20px;
+            -webkit-transition: all 0.3s ease-in-out;
+            -moz-transition: all 0.3s ease-in-out;
+            -ms-transition: all 0.3s ease-in-out;
+            -o-transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease-in-out;
+          }
+
+          input[type="button"]:hover,
+          input[type="submit"]:hover,
+          input[type="reset"]:hover {
+            background-color: #a593e0;
+          }
+
+          input[type="button"]:active,
+          input[type="submit"]:active,
+          input[type="reset"]:active {
+            -moz-transform: scale(0.95);
+            -webkit-transform: scale(0.95);
+            -o-transform: scale(0.95);
+            -ms-transform: scale(0.95);
+            transform: scale(0.95);
+          }
+
+          input[type="text"] {
+            background-color: #f6f6f6;
+            border: none;
+            color: #0d0d0d;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 5px;
+            width: 85%;
+            border: 2px solid #f6f6f6;
+            -webkit-transition: all 0.5s ease-in-out;
+            -moz-transition: all 0.5s ease-in-out;
+            -ms-transition: all 0.5s ease-in-out;
+            -o-transition: all 0.5s ease-in-out;
+            transition: all 0.5s ease-in-out;
+            -webkit-border-radius: 5px 5px 5px 5px;
+            border-radius: 5px 5px 5px 5px;
+          }
+
+          input[type="text"]:focus {
+            background-color: #fff;
+            border-bottom: 2px solid #5fbae9;
+          }
+
+          input[type="text"]:placeholder {
+            color: #cccccc;
+          }
+
+          /* ANIMATIONS */
+
+          /* Simple CSS3 Fade-in-down Animation */
+          .fadeInDown {
+            -webkit-animation-name: fadeInDown;
+            animation-name: fadeInDown;
+            -webkit-animation-duration: 1s;
+            animation-duration: 1s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+          }
+
+          @-webkit-keyframes fadeInDown {
+            0% {
+              opacity: 0;
+              -webkit-transform: translate3d(0, -100%, 0);
+              transform: translate3d(0, -100%, 0);
+            }
+            100% {
+              opacity: 1;
+              -webkit-transform: none;
+              transform: none;
+            }
+          }
+
+          @keyframes fadeInDown {
+            0% {
+              opacity: 0;
+              -webkit-transform: translate3d(0, -100%, 0);
+              transform: translate3d(0, -100%, 0);
+            }
+            100% {
+              opacity: 1;
+              -webkit-transform: none;
+              transform: none;
+            }
+          }
+
+          /* Simple CSS3 Fade-in Animation */
+          @-webkit-keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          @-moz-keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+
+          .fadeIn {
+            opacity: 0;
+            -webkit-animation: fadeIn ease-in 1;
+            -moz-animation: fadeIn ease-in 1;
+            animation: fadeIn ease-in 1;
+
+            -webkit-animation-fill-mode: forwards;
+            -moz-animation-fill-mode: forwards;
+            animation-fill-mode: forwards;
+
+            -webkit-animation-duration: 1s;
+            -moz-animation-duration: 1s;
+            animation-duration: 1s;
+          }
+
+          .fadeIn.first {
+            -webkit-animation-delay: 0.4s;
+            -moz-animation-delay: 0.4s;
+            animation-delay: 0.4s;
+          }
+
+          .fadeIn.second {
+            -webkit-animation-delay: 0.6s;
+            -moz-animation-delay: 0.6s;
+            animation-delay: 0.6s;
+          }
+
+          .fadeIn.third {
+            -webkit-animation-delay: 0.8s;
+            -moz-animation-delay: 0.8s;
+            animation-delay: 0.8s;
+          }
+
+          .fadeIn.fourth {
+            -webkit-animation-delay: 0.5s;
+            -moz-animation-delay: 0.5s;
+            animation-delay: 0.5s;
+          }
+
+          /* Simple CSS3 Fade-in Animation */
+          .underlineHover:after {
+            display: block;
+            left: 0;
+            bottom: -10px;
+            width: 0;
+            height: 2px;
+            background-color: #566270;
+            content: "";
+            transition: width 0.2s;
+          }
+
+          .underlineHover:hover {
+            color: #0d0d0d;
+          }
+
+          .underlineHover:hover:after {
+            width: 100%;
+          }
+
+          {% comment %}  {% endcomment %}
+
+        .image-circle{
+            border-radius: 50%;
+            width: 175px;
+            height: 175px;
+            border: 4px solid #FFF;
+            margin: 10px;
+        }
+
+      .label {
+          color: #A593E0;
+          font-size: 18px;
+          font-weight: 500;
+      }
+
+      .control {
+        color:#000;
+        margin:10px;
+    }
+
+
+
+      .form-control{
+          color: #000000 !important;
+          font-size: 18px;
+          border: none;
+          padding: 25px;
+          padding-left: 10px;
+          border-bottom: 1px solid #CCC;
+          margin-bottom: 10px;
+          outline: none;
+          -webkit-box-shadow: none !important;
+          -moz-box-shadow: none !important;
+          box-shadow: none !important;
+      }
+
+      .form-control:focus{
+          border-radius: 0px;
+          border-bottom: 1px solid #A593E0;
+          margin-bottom: 10px;
+          outline: none;
+          -webkit-box-shadow: none !important;
+          -moz-box-shadow: none !important;
+          box-shadow: none !important;
+      }
+      .btn-orange{
+          background-color: #A593E0;
+          border-radius: 5px;
+          margin: 5px;
+          padding: 5px;
+          width: 150px;
+          font-size: 20px;
+          font-weight: inherit;
+      }
+
+      .btn-orange:hover {
+          background-color: #A593E0;
+          border-radius: 0px;
+          margin: 5px;
+          padding: 5px;
+          width: 150px;
+          font-size: 20px;
+          font-weight: inherit;
+          color:#FFF !important;
+      }
+
+      .line{
+          border-bottom : 2px solid #F32D27;
+      }
+
+
+      .outter{
+          padding: 0px;
+          border: 1px solid rgba(255, 255, 255, 0.29);
+          border-radius: 50%;
+          width: 200px;
+          height: 200px;
+      }
+</style>
+
+<title>Kover | settings</title>
+
+<div class="wrapper fadeInDown">
+    <div id="formContent">
+        <div class="row login_box">
+            <div class="col-md-12 col-xs-12" align="center">
+                <div class="outter">
+                    {% if username.profileimg %}
+                    <img src="{{username.profileimg.url}}" class="image-circle" />
+                    {%else%}
+                    <img
+                        src="https://icons-for-free.com/iconfiles/png/512/anonymous+app+contacts+open+line+profile+user+icon-1320183042822068474.png"
+                        class="image-circle"
+                    />
+                    {% endif %}
+                </div>
+                {% comment %} 닉네임 {% endcomment %}
+                <h1>{{username.nickname}}</h1>
+                {% comment %} 아이디 {% endcomment %}
+                <span>{{username.user}}</span>
+            </div>
+
+            <div class="col-md-12 col-xs-12">
+                <div class="control row">
+                    <div class="label" style="padding-top: 14px; margin-left: 20px; margin-right: 40px">소개</div>
+                    <input class="form-control" value="{{username.bio}}" style="width: 70%" />
+                </div>
+
+                <div class="control row">
+                    <div class="label" style="padding-top: 14px; margin-left: 20px; margin-right: 5px">웹사이트</div>
+                    <input class="form-control" value="{{username.biolink}}" style="width: 70%" />
+                </div>
+                <div align="center">
+                    <input type="submit" class="fadeIn fourth" value="변경 완료" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script></script>
+{% endblock content %}

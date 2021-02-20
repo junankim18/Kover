@@ -51,10 +51,15 @@ a:hover{
         {% for show in shows%}
         <a href="{%url 'kover:show_detail' show.id%}">
             <div class="showdetailbox card text-center">
-                <img class="card-img-top" src="{{show.show_poster.url}}" alt="" />
+                <img class="card-img-top" src="{{show.show_poster}}" alt="" />
                 <p><small> {{show.show_name}}</small></p>
                 <p><small> {{show.show_hall}}</small></p>
-                <p><small> 내 별점 : {%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}} {%endif%}{%endfor%}</small></p>
+                <p>
+                    <small>
+                        내 별점 : {%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}}
+                        {%endif%}{%endfor%}</small
+                    >
+                </p>
             </div>
         </a>
     </div>
@@ -103,7 +108,7 @@ a:hover{
                 <div class="actorcontainer">
                     {% for actor in actors %}
                     <div class="actordetailbox">
-                        <img src="{{actor.people_img.url}}" alt="" width="150px" />
+                        <img src="{{actor.people_img}}" alt="" width="150px" />
                         <p>{{actor.people_name}} {{actor.people_type}}</p>
                     </div>
                     {% endfor %}

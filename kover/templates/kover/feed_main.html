@@ -1,9 +1,11 @@
-{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
+{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%}
+{% block content %}
 <title>Kover | feed_main</title>
 
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb light">
-        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="">Home</a></li>
+        <li class="breadcrumb-item"><a href="/feed/hot_feed">HOT</a></li>
         <li class="breadcrumb-item"><a href="/feed/play_lib">연극-자유</a></li>
         <li class="breadcrumb-item"><a href="/feed/play_inf">연극-정보</a></li>
         <li class="breadcrumb-item"><a href="/feed/musical_lib">뮤지컬-자유</a></li>
@@ -13,7 +15,29 @@
 </nav>
 
 <div class="feeds_main" style="margin-bottom: 100px">
-    <a href="/feed/play_lib"><b style="font-size: 25px">연극 - 자유</b></a>
+    <a href="/feed/hot_feed"><b style="font-size: 25px">HOT 피드</b></a>
+    <div class="list-group">
+        {% for feed in feed_0  %}
+        <a
+            href="{%url 'kover:feed_page' feed.id%}"
+            class="list-group-item list-group-item-action flex-column align-items-start"
+        >
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{feed.feed_title}}</h5>
+                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
+            </div>
+            <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
+        </a>
+        {% endfor %}
+    </div>
+    <div class="form-row float-right" style="margin-top: 20px">
+        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/hot_feed'">더 보기</button>
+    </div>
+</div>
+
+<div class="row">
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">연극 - 자유</b>
     <div class="list-group">
         {% for feed in feed_1 %}
         <a
@@ -22,19 +46,19 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
         {% endfor %}
     </div>
     <div class="form-row float-right" style="margin-top: 20px">
-        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '#'">더 보기</button>
+        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/play_lib'">더 보기</button>
     </div>
-</div>
+  </div>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-    <a href="/feed/play_inf"><b style="font-size: 25px">연극 - 정보</b></a>
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">연극 - 정보</b>
     <div class="list-group">
         {% for feed in feed_2 %}
         <a
@@ -43,19 +67,21 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
         {% endfor %}
     </div>
     <div class="form-row float-right" style="margin-top: 20px">
-        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '#'">더 보기</button>
+        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/play_inf'">더 보기</button>
     </div>
+  </div>
 </div>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-    <a href="/feed/musical_lib"><b style="font-size: 25px">뮤지컬 - 자유</b></a>
+<div class="row" style="margin-top: 30px">
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">뮤지컬 - 자유</b>
     <div class="list-group">
         {% for feed in feed_3 %}
         <a
@@ -64,19 +90,19 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
         {% endfor %}
     </div>
     <div class="form-row float-right" style="margin-top: 20px">
-        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '#'">더 보기</button>
+        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/musical_lib'">더 보기</button>
     </div>
-</div>
+  </div>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-    <a href="/feed/musical_inf"><b style="font-size: 25px">뮤지컬 - 정보</b></a>
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">뮤지컬 - 정보</b>
     <div class="list-group">
         {% for feed in feed_4 %}
         <a
@@ -85,15 +111,16 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
         {% endfor %}
     </div>
     <div class="form-row float-right" style="margin-top: 20px">
-        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '#'">더 보기</button>
+        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/musical_inf'">더 보기</button>
     </div>
+  </div>
 </div>
 
 <div class="feeds_main" style="margin-bottom: 100px">
@@ -106,14 +133,14 @@
         >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <small class="text-muted"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</small>
+                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
         </a>
         {% endfor %}
     </div>
     <div class="form-row float-right" style="margin-top: 20px">
-        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '#'">더 보기</button>
+        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/question'">더 보기</button>
     </div>
 </div>
 
