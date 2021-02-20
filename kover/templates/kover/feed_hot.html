@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{% block extra_head %} {{block.super}}
+{% endblock %}
+
+{% block content %}
+<title>Kover | HOT 피드 </title>
+<div class="row" style="margin-top: 30px; margin-bottom: 100px">
+    <div class="feed_main col-xl-12">
+        <span style="font-size: 25px"><b>HOT 피드</b></span>
+        <ul class="list-group " style="max-width: 35rem;">
+            {% for feed in feeds %}
+            
+            <a
+            href="{%url 'kover:feed_page' feed.id%}"
+            class="list-group-item list-group-item-action flex-column align-items-start"
+            >
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">{{feed.feed_title}}</h5>
+                <span class="badge badge-danger badge-pill"> <i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </span>
+                <div class="comment_number">댓글수 {{feed.comment_post.all.count}}</div>
+            </div>
+            <p class="mb-1">{{feed.feed_content|truncatechars:30}}  </p>
+        </a>
+            {% endfor %}
+        </ul>
+    </div>
+
+    {% if posts.has_previous %}
+    <a href="?page=1">맨 앞으로</a> 
+    <a href="?page={{posts.previous_page_number}}">이전으로</a>
+    {% endif %}
+    <span>post.number</span>
+    <span>/</span>
+    <span>{{post.pagenator.num_pages}}</span>
+    {% if posts.has_next %}
+    <a href="?page={{posts.next_page_number}}">다음으로</a>
+    <a href="?page={{posts.previous_page_number}}">맨 뒤로</a>
+    {% endif %}
+</div>
+
+
+{% endblock %}
