@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+
+    <title>Kover | Search</title>
+    {%csrf_token%}
+    {% if not shows %}
+        <h1>"{{q}}"에 대한 검색 결과가 없습니다</h1>
+    {% else %}
+        {% for show in shows.all %}
+        <div class="container"> 
+            <div class="card">
+                <div class="card-body">
+                    <h1>{{ show.show_name }}</h1> 
+                </div>
+            </div>
+        </div>
+        <br>
+        {% endfor %}
+    {% endif %}
+
+{% endblock %}

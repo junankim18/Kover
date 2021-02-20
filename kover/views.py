@@ -1,17 +1,13 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.views import View
-from .models import Hall, User, Show, People, Review, Feed_post, Feed_comment, Time, Profile
+from django.shortcuts import render
+from .models import User, Show, People, Review, Feed_post, Feed_comment, Profile
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
-from .forms import ShowForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from django.db.models.query import Q
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
 from dateutil.parser import *
-from django.db.models import Count
+from django.db.models import Q
 
 # profile_block : 기본 프로필페이지
 
@@ -492,3 +488,17 @@ def feed_main(request):
         'comlist': comlist
     }
     return render(request, 'kover/feed_main.html', ctx)
+
+
+def searchResult(request):
+
+    shows = Show.objects.all()
+
+    q = request.GET.get('q')
+
+    if q:
+        shows = shows.filter(show_name__icontains=q)
+        return render(request, 'kover/search.html', {'shows': shows, 'q': q})
+
+    else:
+        return render(request, 'kover/search.html')
