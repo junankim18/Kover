@@ -156,7 +156,6 @@ def feed_main(request):
 
 
 
-# def feed_page(request):
 def feed_page(request, pk):
     if request.user not in User.objects.all():
         users = 0
@@ -436,9 +435,16 @@ def press_com(comrequest):
         nickname = user.nickname
         if content:
             comment = Feed_comment(comment_author=user,
-                                   comment_content=content, comment_post=feed)
+                                   comment_content=content, comment_post=feed,
+                                   )
             comment.save()
-        return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname})
+
+
+
+
+
+
+        return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname, 'time':comment.comment_created_at})
 
 
 # create_watched_show : 네비게이션 바에서  '리뷰등록'을 눌렀을 때, 아직 평가하지 않은 작품들의 리스트가 나온다
