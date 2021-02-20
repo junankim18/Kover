@@ -3,12 +3,13 @@
 {% endblock %}
 
 {% block content %}
-<title>Kover | {{feed.get_feed_type_display}}</title>
+<title>Kover | HOT 피드 </title>
 <div class="row" style="margin-top: 30px; margin-bottom: 100px">
     <div class="feed_main col-xl-12">
-        <span style="font-size: 25px"><b>{{feed.get_feed_type_display}}</b></span>
+        <span style="font-size: 25px"><b>HOT 피드</b></span>
         <ul class="list-group " style="max-width: 35rem;">
             {% for feed in posts %}
+            
             <a
             href="{%url 'kover:feed_page' feed.id%}"
             class="list-group-item list-group-item-action flex-column align-items-start"
@@ -22,7 +23,6 @@
             {% endfor %}
         </ul>
     </div>
-
 
     <div class="row mt-2">
         <div class="col-12">

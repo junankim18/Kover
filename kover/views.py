@@ -12,6 +12,7 @@ from django.db.models.query import Q
 from datetime import date, timedelta, datetime
 from dateutil.parser import *
 from django.db.models import Count
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # profile_block : 기본 프로필페이지
 
@@ -89,7 +90,7 @@ def main(request):
     feed_1 = Feed_post.objects.all().order_by(
         '-feed_created_at')[:5]  # 피드 최신 순
     feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
-
+ 
     actorshow = []
     wantshow = []
     for actor in actors:
@@ -123,24 +124,35 @@ def profile_geo(request):
 
 
 def feed_main(request):
-    username = Profile.objects.filter(id=request.user.id)
-    if username:
-        actors = username[0].like_actor.all().order_by('people_name')
-    else:
-        actors = []
-
-    feed_1 = Feed_post.objects.all().order_by(
-        '-feed_created_at')[:5]  # 피드 최신 순
-    feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
+    feeds = Feed_post.objects.all()
+    # feed_0 = Feed_post.objects.all().order_by('-feed_like')[:5]
+    feed_0 = Feed_post.objects.all()[:5]  # 피드 좋아요 많은 순
+    feed_1 = Feed_post.objects.filter(feed_type='play_lib').order_by(
+        '-feed_created_at')[:5]  # 연극-자유
+    feed_2 = Feed_post.objects.filter(feed_type='play_inf').order_by(
+        '-feed_created_at')[:5]  # 연극-정보
+    feed_3 = Feed_post.objects.filter(feed_type='musical_lib').order_by(
+        '-feed_created_at')[:5]  # 뮤지컬-자유
+    feed_4 = Feed_post.objects.filter(feed_type='musical_inf').order_by(
+        '-feed_created_at')[:5]  # 뮤지컬-정보
+    feed_5 = Feed_post.objects.filter(feed_type='question').order_by(
+        '-feed_created_at')[:5]  # 질문
+    # n = Feed_comment.objects.count()
+    comment_list = Feed_comment.objects.all()
 
     comlist = []
-    for feed in feed_2:
+    for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
 
     ctx = {
+        'feeds': feeds,
+        'feed_0': feed_0,
         'feed_1': feed_1,
         'feed_2': feed_2,
-        'comlist': comlist,
+        'feed_3': feed_3,
+        'feed_4': feed_4,
+        'feed_5': feed_5,
+        'comlist': comlist
     }
     return render(request, 'kover/feed_main.html', ctx)
 
@@ -153,6 +165,7 @@ def feed_page(request, pk):
         users = Profile.objects.filter(user=request.user)
         users = users[0]
         # feeds= Feed_post.objects.all()
+    id = users.pk
     feed = Feed_post.objects.get(pk=pk)
     print(users in feed.feed_like.all())
     comlist = []
@@ -171,12 +184,24 @@ def feed_musical_lib(request):
     feeds = Feed_post.objects.filter(feed_type='musical_lib').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
 
@@ -188,12 +213,24 @@ def feed_musical_inf(request):
     feeds = Feed_post.objects.filter(feed_type='musical_inf').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
 
@@ -203,12 +240,24 @@ def feed_play_lib(request):
     feeds = Feed_post.objects.filter(feed_type='play_lib').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
 
@@ -218,12 +267,24 @@ def feed_play_inf(request):
     feeds = Feed_post.objects.filter(feed_type='play_inf').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
 
@@ -233,14 +294,53 @@ def feed_question(request):
     feeds = Feed_post.objects.filter(feed_type='question').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
+
+
+def feed_hot_feed(request):
+    feed = Feed_post.objects.all()
+    feeds = Feed_post.objects.all().order_by('-feed_like')[:]  
+    # 피드 좋아요 많은 순
+    comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
+    ctx = {
+        'feed': feed,
+        'feeds': feeds,
+        'comlist': comlist,
+        'posts': posts,
+    }
+    return render(request, 'kover/feed_hot.html', ctx)
 
 
 # show_detail : contents 상세보기 페이지
@@ -462,33 +562,3 @@ def star_rate(starrequest):
                              })
 
 
-def feed_main(request):
-    feeds = Feed_post.objects.all()
-
-    feed_1 = Feed_post.objects.filter(feed_type='play_lib').order_by(
-        '-feed_created_at')[:5]  # 연극-자유
-    feed_2 = Feed_post.objects.filter(feed_type='play_inf').order_by(
-        '-feed_created_at')[:5]  # 연극-정보
-    feed_3 = Feed_post.objects.filter(feed_type='musical_lib').order_by(
-        '-feed_created_at')[:5]  # 뮤지컬-자유
-    feed_4 = Feed_post.objects.filter(feed_type='musical_inf').order_by(
-        '-feed_created_at')[:5]  # 뮤지컬-정보
-    feed_5 = Feed_post.objects.filter(feed_type='question').order_by(
-        '-feed_created_at')[:5]  # 질문
-    # n = Feed_comment.objects.count()
-    comment_list = Feed_comment.objects.all()
-
-    comlist = []
-    for feed in feeds:
-        comlist.append(len(feed.comment_post.all()))
-
-    ctx = {
-        'feeds': feeds,
-        'feed_1': feed_1,
-        'feed_2': feed_2,
-        'feed_3': feed_3,
-        'feed_4': feed_4,
-        'feed_5': feed_5,
-        'comlist': comlist
-    }
-    return render(request, 'kover/feed_main.html', ctx)

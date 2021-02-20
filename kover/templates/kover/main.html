@@ -43,13 +43,9 @@
             <ul class="list-group " style="max-width: 35rem;">
                 {% for feed in feed_2 %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{feed.feed_title}}
-                    <span class="badge badge-danger badge-pill">
-                        <i class="fas fa-heart"></i> {{feed.feed_like.all.count}}
-                    </span>
-                    <span class="badge badge-danger badge-pill">
-                        <i class="fas fa-heart"></i> 댓글수{{feed.comment_post.all.count}}
-                    </span>
+                    <a href="{%url 'kover:feed_page' feed.id%}">{{feed.feed_title}}</a>
+                    <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> 
+                    <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
                 {% endfor %}
 
                 </li>
@@ -61,8 +57,8 @@
             <ul class="list-group " style="max-width: 35rem;">
                 {% for feed in feed_1 %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
-                    {{feed.feed_type}}
-                    <span class="badge badge-white badge-pill">{{feed.feed_title}}</span>
+                    <a href="/feed/{{feed.feed_type}}">  {{feed.get_feed_type_display}}</a>
+                    <a href="{%url 'kover:feed_page' feed.id%}"><span class="badge badge-white badge-pill">{{feed.feed_title}}</span></a>
                 </li>
                 {% endfor %}</p>
             </ul>

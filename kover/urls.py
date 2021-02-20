@@ -30,6 +30,7 @@ urlpatterns = [
     path('feed/musical_lib/', views.feed_musical_lib,
          name='feed_musical_lib'),  # 뮤지컬-자유),
     path('feed/question', views.feed_question, name='feed_question'),  # 질문),
+    path('feed/hot_feed', views.feed_hot_feed, name='feed_question'),  # hot 피드),
     path('contents/<int:pk>/', views.show_detail,
          name='show_detail'),  # 공연별 디테일),
     path('contents/<int:pk>/', views.show_detail,
