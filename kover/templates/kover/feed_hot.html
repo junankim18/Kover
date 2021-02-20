@@ -16,8 +16,7 @@
             >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <span class="badge badge-danger badge-pill"> <i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </span>
-                <div class="comment_number"><i class="fas fa-comment-alt"></i> {{feed.comment_post.all.count}}</div>
+                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}  </p>
         </a>

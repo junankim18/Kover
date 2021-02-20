@@ -15,57 +15,13 @@
             >
             <div class="d-flex w-100 justify-content-between">
                 <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <span class="badge badge-danger badge-pill"> <i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </span>
-                <div class="comment_number"><i class="fas fa-comment-alt"></i> {{feed.comment_post.all.count}}</div>
+                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
             </div>
             <p class="mb-1">{{feed.feed_content|truncatechars:30}}  </p>
         </a>
             {% endfor %}
         </ul>
     </div>
-
-    {% comment %} {% if posts.has_previous %}
-    <a href="?page=1">맨 앞으로</a> 
-    <a href="?page={{posts.previous_page_number}}">이전으로</a>
-    {% endif %}
-    <span>{{posts.number}}</span>
-    <span>/</span>
-    <span>{{posts.paginator.num_pages}}</span>
-    {% if posts.has_next %}
-    <a href="?page={{posts.next_page_number}}">다음으로</a>
-    <a href="?page={{posts.next_page_number}}">맨 뒤로</a>
-    {% endif %} {% endcomment %}
-
-{% comment %} 
-    <div class="row mt-2">
-        <div class="col-12">
-            <nav>
-                <ul class="pagination justify-content-center">
-                    {% if posts.has_previous %}                         
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{posts.previous_page_number }}">이전으로</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">이전으로</a>
-                    </li>
-                    {% endif %}
-                    <li class="page-item">
-                        <a class="page-link" href="#">{{posts.number}}/{{posts.paginator.num_pages}}</a>
-                    </li>
-                    {% if posts.has_next %}
-                    <li class="page-item">
-                        <a class="page-link" href="?page={{posts.next_page_number }}">다음으로</a>
-                    </li>
-                    {% else %}
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#">다음으로</a>
-                    </li>
-                    {% endif %}
-                </ul>
-            </nav>
-        </div>
-    </div> {% endcomment %}
 
 
     <div class="row mt-2">
@@ -94,31 +50,6 @@
         </div>
     </div>
 
-
-{% comment %} 
-    {% if posts.has_previous %}
-        <a href="?page=1">맨 앞으로</a> 
-        <a href="?page={{ posts.previous_page_number }}" class=" button big previous">Previous Page</a>
-    {% else %}
-        <a href="#" class="disabled button big previous">Previous Page</a>
-    {%endif%}
-    {% if posts.has_next %}
-        <a href="?page={{ posts.next_page_number }}" class="button big next">Next Page</a>
-        <a href="?page={{posts.next_page_number}}">맨 뒤로</a>
-    {%else%}
-        <a href="#" class="button big next">Next Page</a>
-    {%endif%} {% endcomment %}
-
-
-
-{% comment %}     
-    {% load el_pagination_tags %}
-
-	  {% paginate feeds %}
-	  {% for feed in feeds %}
-      	 <br/>
-	  {% endfor %}
-	  {% show_pages %} {% endcomment %}
 </div>
 
 
