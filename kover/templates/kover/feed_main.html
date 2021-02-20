@@ -13,131 +13,139 @@
   </ol>
 </nav>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-  <b style="font-size: 25px">연극 - 자유</b>
-  <div class="list-group">
-    {% for feed in feed_1 %}
-    <a
-      href="#"
-      class="list-group-item list-group-item-action flex-column align-items-start"
-    >
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{feed.feed_title}}</h5>
-        <small class="text-muted"
-          ><i class="fas fa-heart"></i> {{feed.feed_like}}</small
-        >
-        <small class="text-muted"
-          ><i class="fas fa-comment"></i> {{feed.comment_post.all.count}}</small
-        >
-      </div>
-      <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
-    </a>
-    {% endfor %}
+<div class="row">
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">연극 - 자유</b>
+    <div class="list-group">
+      {% for feed in feed_1 %}
+      <a
+        href="#"
+        class="list-group-item list-group-item-action flex-column align-items-start"
+      >
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{feed.feed_title}}</h5>
+          <small class="text-muted"
+            ><i class="fas fa-heart"></i> {{feed.feed_like}}</small
+          >
+          <small class="text-muted"
+            ><i class="fas fa-comment"></i>
+            {{feed.comment_post.all.count}}</small
+          >
+        </div>
+        <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="form-row float-right" style="margin-top: 20px">
+      <button
+        type="button"
+        class="btn btn-dark pull-right"
+        onclick="location.href = '#'"
+      >
+        더 보기
+      </button>
+    </div>
   </div>
-  <div class="form-row float-right" style="margin-top: 20px">
-    <button
-      type="button"
-      class="btn btn-dark pull-right"
-      onclick="location.href = '#'"
-    >
-      더 보기
-    </button>
+
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">연극 - 정보</b>
+    <div class="list-group">
+      {% for feed in feed_2 %}
+      <a
+        href="#"
+        class="list-group-item list-group-item-action flex-column align-items-start"
+      >
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{feed.feed_title}}</h5>
+          <small class="text-muted"
+            ><i class="fas fa-heart"></i> {{feed.feed_like}}</small
+          >
+          <small class="text-muted"
+            ><i class="fas fa-comment"></i>
+            {{feed.comment_post.all.count}}</small
+          >
+        </div>
+        <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="form-row float-right" style="margin-top: 20px">
+      <button
+        type="button"
+        class="btn btn-dark pull-right"
+        onclick="location.href = '#'"
+      >
+        더 보기
+      </button>
+    </div>
   </div>
 </div>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-  <b style="font-size: 25px">연극 - 정보</b>
-  <div class="list-group">
-    {% for feed in feed_2 %}
-    <a
-      href="#"
-      class="list-group-item list-group-item-action flex-column align-items-start"
-    >
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{feed.feed_title}}</h5>
-        <small class="text-muted"
-          ><i class="fas fa-heart"></i> {{feed.feed_like}}</small
-        >
-        <small class="text-muted"
-          ><i class="fas fa-comment"></i> {{feed.comment_post.all.count}}</small
-        >
-      </div>
-      <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
-    </a>
-    {% endfor %}
+<div class="row" style="margin-top: 30px">
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">뮤지컬 - 자유</b>
+    <div class="list-group">
+      {% for feed in feed_3 %}
+      <a
+        href="#"
+        class="list-group-item list-group-item-action flex-column align-items-start"
+      >
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{feed.feed_title}}</h5>
+          <small class="text-muted"
+            ><i class="fas fa-heart"></i> {{feed.feed_like}}</small
+          >
+          <small class="text-muted"
+            ><i class="fas fa-comment"></i>
+            {{feed.comment_post.all.count}}</small
+          >
+        </div>
+        <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="form-row float-right" style="margin-top: 20px">
+      <button
+        type="button"
+        class="btn btn-dark pull-right"
+        onclick="location.href = '#'"
+      >
+        더 보기
+      </button>
+    </div>
   </div>
-  <div class="form-row float-right" style="margin-top: 20px">
-    <button
-      type="button"
-      class="btn btn-dark pull-right"
-      onclick="location.href = '#'"
-    >
-      더 보기
-    </button>
-  </div>
-</div>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-  <b style="font-size: 25px">뮤지컬 - 자유</b>
-  <div class="list-group">
-    {% for feed in feed_3 %}
-    <a
-      href="#"
-      class="list-group-item list-group-item-action flex-column align-items-start"
-    >
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{feed.feed_title}}</h5>
-        <small class="text-muted"
-          ><i class="fas fa-heart"></i> {{feed.feed_like}}</small
-        >
-        <small class="text-muted"
-          ><i class="fas fa-comment"></i> {{feed.comment_post.all.count}}</small
-        >
-      </div>
-      <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
-    </a>
-    {% endfor %}
-  </div>
-  <div class="form-row float-right" style="margin-top: 20px">
-    <button
-      type="button"
-      class="btn btn-dark pull-right"
-      onclick="location.href = '#'"
-    >
-      더 보기
-    </button>
-  </div>
-</div>
-
-<div class="feeds_main" style="margin-bottom: 100px">
-  <b style="font-size: 25px">뮤지컬 - 정보</b>
-  <div class="list-group">
-    {% for feed in feed_4 %}
-    <a
-      href="#"
-      class="list-group-item list-group-item-action flex-column align-items-start"
-    >
-      <div class="d-flex w-100 justify-content-between">
-        <h5 class="mb-1">{{feed.feed_title}}</h5>
-        <small class="text-muted"
-          ><i class="fas fa-heart"></i> {{feed.feed_like}}</small
-        >
-        <small class="text-muted"
-          ><i class="fas fa-comment"></i> {{feed.comment_post.all.count}}</small
-        >
-      </div>
-      <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
-    </a>
-    {% endfor %}
-  </div>
-  <div class="form-row float-right" style="margin-top: 20px">
-    <button
-      type="button"
-      class="btn btn-dark pull-right"
-      onclick="location.href = '#'"
-    >
-      더 보기
-    </button>
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">뮤지컬 - 정보</b>
+    <div class="list-group">
+      {% for feed in feed_4 %}
+      <a
+        href="#"
+        class="list-group-item list-group-item-action flex-column align-items-start"
+      >
+        <div class="d-flex w-100 justify-content-between">
+          <h5 class="mb-1">{{feed.feed_title}}</h5>
+          <small class="text-muted"
+            ><i class="fas fa-heart"></i> {{feed.feed_like}}</small
+          >
+          <small class="text-muted"
+            ><i class="fas fa-comment"></i>
+            {{feed.comment_post.all.count}}</small
+          >
+        </div>
+        <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="form-row float-right" style="margin-top: 20px">
+      <button
+        type="button"
+        class="btn btn-dark pull-right"
+        onclick="location.href = '#'"
+      >
+        더 보기
+      </button>
+    </div>
   </div>
 </div>
 
