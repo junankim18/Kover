@@ -1,10 +1,10 @@
 from openpyxl import load_workbook
 from . import models
-from .models import People
+from .models import People, Hall, Show
 from django.shortcuts import render, redirect
 
 load_wb = load_workbook(
-    "C:/Users/Hi/Desktop/work/people.xlsx", data_only=True)
+    "C:/Users/Hi/Desktop/work/place.xlsx", data_only=True)
 load_ws = load_wb['Sheet']
 
 # all_values = []
@@ -15,7 +15,7 @@ load_ws = load_wb['Sheet']
 #     all_values.append(row_value)
 
 
-def crawl(request):
+def crawlpeople(request):
     for i in range(2, 101):
         if load_ws.cell(i, 3).value and load_ws.cell(i, 4).value:
             people = People(
@@ -47,4 +47,14 @@ def crawl(request):
                 people_img='https://icons-for-free.com/iconfiles/png/512/anonymous+app+contacts+open+line+profile+user+icon-1320183042822068474.png',
             )
             people.save()
+    return render(request, 'kover/main.html')
+
+
+def crawlplace(request):
+    for i in range(2, 37):
+        hall = Hall(
+            hall_name=load_ws.cell(i, 1).value,
+            hall_addr=load_ws.cell(i, 2).value
+        )
+        hall.save
     return render(request, 'kover/main.html')

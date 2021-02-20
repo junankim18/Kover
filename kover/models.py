@@ -16,8 +16,8 @@ class Time(models.Model):
 
 class Hall(models.Model):
     hall_name = models.CharField(max_length=50, verbose_name='공연장 이름')
-    hall_lat = models.FloatField(verbose_name='공연장 위도')
-    hall_lng = models.FloatField(verbose_name='공연장 경도')
+    hall_lat = models.FloatField(verbose_name='공연장 위도', null=True)
+    hall_lng = models.FloatField(verbose_name='공연장 경도', null=True)
     hall_addr = models.TextField(verbose_name='공연장 주소')
     hall_trans = models.TextField(verbose_name='공연장 교통편', blank=True)
 

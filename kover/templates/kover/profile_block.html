@@ -17,7 +17,7 @@
         {% for show in shows%}
         <a href="{%url 'kover:show_detail' show.id%}">
             <div class="showdetailbox card text-center">
-                <img class="card-img-top" src="{{show.show_poster.url}}" alt="" />
+                <img class="card-img-top" src="{{show.show_poster}}" alt="" />
                 <p><small> {{show.show_name}}</small></p>
                 <p><small> {{show.show_hall}}</small></p>
                 <p>
