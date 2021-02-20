@@ -1,137 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Document</title>
-        <link
-            rel="stylesheet"
-            href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
-            integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu"
-            crossorigin="anonymous"
-        />
-        <style>
-            * {
-                margin: 0;
-                padding: 0;
-                box-sizing: border-box;
-            }
-            html,
-            body {
-                width: 100%;
-                height: 100%;
-            }
-            .container {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                height: 100%;
-            }
-            .rating-wrap {
-                max-width: 480px;
-                margin: auto;
-                padding: 15px;
-                box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.2);
-                text-align: center;
-            }
-
-            .center {
-                width: 190px;
-                margin: auto;
-            }
-            #rating-value {
-            }
-            .rating {
-                border: none;
-                float: left;
-            }
-            .rating > input {
-                display: none;
-            }
-            .rating > label:before {
-                content: "\f005";
-                font-family: "Font Awesome 5 Free";
-                margin: 5px;
-                font-size: 1.5rem;
-                display: inline-block;
-                cursor: pointer;
-                font-weight: 600;
-            }
-            .rating > .half:before {
-                content: "\f089";
-                position: absolute;
-                cursor: pointer;
-                font-weight: 600;
-            }
-            .rating > label {
-                color: #ddd;
-                float: right;
-                cursor: pointer;
-            }
-            .rating > input:checked ~ label,
-            .rating:not(:checked) > label:hover,
-            .rating:not(:checked) > label:hover ~ label {
-                color: #a593e0;
-            }
-            .rating > input:checked + label:hover,
-            .rating > input:checked ~ label:hover,
-            .rating > input:hover ~ input:checked ~ label,
-            .rating > input:checked ~ input:hover ~ label {
-                color: #a593e0;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="container">
-            <div class="rating-wrap">
-                <h2>star ratings</h2>
-                <div class="center">
-                    <div class="rating">
-                        <input type="radio" id="start5" name="rating" value="5" /><label
-                            for="start5"
-                            class="full"
-                        ></label>
-                        <input type="radio" id="start4.5" name="rating" value="4.5" /><label
-                            for="start4.5"
-                            class="half"
-                        ></label>
-                        <input type="radio" id="start4" name="rating" value="4" /><label
-                            for="start4"
-                            class="full"
-                        ></label>
-                        <input type="radio" id="start3.5" name="rating" value="3.5" /><label
-                            for="start3.5"
-                            class="half"
-                        ></label>
-                        <input type="radio" id="start3" name="rating" value="3" /><label
-                            for="start3"
-                            class="full"
-                        ></label>
-                        <input type="radio" id="start2.5" name="rating" value="2.5" /><label
-                            for="start2.5"
-                            class="half"
-                        ></label>
-                        <input type="radio" id="start2" name="rating" value="2" /><label
-                            for="start2"
-                            class="full"
-                        ></label>
-                        <input type="radio" id="start1.5" name="rating" value="1.5" /><label
-                            for="start1.5"
-                            class="half"
-                        ></label>
-                        <input type="radio" id="start1" name="rating" value="1" /><label
-                            for="start1"
-                            class="full"
-                        ></label>
-                        <input type="radio" id="start0.5" name="rating" value="0.5" /><label
-                            for="start0.5"
-                            class="half"
-                        ></label>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script></script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .kjh{
+            height: 500px;
+            width: 500px;
+            box-shadow:4px 4px 4px rgba(0,0,0,0.2);
+            background-color:beige;
+        }
+    </style>
+</head>
+<body>
+    <div class='kjh'></div>
+</body>
 </html>

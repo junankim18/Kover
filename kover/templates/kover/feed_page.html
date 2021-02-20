@@ -19,24 +19,23 @@
             <button class="likebtn btn btn-outline-danger btn-sm badge-pill" type="submit" onclick="onClickLike({{ feed.id }})"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</button>
             <button class='alreadyliked none' onclick="onClickLiked()"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </button>
         {% endif %}
-        <button class="comment_number btn btn-outline-info btn-sm badge-pill" disabled ><i class="fas fa-comment-alt"></i> {{feed.comment_post.all.count}} </button>
-        <div class="comment_t ">
+        <button class="comment_number btn btn-outline-info btn-sm badge-pill" disabled ><i class="fas fa-comment-alt"></i> <a>{{feed.comment_post.all.count}}</a> </button>
+        <div>
             댓글 
             {% for comment in feed.comment_post.all %}
             <div class="comment list-group-item list-group-item-action flex-column align-items-start">
-            {{ comment.comment_content|linebreaksbr }} 
-            <p><a href="{%url 'kover:profile_block' %}">{{comment.comment_author}}</a> / {{comment.comment_created_at}} 
-            <a href="">수정</a> <a href="">삭제</a></p></div>
-            {% endfor %}
-            <div style="margin-bottom: 300px">
-                <input class="comment_content" type="text" placeholder="댓글 달기" />
-                <textarea id="multiliner" name="multiliner" style="white-space: pre-wrap; overflow:hidden; overflow-wrap:break-word;" placeholder="댓글 달기"></textarea>
-                <button class="" type="submit" onclick="onClickCom({{ feed.id }})">{% csrf_token %}게시</button>
-
-
-
-
+                {{ comment.comment_content|linebreaksbr }} 
+                <p><a href="{%url 'kover:profile_block' %}">{{comment.comment_author}}</a> / {{comment.comment_created_at}} 
+                <a href="">수정</a> <a href="">삭제</a></p>
             </div>
+            {% endfor %}
+            <div class="comment list-group-item list-group-item-action flex-column align-items-start"><div class="comment_t"></div></div>
+                <div style="margin-bottom: 300px">
+                    <textarea class="multiliner col-xl-11" rows="3" placeholder="댓글 달기" 
+                    style="overflow:hidden; overflow-wrap:break-word; overflow-y:scroll; resize: none;"></textarea>
+                    <button class="" type="submit" onclick="onClickCom({{ feed.id }})">{% csrf_token %}게시</button>
+
+                </div>
         </div>
     </div>
 
@@ -64,9 +63,9 @@
                 const element = document.querySelector(`#post-${id} div .likebtn`);
                 const likeelement = document.querySelector(`#post-${id} div .alreadyliked`);
                 const origin = likeelement.innerText;
-                const [typeStr, num] = origin.split(" ");
+                const [i, num] = origin.split(" ");
                 const count = Number(num) + 1;
-                likeelement.innerText = `${typeStr} ${count}`;
+                likeelement.innerText = `${i} ${count}`;
                 element.classList.add('none');
                 likeelement.classList.remove('none');
 
@@ -102,17 +101,18 @@
 
         const handleResponseCom = () => {
             if (comrequest.status <= 400) {
-                const { id, comment, writer } = JSON.parse(comrequest.response);
+                const { id, comment, writer, time } = JSON.parse(comrequest.response);
                 const element = document.querySelector(`#post-${id} div .comment_t`);
-                const comnum = document.querySelector(`#post-${id} div .comment_number`);
+                const comnum = document.querySelector(`#post-${id} div .comment_number a`);
 
-                const origin = comnum.innerText;
-                const [typeStr, num] = origin.split(" ");
+               
+                const num = comnum.innerText;
                 const count = Number(num) + 1;
-                comnum.innerText = `${typeStr} ${count}`;
+                comnum.innerText = ` ${count}`;
 
                 const create_com = document.createElement("div");
-                create_com.innerText = `${comment} - ${writer}`;
+                create_com.innerText = `${comment} 
+                ${writer} / ${time}`;
                 element.appendChild(create_com);
             }
         };

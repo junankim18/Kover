@@ -3,47 +3,88 @@
 {{block.super}} 
 {%endblock%} 
 {% block content %}
+<style>
+.my-level{
+    background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+    margin-top: 50px;
+    background-position: left;
+}
+.my-level:hover {
+    background-position: right;
+}
+.calender{
+    font-color: black;
+}
+
+a{
+    text-decoration-line: none;
+    color: black;
+}
+a:hover{
+    text-decoration-line: none;
+    color: A593E0;
+}
+
+
+
+
+</style>
 
 <title>Kover | block profile</title>
-<div class="card text-black my-5 py-4 text-center">
-    <div class="panel-body ml-4 mt-6 row">
-        <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
-    </div>
-    <div class="text-right mr-4">
-        <a href="">calender</a>
+<div class=' my-level container-fluid' data-aos-'zoom-out-up'>
+    <div class=" py-4 my-1 text-center">
+        <div class="panel-body ml-4 mt-6 row">
+            <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
+        </div>
+        <div class="text-right mr-4">
+            <a href="" class='calender'>
+                <i class="far fa-calendar-alt fa-2x"></i>
+            </a>
+        </div>
     </div>
 </div>
 <div class="container-fluid mt-2 mb-3">
     <div class="section-heading">
-        <h4 class="section-heading text-center mb-3">나의 공연 갤러리</h4>
+        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>나의 공연 갤러리</h4>
     </div>
-    <div class="justify-content-center row align-items-center my-5">
+    <div class="justify-content-center row align-items-center my-5" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
         {% for show in shows%}
         <a href="{%url 'kover:show_detail' show.id%}">
             <div class="showdetailbox card text-center">
-                <img class="card-img-top" src="{{show.show_poster.url}}" alt="" />
+                <img class="card-img-top" src="{{show.show_poster}}" alt="" />
                 <p><small> {{show.show_name}}</small></p>
                 <p><small> {{show.show_hall}}</small></p>
-                <p><small> 내 별점 : {%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}} {%endif%}{%endfor%}</small></p>
+                <p>
+                    <small>
+                        내 별점 : {%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}}
+                        {%endif%}{%endfor%}</small
+                    >
+                </p>
             </div>
         </a>
+    </div>
+    <br>
+    <div class='container'>
         {% endfor %} {% for i in "x"|rjust:"1" %}
-        <div class="showdetailbox card text-center h-100 w-30 ml-3 my-5">
-            <div class="">
-                <a href="{% url 'kover:create_watched_show'%}"><i class="fas fa-plus"></i></a>
-                <p>관람 작품 추가하기</p>
-            </div>
+        <div class="justify-content-center row align-items-center">
+            <a href="{% url 'kover:create_watched_show'%}">
+                <button data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' type="submit" class="btn btn-outline-dark" >
+                    <p><i class="fas fa-plus"></i></p>
+                    <p>관람 작품 추가하기</p>
+                </button>
+            </a>
         </div>
+
         {%endfor%}
     </div>
 </div>
-<div class="container">
-    <div class="justify-content-center row align-items-center">
-        <div class="section-heading ml-6">
+<div class="container ">
+    <div class="justify-content-center row align-items-center bg-light">
+        <div class="section-heading ml-6" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
             <h4 class="section-heading text-left my-3">공연장</h4>
         </div>
-        <div class="container justify-content-center row align-items-center my-3">
-            <div class="hallbox card text-center w-100 h-200">
+        <div class="container justify-content-center row align-items-center my-3" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
+            <div class="hallbox card text-center w-100 h-200 mb-3">
                 <p>방문한 총 공연장 수 : {{overlapnum}}</p>
                 {% for hall in wantlist %}
                 <div>{{hall}}</div>
@@ -57,17 +98,17 @@
     </div>
     <div class="container">
         <div class="justify-content-center row align-items-center my-5">
-            <div class="section-heading ml-6">
+            <div class="section-heading ml-6" data-aos="fade-right" data-aos-delay='500' data-duration='900'>
                 <h4 class="section-heading text-left my-3">관심배우</h4>
             </div>
-            <div class="actorbox">
+            <div class="actorbox" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
                 <div class="actoriconl">
                     <button><i class="fas fa-caret-left"></i></button>
                 </div>
                 <div class="actorcontainer">
                     {% for actor in actors %}
                     <div class="actordetailbox">
-                        <img src="{{actor.people_img.url}}" alt="" width="150px" />
+                        <img src="{{actor.people_img}}" alt="" width="150px" />
                         <p>{{actor.people_name}} {{actor.people_type}}</p>
                     </div>
                     {% endfor %}
@@ -78,13 +119,12 @@
             </div>
         </div>
     </div>
-</div>
 <div class="container">
-    <div class="justify-content-center row align-items-center">
-        <div class="section-heading">
-            <h4 class="section-heading text-left mt-3">나의 리뷰</h4>
+    <div class="justify-content-center row align-items-center bg-light">
+        <div class="section-heading" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
+            <h4 class="section-heading text-left my-3">나의 리뷰</h4>
         </div>
-        <div class="container justify-content-center row align-items-center my-1">
+        <div class="container justify-content-center row align-items-center my-1 mb-4" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
             {% for review in reviews %} 
                 {% if review.review_content == "." %}
 
@@ -99,10 +139,10 @@
         </div>
     </div>
     <div class="container-fluid">
-        <div class="section-heading ml-6 mt-2">
-            <h4 class="section-heading text-center mb-4">Favorites</h4>
+        <div class="section-heading ml-6 mt-2"data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+            <h4 class="section-heading text-center ">Favorites</h4>
         </div>
-        <div class="justify-content-center row align-items-center">
+        <div class="justify-content-center row align-items-center" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
             {% for favorite in favorites %}
             <div class="showdetailbox card text-center h-20 w-20 ml-3 my-5">
                 <div class="">

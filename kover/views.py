@@ -1,16 +1,13 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.views import View
-from .models import Hall, User, Show, People, Review, Feed_post, Feed_comment, Time, Profile
+from django.shortcuts import render
+from .models import User, Show, People, Review, Feed_post, Feed_comment, Profile
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
-from .forms import ShowForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from django.db.models.query import Q
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
 from dateutil.parser import *
+from django.db.models import Q
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -157,7 +154,8 @@ def feed_main(request):
     return render(request, 'kover/feed_main.html', ctx)
 
 
-# def feed_page(request):
+
+
 def feed_page(request, pk):
     if request.user not in User.objects.all():
         users = 0
@@ -437,9 +435,16 @@ def press_com(comrequest):
         nickname = user.nickname
         if content:
             comment = Feed_comment(comment_author=user,
-                                   comment_content=content, comment_post=feed)
+                                   comment_content=content, comment_post=feed,
+                                   )
             comment.save()
-        return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname})
+
+
+
+
+
+
+        return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname, 'time':comment.comment_created_at})
 
 
 # create_watched_show : 네비게이션 바에서  '리뷰등록'을 눌렀을 때, 아직 평가하지 않은 작품들의 리스트가 나온다
@@ -562,3 +567,18 @@ def star_rate(starrequest):
                              })
 
 
+
+
+
+def searchResult(request):
+
+    shows = Show.objects.all()
+
+    q = request.GET.get('q')
+
+    if q:
+        shows = shows.filter(show_name__icontains=q)
+        return render(request, 'kover/search.html', {'shows': shows, 'q': q})
+
+    else:
+        return render(request, 'kover/search.html')

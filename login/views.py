@@ -88,3 +88,16 @@ def nickname(request):
             return JsonResponse({'name': name})
         else:
             return JsonResponse({'name': validation})
+
+
+def personal_inf(request):
+    username = Profile.objects.filter(user=request.user)
+    if username:
+        username = username[0]
+    else:
+        username = 0
+
+    ctx = {
+        'username': username
+    }
+    return render(request, 'login/personal_inf.html', ctx)
