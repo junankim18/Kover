@@ -42,7 +42,7 @@ urlpatterns = [
     path('contents/review/', views.create_review,
          name='create_review'),  # 작품별 댓글달기 기능
     # path('place/<int:pk>/', views, name=''),  # 공연장 디테일),
-    # path('search/', views, name=''),  # 검색했을때),
+    path('search/', views.searchResult, name='searchResult'),  # 검색했을때),
     path('crawl/people/', crawling.crawlpeople, name='crawlpeople'),  # 인물크롤링
     path('crawl/place/', crawling.crawlplace, name='crawlplace'),  # 장소크롤링
 ]
