@@ -11,6 +11,7 @@ urlpatterns = [
     path('select/', views.login_select, name='login_select'),
     path('signup/', views.signup, name='signup'),
     path('settings/', views.settings, name='settings'),
-    path('settings/nickname/', views.nickname, name='nickname')
-
+    path('settings/nickname/', views.nickname, name='nickname'),
+    path('settings/personal_inf/',
+         views.personal_inf, name='personal_inf'),
 ]
