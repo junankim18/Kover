@@ -165,6 +165,7 @@ def feed_page(request, pk):
         users = Profile.objects.filter(user=request.user)
         users = users[0]
         # feeds= Feed_post.objects.all()
+    id = users.pk
     feed = Feed_post.objects.get(pk=pk)
     print(users in feed.feed_like.all())
     comlist = []
@@ -212,12 +213,24 @@ def feed_musical_inf(request):
     feeds = Feed_post.objects.filter(feed_type='musical_inf').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
 
@@ -227,12 +240,24 @@ def feed_play_lib(request):
     feeds = Feed_post.objects.filter(feed_type='play_lib').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
 
@@ -242,12 +267,24 @@ def feed_play_inf(request):
     feeds = Feed_post.objects.filter(feed_type='play_inf').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
 
@@ -257,12 +294,24 @@ def feed_question(request):
     feeds = Feed_post.objects.filter(feed_type='question').order_by(
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_board.html', ctx)
 
@@ -272,12 +321,24 @@ def feed_hot_feed(request):
     feeds = Feed_post.objects.all().order_by('-feed_like')[:]  
     # 피드 좋아요 많은 순
     comlist = []
+    paginator = Paginator(feeds, 3)
+    page = request.GET.get('page',1)
+    try:
+        posts = paginator.get_page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        posts = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        posts = paginator.page(paginator.num_pages)
+    # posts = paginator.get_page(page)
     for feed in feeds:
         comlist.append(len(feed.comment_post.all()))
     ctx = {
         'feed': feed,
         'feeds': feeds,
         'comlist': comlist,
+        'posts': posts,
     }
     return render(request, 'kover/feed_hot.html', ctx)
 

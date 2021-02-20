@@ -5,21 +5,23 @@
 {% block content %}
 <title>Kover | {{feed.get_feed_type_display}}</title>
 
-<div id="post-{{feed.id}}" class="wrapper">
+<div id="post-{{feed.id}}" class="wrapper ml-4 mr-4">
     <div>
-        <h2 class="title">{{ feed.feed_title }}</h2>
-        <div class="content">{{ feed.feed_content }}</div>
-        <div class="author">{{ feed.feed_author }}</div>
-        <div class="feed_created_at">{{ feed.feed_created_at }}</div>
+        <h2 class="title mb-3">{{ feed.feed_title }}</h2>
+        <div id="content" class="mb-4">{{ feed.feed_content }}</div>
+        <div class="author"><a href="{%url 'kover:profile_block' %}">{{ feed.feed_author }}</a></div>
+        {% comment %} <div class="author"><a href="{%url 'kover:profile_block' users.id%}">{{ feed.feed_author }}</a></div> {% endcomment %}
+        <div class="feed_created_at mb-3">{{ feed.feed_created_at }}</div>
         {% if users in feed.feed_like.all %}
-            <button class='alreadyliked' onclick="onClickLiked()">추천 {{feed.feed_like.all.count}} </button>
+            <button class='alreadyliked btn btn-danger btn-sm' onclick="onClickLiked()"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </button>
+            {% comment %} <span class="badge badge-danger badge-pill"> <i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </span> {% endcomment %}
         {% else %}
-            <button class="likebtn" type="submit" onclick="onClickLike({{ feed.id }})">추천 {{feed.feed_like.all.count}}</button>
-            <button class='alreadyliked none' onclick="onClickLiked()">추천 {{feed.feed_like.all.count}} </button>
+            <button class="likebtn btn btn-outline-danger btn-sm" type="submit" onclick="onClickLike({{ feed.id }})"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</button>
+            <button class='alreadyliked none' onclick="onClickLiked()"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </button>
         {% endif %}
 
         
-        <div class="comment_number">댓글수 {{feed.comment_post.all.count}} </div>
+        <p class="comment_number"><i class="fas fa-comment-alt"></i> {{feed.comment_post.all.count}} </p>
         <div class="comment_t">
             댓글 {% for comment in feed.comment_post.all %}
             <div class="comment">
