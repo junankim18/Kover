@@ -87,7 +87,7 @@ def main(request):
     feed_1 = Feed_post.objects.all().order_by(
         '-feed_created_at')[:5]  # 피드 최신 순
     feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
- 
+
     actorshow = []
     wantshow = []
     for actor in actors:
@@ -154,8 +154,6 @@ def feed_main(request):
     return render(request, 'kover/feed_main.html', ctx)
 
 
-
-
 # def feed_page(request):
 def feed_page(request, pk):
     if request.user not in User.objects.all():
@@ -184,7 +182,7 @@ def feed_musical_lib(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -213,7 +211,7 @@ def feed_musical_inf(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -240,7 +238,7 @@ def feed_play_lib(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -267,7 +265,7 @@ def feed_play_inf(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -294,7 +292,7 @@ def feed_question(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -317,11 +315,11 @@ def feed_question(request):
 
 def feed_hot_feed(request):
     feed = Feed_post.objects.all()
-    feeds = Feed_post.objects.all().order_by('-feed_like')[:]  
+    feeds = Feed_post.objects.all().order_by('-feed_like')[:]
     # 피드 좋아요 많은 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -346,7 +344,7 @@ def feed_hot_feed(request):
 
 
 def show_detail(request, pk):
-    username = Profile.objects.filter(id=request.user.id)
+    username = Profile.objects.filter(user=request.user)
     show = Show.objects.get(id=pk)
     peoples = People.objects.all()
     reviews = show.review_show.all().order_by('-id')
@@ -495,8 +493,13 @@ def create_review(comrequest):
             dd = dd[:2]
         date = yyyy+'-'+mm+'-'+dd
         show = Show.objects.get(id=show_id)
-        user_id = comrequest.user.id
-        user = Profile.objects.get(id=user_id)
+        user_id = comrequest.user
+        print('here?')
+        print('here?')
+        print('here?')
+        print('here?')
+        print('here?')
+        user = Profile.objects.get(user=user_id)
         nickname = user.nickname
         if content:
             myreviews = Review.objects.filter(review_author=user)
@@ -531,8 +534,8 @@ def star_rate(starrequest):
         request = json.loads(starrequest.body)
         show_id = request['show_id']
         star_rate = request['value']
-        user_id = starrequest.user.id
-        user = Profile.objects.get(id=user_id)
+        user_id = starrequest.user
+        user = Profile.objects.get(user=user_id)
         show = Show.objects.get(id=show_id)
         review = 0
         myreviews = Review.objects.filter(review_author=user)
@@ -559,9 +562,6 @@ def star_rate(starrequest):
                              'writer': user.nickname,
                              'star_rate': review.review_grade,
                              })
-
-
-
 
 
 def searchResult(request):
