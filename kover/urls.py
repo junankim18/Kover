@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from . import views
-from . import crawling
+# from . import crawling
 
 app_name = 'kover'
 
@@ -31,7 +31,8 @@ urlpatterns = [
     path('feed/musical_lib/', views.feed_musical_lib,
          name='feed_musical_lib'),  # 뮤지컬-자유),
     path('feed/question', views.feed_question, name='feed_question'),  # 질문),
-    path('feed/hot_feed', views.feed_hot_feed, name='feed_question'),  # hot 피드),
+    path('feed/hot_feed', views.feed_hot_feed,
+         name='feed_question'),  # hot 피드),
     path('contents/<int:pk>/', views.show_detail,
          name='show_detail'),  # 공연별 디테일),
     path('contents/<int:pk>/', views.show_detail,
@@ -44,6 +45,6 @@ urlpatterns = [
          name='create_review'),  # 작품별 댓글달기 기능
     # path('place/<int:pk>/', views, name=''),  # 공연장 디테일),
     path('search/', views.searchResult, name='searchResult'),  # 검색했을때),
-    path('crawl/people/', crawling.crawlpeople, name='crawlpeople'),  # 인물크롤링
-    path('crawl/place/', crawling.crawlplace, name='crawlplace'),  # 장소크롤링
+    # path('crawl/people/', crawling.crawlpeople, name='crawlpeople'),  # 인물크롤링
+    # path('crawl/place/', crawling.crawlplace, name='crawlplace'),  # 장소크롤링
 ]
