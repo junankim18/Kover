@@ -37,10 +37,10 @@
                             <b>장소: </b>{{show.show_hall}}<a>
                         </li>
                         <li class='mb-1'>
-                            <b>공연일: </b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 
+                            <b>공연일: </b>  {{show.show_date_start}} ~ {{show.show_date_end}}
                         </li>
                         <li class='mb-1'>
-                            <b>공연시간: </b> {{show.show_date_start}} ~ {{show.show_date_end}}
+                            <b>공연시간: </b> {% for showtime in show_times %}{{showtime.time}} <br>{% endfor %} 
                         </li>
                         <li class='mb-1'>
                             <b>인터미션: </b> {{show.show_intermission}} 분
@@ -48,11 +48,7 @@
                         <li class='mb-1'>
                             <b>연출: </b> {{show.show_director}}
                         </li>
-                        <li class='mb-1'>
-                            <b>날짜: </b> {% for date in showdatelist %}
-                            {{date}}
-                            {% endfor %}
-                        </li>
+                    
                         {% if user.is_authenticated %}
                             <li>
                                 <b>내 별점</b> <span class='mygrade'>{{mygrade}}</span>
