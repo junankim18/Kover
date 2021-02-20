@@ -126,7 +126,7 @@
             {% comment %} --------배우 이미지, 배역 -------- {% endcomment %}
             <div class="row actor_info" data-aos='fade-up' data-aos-anchor-placement='center-bottom' data-duration='100' data-aos-delay='1200'>
                 {% for people in show.show_actor.all %}
-                <div class="col-3 col-md-auto col-lg-3 col-xl-3">
+                <div class="col-3 col-md-auto col-lg-2 col-xl-2">
                     <div class="actor text-center">
                         <img class="mx-auto rounded-circle mb-3" src="{{people.people_img.url}}" alt="배우 이미지"
                             width=100px, height=100px />
@@ -161,7 +161,7 @@
                         {% endfor %}
                     </div>
                     <div class='revinput text-right mr-3'>
-                        <input class='comment_content text-center' type="text" size='70' placeholder='리뷰를 작성해보세요:)'>
+                        <input class='comment_content text-center mb-1' type="text" size='40' placeholder='리뷰를 작성해보세요:)'>
                         <button type='submit' onclick="onClickCom({{show.id}})"
                             class=' btn btn-outline-dark btn-sm ml-5 mb-1'>
                             {%csrf_token%}

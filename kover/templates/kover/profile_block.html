@@ -16,11 +16,22 @@
     font-color: black;
 }
 
+a{
+    text-decoration-line: none;
+    color: black;
+}
+a:hover{
+    text-decoration-line: none;
+    color: A593E0;
+}
+
+
+
 
 </style>
 
 <title>Kover | block profile</title>
-<div class=' my-level container-fluid'>
+<div class=' my-level container-fluid' data-aos-'zoom-out-up'>
     <div class=" py-4 my-1 text-center">
         <div class="panel-body ml-4 mt-6 row">
             <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>

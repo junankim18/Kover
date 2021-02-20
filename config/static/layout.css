@@ -9,9 +9,7 @@
     margin-top: 100px;
 }
 
-a{
-    text-decoration-line: none;
-}
+
 
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
@@ -35,7 +33,7 @@ a{
     height: 40px;
     background-color: transparent;
     border: transparent;
-    color: rgb(219, 153, 78);
+    color:  FFFFF3;
     z-index: 3;
 }
 .actorcontainer {
@@ -52,15 +50,15 @@ a{
 }
 .actorbox .actoriconl {
     position: absolute;
-    margin-top: 80px;
-    margin-left: 0px;
     z-index: 30;
+    top: 170px;
+
 }
 .actorbox .actoriconr {
     position: absolute;
-    margin-top: -170px;
-    margin-left: 90%;
     z-index: 30;
+    top: 170px;
+    right: 0px;
 }
 .y250 {
     height: 250px;
