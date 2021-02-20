@@ -35,8 +35,9 @@
     </div>
 </div>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-    <a href="/feed/play_lib"><b style="font-size: 25px">연극 - 자유</b></a>
+<div class="row">
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">연극 - 자유</b>
     <div class="list-group">
         {% for feed in feed_1 %}
         <a
@@ -54,10 +55,10 @@
     <div class="form-row float-right" style="margin-top: 20px">
         <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/play_lib'">더 보기</button>
     </div>
-</div>
+  </div>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-    <a href="/feed/play_inf"><b style="font-size: 25px">연극 - 정보</b></a>
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">연극 - 정보</b>
     <div class="list-group">
         {% for feed in feed_2 %}
         <a
@@ -75,10 +76,12 @@
     <div class="form-row float-right" style="margin-top: 20px">
         <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/play_inf'">더 보기</button>
     </div>
+  </div>
 </div>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-    <a href="/feed/musical_lib"><b style="font-size: 25px">뮤지컬 - 자유</b></a>
+<div class="row" style="margin-top: 30px">
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">뮤지컬 - 자유</b>
     <div class="list-group">
         {% for feed in feed_3 %}
         <a
@@ -96,10 +99,10 @@
     <div class="form-row float-right" style="margin-top: 20px">
         <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/musical_lib'">더 보기</button>
     </div>
-</div>
+  </div>
 
-<div class="feeds_main" style="margin-bottom: 100px">
-    <a href="/feed/musical_inf"><b style="font-size: 25px">뮤지컬 - 정보</b></a>
+  <div class="feeds_main col-lg-6" style="margin-bottom: 50px">
+    <b style="font-size: 25px">뮤지컬 - 정보</b>
     <div class="list-group">
         {% for feed in feed_4 %}
         <a
@@ -117,6 +120,7 @@
     <div class="form-row float-right" style="margin-top: 20px">
         <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/musical_inf'">더 보기</button>
     </div>
+  </div>
 </div>
 
 <div class="feeds_main" style="margin-bottom: 100px">

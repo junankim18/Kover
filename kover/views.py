@@ -1,16 +1,13 @@
 from django.http import JsonResponse
-from django.shortcuts import render, redirect
-from django.views import View
-from .models import Hall, User, Show, People, Review, Feed_post, Feed_comment, Time, Profile
+from django.shortcuts import render
+from .models import User, Show, People, Review, Feed_post, Feed_comment, Profile
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 import json
-from .forms import ShowForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from django.db.models.query import Q
-from datetime import date, timedelta, datetime
+from datetime import timedelta, datetime
 from dateutil.parser import *
+from django.db.models import Q
 from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -562,3 +559,45 @@ def star_rate(starrequest):
                              })
 
 
+
+    feed_1 = Feed_post.objects.filter(feed_type='play_lib').order_by(
+        '-feed_created_at')[:5]  # 연극-자유
+    feed_2 = Feed_post.objects.filter(feed_type='play_inf').order_by(
+        '-feed_created_at')[:5]  # 연극-정보
+    feed_3 = Feed_post.objects.filter(feed_type='musical_lib').order_by(
+        '-feed_created_at')[:5]  # 뮤지컬-자유
+    feed_4 = Feed_post.objects.filter(feed_type='musical_inf').order_by(
+        '-feed_created_at')[:5]  # 뮤지컬-정보
+    feed_5 = Feed_post.objects.filter(feed_type='question').order_by(
+        '-feed_created_at')[:5]  # 질문
+    # n = Feed_comment.objects.count()
+    comment_list = Feed_comment.objects.all()
+
+    comlist = []
+    for feed in feeds:
+        comlist.append(len(feed.comment_post.all()))
+
+    ctx = {
+        'feeds': feeds,
+        'feed_1': feed_1,
+        'feed_2': feed_2,
+        'feed_3': feed_3,
+        'feed_4': feed_4,
+        'feed_5': feed_5,
+        'comlist': comlist
+    }
+    return render(request, 'kover/feed_main.html', ctx)
+
+
+def searchResult(request):
+
+    shows = Show.objects.all()
+
+    q = request.GET.get('q')
+
+    if q:
+        shows = shows.filter(show_name__icontains=q)
+        return render(request, 'kover/search.html', {'shows': shows, 'q': q})
+
+    else:
+        return render(request, 'kover/search.html')
