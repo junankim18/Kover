@@ -47,4 +47,6 @@ urlpatterns = [
     path('search/', views.searchResult, name='searchResult'),  # 검색했을때),
     # path('crawl/people/', crawling.crawlpeople, name='crawlpeople'),  # 인물크롤링
     # path('crawl/place/', crawling.crawlplace, name='crawlplace'),  # 장소크롤링
+    path('contents/delete/', views.delete_review,
+         name='delete_review')  # 작품별 댓글 삭제
 ]

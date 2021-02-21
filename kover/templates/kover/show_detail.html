@@ -296,6 +296,14 @@
             }
         }
 
+        const onClickDel = (show_id, review_id) => {
+        const url = "/contents/delete/";
+        delrequest.open("POST", url, true);
+        var delete_warning = confirm('댓글을 삭제하시겠습니까?');
+        delrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+        delrequest.send(JSON.stringify({ show_id, review_id }));
+    };
+
         const handleResponseCom = () => {
             if (comrequest.status <= 400) {
                 console.log('receive')
@@ -340,11 +348,28 @@
             }
         };
 
+          const handleResponseDel = () => {
+        if (delrequest.status <= 400) {
+            const { show_id, review_id } = JSON.parse(delrequest.response);
+            const element = document.querySelector(`#show-${show_id} .reviewbox .revbox`);
+            const review = document.querySelector(`#review-${review_id}`);
+           
+        }
+    };
+
         comrequest.onreadystatechange = () => {
             if (comrequest.readyState === XMLHttpRequest.DONE) {
                 handleResponseCom();
             }
         };
+
+        delrequest.onreadystatechange = () => {
+        if (delrequest.readyState === XMLHttpRequest.DONE) {
+            handleResponseDel();
+        }
+    };
+
+        
 
     </script>
 
