@@ -1,87 +1,120 @@
-{% extends "layout.html" %} 
-{% block extra_head %} 
-{{block.super}} 
-{% endblock %} 
-{% block content %}
+{% extends "layout.html" %} {% block extra_head %} {{block.super}} {% endblock %} {% block content %}
 <title>Kover | {{feed.get_feed_type_display}}</title>
-
+<style>
+    .none {
+        display: none;
+    }
+</style>
 <div id="post-{{feed.id}}" class="wrapper ml-4 mr-4 col-xl-8">
     <div>
         <h2 class="title mb-3">{{ feed.feed_title }}</h2>
         <div id="content" class="mb-4">{{ feed.feed_content }}</div>
         <div class="author"><a href="{%url 'kover:profile_block' %}">{{ feed.feed_author }}</a></div>
-        {% comment %} <div class="author"><a href="{%url 'kover:profile_block' users.id%}">{{ feed.feed_author }}</a></div> {% endcomment %}
+        {% comment %}
+        <div class="author"><a href="{%url 'kover:profile_block' users.id%}">{{ feed.feed_author }}</a></div>
+        {% endcomment %}
         <div class="feed_created_at mb-3">{{ feed.feed_created_at }}</div>
         <div>
-            <button type="button" class="btn btn-light pull-right" onclick="location.href = '/feed/{{feed.feed_type}}'">글 목록</button>
-            <button type="button" class="btn btn-light pull-right" onclick="location.href = '{% url 'kover:update' feed.id %}'">수정하기</button>
-            <form action="{% url 'kover:delete' feed.id %}" method='POST' class="button ">
+            <button type="button" class="btn btn-light pull-right" onclick="location.href = '/feed/{{feed.feed_type}}'">
+                글 목록
+            </button>
+            <button
+                type="button"
+                class="btn btn-light pull-right"
+                onclick="location.href = '{% url 'kover:update' feed.id %}'"
+            >
+                수정하기
+            </button>
+            <form action="{% url 'kover:delete' feed.id %}" method="POST" class="button">
                 {% csrf_token %}
-                <input type="submit" name="btn" class="btn btn-light pull-right" value='삭제하기'>
+                <input type="submit" name="btn" class="btn btn-light pull-right" value="삭제하기" />
             </form>
         </div>
         {% if users in feed.feed_like.all %}
-            <button class='alreadyliked btn btn-danger btn-sm badge-pill' onclick="onClickLiked()"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </button>
-            {% comment %} <span class="badge badge-danger badge-pill"> <i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </span> {% endcomment %}
+        <button class="alreadyliked btn btn-danger btn-sm badge-pill" onclick="onClickLiked()">
+            <i class="fas fa-heart"></i> {{feed.feed_like.all.count}}
+        </button>
         {% else %}
-            <button class="likebtn btn btn-outline-danger btn-sm badge-pill" type="submit" onclick="onClickLike({{ feed.id }})"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}}</button>
-            <button class='alreadyliked none' onclick="onClickLiked()"><i class="fas fa-heart"></i> {{feed.feed_like.all.count}} </button>
+        <button
+            class="likebtn btn btn-outline-danger btn-sm badge-pill"
+            type="submit"
+            onclick="onClickLike({{ feed.id }})"
+        >
+            <i class="fas fa-heart"></i> {{feed.feed_like.all.count}}
+        </button>
+        <button class="alreadyliked btn btn-danger btn-sm badge-pill none" onclick="onClickLiked()">
+            <i class="fas fa-heart"></i> {{feed.feed_like.all.count}}
+        </button>
         {% endif %}
-        <button class="comment_number btn btn-outline-info btn-sm badge-pill" disabled ><i class="fas fa-comment-alt"></i> <a>{{feed.comment_post.all.count}}</a> </button>
+        <button class="comment_number btn btn-outline-info btn-sm badge-pill" disabled>
+            <i class="fas fa-comment-alt"></i> <a>{{feed.comment_post.all.count}}</a>
+        </button>
         <div>
-            댓글 
-            {% for comment in feed.comment_post.all %}
-            <div class="comment list-group-item list-group-item-action flex-column align-items-start">
-                {{ comment.comment_content|linebreaksbr }} 
-                <p><a href="{%url 'kover:profile_block' %}">{{comment.comment_author}}</a> / {{comment.comment_created_at}} 
-                <a href="">수정</a> <a href="">삭제</a></p>
+            댓글 {% for comment in feed.comment_post.all %}
+            <div
+                id="comment-{{comment.id}}"
+                class="comment list-group-item list-group-item-action flex-column align-items-start"
+            >
+                {{ comment.comment_content|linebreaksbr }}
+                <p>
+                    <a href="{%url 'kover:profile_block' %}">{{comment.comment_author}}</a> /
+                    {{comment.comment_created_at}}
+                    <a href="javascript:void(0);" onclick="onClickDel({{comment.id}})">삭제</a>
+                </p>
             </div>
             {% endfor %}
-            <div class="comment list-group-item list-group-item-action flex-column align-items-start"><div class="comment_t"></div></div>
-                <div style="margin-bottom: 300px">
-                    <textarea class="multiliner col-xl-11" rows="3" placeholder="댓글 달기" 
-                    style="overflow:hidden; overflow-wrap:break-word; overflow-y:scroll; resize: none;"></textarea>
-                    <button class="" type="submit" onclick="onClickCom({{ feed.id }})">{% csrf_token %}게시</button>
-
-                </div>
+            <div class="comment list-group-item list-group-item-action flex-column align-items-start">
+                <div class="comment_t"></div>
+            </div>
+            <div style="margin-bottom: 300px">
+                <textarea
+                    class="multiliner col-xl-11"
+                    rows="3"
+                    placeholder="댓글 달기"
+                    style="overflow-x: hidden; overflow-wrap: break-word; overflow-y: scroll; resize: none"
+                ></textarea>
+                <button class="" type="submit" onclick="onClickCom({{ feed.id }})">{% csrf_token %}게시</button>
+            </div>
         </div>
     </div>
 
     <script>
         const request = new XMLHttpRequest();
         const comrequest = new XMLHttpRequest();
-        const users = '{{users}}';
+        const delrequest = new XMLHttpRequest();
+
+        const users = "{{users}}";
+
         const onClickLike = (id) => {
-            if(users == false){
-                alert('로그인 후 추천 가능합니다')
-            }else{
+            if (users == false) {
+                alert("로그인 후 추천 가능합니다");
+            } else {
                 const url = "/feed/like/";
                 request.open("POST", url, true);
                 request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
                 request.send(JSON.stringify({ id }));
             }
         };
-        const onClickLiked=()=>{
-            alert('이미 추천한 피드입니다')
-        }
+        const onClickLiked = () => {
+            alert("이미 추천한 피드입니다");
+        };
 
         const handleResponse = () => {
             if (request.status <= 400) {
                 const { id, type } = JSON.parse(request.response);
-                const element = document.querySelector(`#post-${id} div .likebtn`);
-                const likeelement = document.querySelector(`#post-${id} div .alreadyliked`);
+                const element = document.querySelector(`.likebtn`);
+                const likeelement = document.querySelector(`.alreadyliked`);
                 const origin = likeelement.innerText;
-                const [i, num] = origin.split(" ");
-                const count = Number(num) + 1;
-                likeelement.innerText = `${i} ${count}`;
-                element.classList.add('none');
-                likeelement.classList.remove('none');
-
+                const count = Number(origin) + 1;
+                console.log(likeelement);
+                likeelement.innerHTML = `<i class="fas fa-heart"></i> ${count}`;
+                element.classList.add("none");
+                likeelement.classList.remove("none");
             }
         };
 
         const onClickCom = (id) => {
-            const input = document.querySelector(`#post-${id} div textarea`);
+            const input = document.querySelector(`textarea`);
             const content = input.value;
             const url = "/feed/comment/";
             comrequest.open("POST", url, true);
@@ -89,23 +122,6 @@
             comrequest.send(JSON.stringify({ id, content }));
             input.value = "";
         };
-{% comment %} 
-            var post = document.createElement('p');
-            post.textContent = postText;
-            post.innerHTML = post.innerHTML.replace(/\n/g, '<br>\n'); {% endcomment %}
-
-
-{% comment %} 
-        var post = document.createElement('p');
-        var postText = document.getElementById('post-text').value;
-        post.append(postText);
-        var card = document.createElement('div');
-        card.append(post);
-        var cardStack = document.getElementById('#card-stack');
-        cardStack.prepend(card); {% endcomment %}
-
-
-
 
         const handleResponseCom = () => {
             if (comrequest.status <= 400) {
@@ -113,19 +129,31 @@
                 const element = document.querySelector(`#post-${id} div .comment_t`);
                 const comnum = document.querySelector(`#post-${id} div .comment_number a`);
 
-               
                 const num = comnum.innerText;
                 const count = Number(num) + 1;
                 comnum.innerText = ` ${count}`;
 
                 const create_com = document.createElement("div");
-                create_com.innerHTML = ` ${ comment }
-                <p><a href="{%url 'kover:profile_block' %}">{{comment.comment_author}}</a> / {{comment.comment_created_at}} 
-                <a href="">수정</a> <a href="">삭제</a></p>`;
+                create_com.innerHTML = ` ${comment}
+                                <p><a href="{%url 'kover:profile_block' %}">{{comment.comment_author}}</a> / {{comment.comment_created_at}}
+                                <a href="">수정</a> <a href="">삭제</a></p>`;
                 element.appendChild(create_com);
             }
         };
-
+        const onClickDel = (comment_id) => {
+            const url = "/feed/delete/";
+            delrequest.open("POST", url, true);
+            confirm("댓글을 삭제하시겠습니까?");
+            delrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            delrequest.send(JSON.stringify({ comment_id }));
+        };
+        const handleResponseDel = () => {
+            if (delrequest.status <= 400) {
+                const { comment_id } = JSON.parse(delrequest.response);
+                const element = document.querySelector(`#comment-${comment_id}`);
+                element.classList.add("none");
+            }
+        };
         request.onreadystatechange = () => {
             if (request.readyState === XMLHttpRequest.DONE) {
                 handleResponse();
@@ -134,6 +162,11 @@
         comrequest.onreadystatechange = () => {
             if (comrequest.readyState === XMLHttpRequest.DONE) {
                 handleResponseCom();
+            }
+        };
+        delrequest.onreadystatechange = () => {
+            if (delrequest.readyState === XMLHttpRequest.DONE) {
+                handleResponseDel();
             }
         };
     </script>

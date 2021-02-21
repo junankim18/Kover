@@ -5,7 +5,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {% block extra_head %}
-        <link rel="stylesheet" href="{% static 'layout.css' %}" />
+        <link rel="stylesheet" href="{% static 'layout.css' %}?after" />
         <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
@@ -25,12 +25,12 @@
             main {
                 margin-top: 17px;
             }
-            a{
-              color:black;
+            a {
+                color: black;
             }
-            a:hover{
-            text-decoration-line:none;
-            color: #A593E0;
+            a:hover {
+                text-decoration-line: none;
+                color: #a593e0;
             }
         </style>
     </head>
@@ -128,11 +128,11 @@
 
             {% endblock %}
         </footer>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
-        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
-        <script> AOS.init(
-          {once:true}
-        ); </script>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script>
+            AOS.init({ once: true });
+        </script>
 
         <script
             src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

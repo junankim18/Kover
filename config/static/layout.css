@@ -1,8 +1,6 @@
-
-*{
+* {
     animation-fill-mode: forwards;
 }
-
 
 .content {
     display: flex;
@@ -55,13 +53,17 @@
 .actorbox .actoriconl {
     position: absolute;
     z-index: 30;
-    top: 170px;
+    top: 80px;
 }
 .actorbox .actoriconr {
     position: absolute;
     z-index: 30;
-    top: 170px;
+    top: 80px;
     right: 0px;
+}
+.actoriconl button,
+.actoriconr button {
+    color: #b9c4fc;
 }
 .y250 {
     height: 250px;
