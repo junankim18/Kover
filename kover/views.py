@@ -27,7 +27,13 @@ def profile_block(request):
     halllist = []  # 공연장 리스트
     wantlist = []  # 공연장 리스트중에서 중복된 값 제거
     renum = {}  # 공연장 리스트중에서 중복된 값 카운트
+    comingsoon = []
 
+    for favorite in favorites:
+        if favorite.show_date_start.replace(tzinfo=None) > datetime.now():
+            if (favorite.show_date_start.replace(tzinfo=None)-datetime.now()).days < 7:
+                comingsoon.append(favorite)
+    #     if 0 < favorite.show_date_start-datetime.now())
     # 공연장 리스트
     for i in range(hallnum):
         halllist.append(showlist[i].show_hall)
@@ -66,7 +72,8 @@ def profile_block(request):
         'overlapnum': overlapnum,
         'wantlist': wantlist,
         'hallname': hallname,
-        'mostvisitnum': mostvisitnum
+        'mostvisitnum': mostvisitnum,
+        'comingsoon': comingsoon,
     }
     return render(request, 'kover/profile_block.html', ctx)
 
@@ -82,11 +89,13 @@ def main(request):
         actors = []
 
     show_1 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 최신 순
-    show_2 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 리뷰 많은 순
+    show_2 = Show.objects.annotate(reviews=Count(
+        'review_show')).order_by('-reviews')[:5]  # 작품 리뷰 많은 순
 
     feed_1 = Feed_post.objects.all().order_by(
         '-feed_created_at')[:5]  # 피드 최신 순
-    feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
+    feed_2 = Feed_post.objects.annotate(likes=Count(
+        'feed_like')).order_by('-likes')[:5]  # 피드 좋아요 많은 순
 
     actorshow = []
     wantshow = []
@@ -111,7 +120,7 @@ def main(request):
 # profile_geo : 지도 프로필 페이지
 
 
-@login_required
+@ login_required
 def profile_geo(request):
     shows = Show.objects.all()
     ctx = {

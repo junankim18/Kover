@@ -123,6 +123,7 @@
     height: 282px;
     object-position: center;
     object-fit: cover;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
 }
 .show_info div img {
     width: 230px;
@@ -196,4 +197,11 @@
 .personalid button {
     border: none;
     background-color: transparent;
+}
+.comingsoon {
+    position: absolute;
+    font-size: 1.5rem;
+    color: #a593e0;
+    top: 5px;
+    right: 40px;
 }
