@@ -8,7 +8,6 @@ from django.contrib.auth.decorators import login_required
 from datetime import timedelta, datetime
 from dateutil.parser import *
 from django.db.models import Q
-from django.db.models import Count
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # profile_block : 기본 프로필페이지
@@ -87,7 +86,7 @@ def main(request):
     feed_1 = Feed_post.objects.all().order_by(
         '-feed_created_at')[:5]  # 피드 최신 순
     feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
- 
+
     actorshow = []
     wantshow = []
     for actor in actors:
@@ -154,8 +153,6 @@ def feed_main(request):
     return render(request, 'kover/feed_main.html', ctx)
 
 
-
-
 # def feed_page(request):
 def feed_page(request, pk):
     if request.user not in User.objects.all():
@@ -184,7 +181,7 @@ def feed_musical_lib(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -213,7 +210,7 @@ def feed_musical_inf(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -240,7 +237,7 @@ def feed_play_lib(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -267,7 +264,7 @@ def feed_play_inf(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -294,7 +291,7 @@ def feed_question(request):
         '-feed_created_at')[:]  # 피드 최신 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -317,11 +314,11 @@ def feed_question(request):
 
 def feed_hot_feed(request):
     feed = Feed_post.objects.all()
-    feeds = Feed_post.objects.all().order_by('-feed_like')[:]  
+    feeds = Feed_post.objects.all().order_by('-feed_like')[:]
     # 피드 좋아요 많은 순
     comlist = []
     paginator = Paginator(feeds, 3)
-    page = request.GET.get('page',1)
+    page = request.GET.get('page', 1)
     try:
         posts = paginator.get_page(page)
     except PageNotAnInteger:
@@ -561,18 +558,18 @@ def star_rate(starrequest):
                              })
 
 
-
-
-
 def searchResult(request):
 
-    shows = Show.objects.all()
+    search_result = Show.objects.all()
 
     q = request.GET.get('q')
 
     if q:
-        shows = shows.filter(show_name__icontains=q)
-        return render(request, 'kover/search.html', {'shows': shows, 'q': q})
+        search_result = search_result.filter(
+            Q(show_name__icontains=q) |
+            Q(show_detail__icontains=q)
+        ).distinct()
+        return render(request, 'kover/search.html', {'search_result': search_result, 'q': q})
 
     else:
         return render(request, 'kover/search.html')

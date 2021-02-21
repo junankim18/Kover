@@ -3,21 +3,28 @@
 {% block content %}
 
     <title>Kover | Search</title>
+    <h1>!!</h1>
+    <h1>!!</h1>
+    <h1>!!</h1>
+    <h1>!!</h1>
     {%csrf_token%}
-    {% if not shows %}
+    {% if not search_result %}
         <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
     {% else %}
         <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
-        {% for show in shows.all %}
-        <div class="container"> 
-            <div class="card">
-                <div class="card-body">
-                    <h2>{{ show.show_name }}</h1> 
-                </div>
-            </div>
-        </div>
         <br>
-        {% endfor %}
+        <table border="1">
+            <tr>
+                <th>공연 이름</th>
+                <th>공연 설명</th>
+            </tr>
+            {% for show in search_result %}
+            <tr>
+                <td>{{ show.show_name }}</td>
+                <td>{{ show.show_detail }}</td>
+            </tr>
+            {% endfor %}
+        </table>
     {% endif %}
 
 {% endblock %}
