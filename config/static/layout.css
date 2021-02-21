@@ -1,3 +1,9 @@
+
+*{
+    animation-fill-mode: forwards;
+}
+
+
 .content {
     display: flex;
     justify-content: center;
@@ -67,13 +73,7 @@
 .none {
     display: none;
 }
-.showimg {
-    transition: all 0.4s ease-in-out;
-}
-.showimg:hover {
-    transform: scale(1.03);
-    -webkit-transform: scale(1.03);
-}
+
 /*
 별점주기 css
 */
