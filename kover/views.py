@@ -467,6 +467,23 @@ def create_watched_show(request):
     return render(request, 'kover/watched_show.html', ctx)
 
 
+def create_like_actor(request):
+    users = Profile.objects.filter(user=request.user)
+    users = users[0]
+    likedactor = users.like_actor.all()
+    peoples = People.objects.all()
+    notyetlikedpeople = []
+    for people in peoples:
+        if people not in likedactor:
+            notyetlikedpeople.append(people)
+
+    ctx = {
+        'users': users,
+        'peoples': notyetlikedpeople,
+    }
+    return render(request, 'kover/like_actor.html', ctx)
+
+
 # create_review : contents detail 페이지에서 '내 리뷰 등록하기'를 눌렀을 때
 
 
@@ -564,6 +581,73 @@ def star_rate(starrequest):
                              'writer': user.nickname,
                              'star_rate': review.review_grade,
                              })
+
+
+@ method_decorator(csrf_exempt)
+def create_fav_show(actorrequest):
+    if actorrequest.method == 'GET':
+        return render(actorrequest, 'kover/show_datail.html')
+    elif actorrequest.method == 'POST':
+        request = json.loads(actorrequest.body)
+        show_id = request['id']
+        show = Show.objects.get(id=show_id)
+        user_id = actorrequest.user
+        user = Profile.objects.get(user=user_id)
+
+        user.interested_show.add(show)
+
+        return JsonResponse({'actor_id': id,
+                             })
+
+
+@ method_decorator(csrf_exempt)
+def delete_fav_show(nofavrequest):
+    if nofavrequest.method == 'GET':
+        return render(nofavrequest, 'kover/profile_block.html')
+    elif nofavrequest.method == 'POST':
+        request = json.loads(nofavrequest.body)
+        show_id = request['id']
+        show = Show.objects.get(id=show_id)
+        user_id = nofavrequest.user
+        user = Profile.objects.get(user=user_id)
+
+        user.interested_show.remove(show)
+
+        return JsonResponse({'actor_id': id,
+                             })
+
+
+@ method_decorator(csrf_exempt)
+def click_like_actor(actorrequest):
+    if actorrequest.method == 'GET':
+        return render(actorrequest, 'kover/like_actor.html')
+    elif actorrequest.method == 'POST':
+        request = json.loads(actorrequest.body)
+        actor_id = request['id']
+        actor = People.objects.get(id=actor_id)
+        user_id = actorrequest.user
+        user = Profile.objects.get(user=user_id)
+
+        user.like_actor.add(actor)
+
+        return JsonResponse({'actor_id': id,
+                             })
+
+
+@ method_decorator(csrf_exempt)
+def click_unlike_actor(noactorrequest):
+    if noactorrequest.method == 'GET':
+        return render(noactorrequest, 'kover/profile_block.html')
+    elif noactorrequest.method == 'POST':
+        request = json.loads(noactorrequest.body)
+        actor_id = request['id']
+        actor = People.objects.get(id=actor_id)
+        user_id = noactorrequest.user
+        user = Profile.objects.get(user=user_id)
+
+        user.like_actor.remove(actor)
+
+        return JsonResponse({'actor_id': id})
 
 
 def searchResult(request):

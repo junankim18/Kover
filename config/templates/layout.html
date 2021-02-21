@@ -18,14 +18,12 @@
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
             crossorigin="anonymous"
         />
-        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
 
         {% endblock extra_head %}
         <style>
-
             main {
                 margin-top: 17px;
-
             }
         </style>
     </head>
@@ -99,7 +97,14 @@
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="{% url 'kover:searchResult' %}" method="get">
                     {% csrf_token %}
-                    <input class="form-control mr-sm-2" type="search" placeholder="검색어를 입력하세요" aria-label="Search" name="q" value="{{q}}"/>
+                    <input
+                        class="form-control mr-sm-2"
+                        type="search"
+                        placeholder="검색어를 입력하세요"
+                        aria-label="Search"
+                        name="q"
+                        value="{{q}}"
+                    />
                     <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">검색</button>
                 </form>
             </div>
@@ -116,10 +121,11 @@
 
             {% endblock %}
         </footer>
-        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
-        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
-        <script> AOS.init(); </script>
-
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script>
+            AOS.init();
+        </script>
 
         <script
             src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
