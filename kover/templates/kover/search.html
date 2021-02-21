@@ -46,14 +46,17 @@
     <div class="section-heading">
         <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>공연 검색결과</h4>
     </div>
-    {% for show in show_result %}
     <div>
-        <p>공연 이름 : {{ show.show_name }}</p>
-        <p>공연 설명 : {{ show.show_detail }}</p>
-        <img src="{{show.show_poster}}" alt="" width="100px" />
-        <a href="{{ show.get_url }}">이동하기</a>
+        {% for show in show_result %}
+        <div class="border hallbox card text-center w-100 h-200">
+            <p>공연 이름 : {{ show.show_name }}</p>
+            <p>공연 설명 : {{ show.show_detail }}</p>
+            <img src="{{show.show_poster}}" alt="" width="100px" />
+            <a href="{{ show.get_url }}">이동하기</a>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+
 
     <br>
    
@@ -62,7 +65,7 @@
     </div>
     <div>
         {% for people in people_result %}
-        <div>
+        <div class="border hallbox card text-center w-100 h-200">
             <p>배우 이름 : {{ people.people_name }}</p>
             <img src="{{people.people_img}}" alt="" width="100px" />
             <a href="{{ people.get_url }}">이동하기</a>
@@ -77,7 +80,7 @@
     </div>
     <div>
         {% for feed in feed_result %}
-        <div>
+        <div class="border hallbox card text-center w-100 h-200">
             <p>피드 제목 : {{ feed.feed_title }}</p>
             <p>피드 작성자 : {{ feed.feed_author }}</p>
             <p>피드 내용 : {{ feed.feed_content }}</p>
