@@ -123,7 +123,9 @@ def profile_geo(request):
 def feed_main(request):
     feeds = Feed_post.objects.all()
     # feed_0 = Feed_post.objects.all().order_by('-feed_like')[:5]
-    feed_0 = Feed_post.objects.all()[:5]  # 피드 좋아요 많은 순
+
+    feed_0 = Feed_post.objects.annotate(likes=Count(
+        'feed_like')).order_by('-likes')[:5]  # 피드 좋아요 많은 순
     feed_1 = Feed_post.objects.filter(feed_type='play_lib').order_by(
         '-feed_created_at')[:5]  # 연극-자유
     feed_2 = Feed_post.objects.filter(feed_type='play_inf').order_by(
