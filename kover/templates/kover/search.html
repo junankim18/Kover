@@ -2,31 +2,48 @@
 
 {% block content %}
 
-    <title>Kover | Search</title>
-    <h1>!!</h1>
-    <h1>!!</h1>
-    <h1>!!</h1>
-    <h1>!!</h1>
-    {%csrf_token%}
-    {% if not search_result %}
-        <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
-    {% else %}
-        <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
-        <br>
-        <table border="1">
-            <tr>
-                <th>공연 이름</th>
-                <th>공연 설명</th>
-                <th>자세히 보기</th>
-            </tr>
-            {% for show in search_result %}
-            <tr>
-                <td>{{ show.show_name }}</td>
-                <td>{{ show.show_detail }}</td>
-                <td><a href='{{ show.get_url }}'>이동하기</a></td>
-            </tr>
-            {% endfor %}
-        </table>
-    {% endif %}
+<title>Kover | Search</title>
+
+<p>안보여</p>
+<p>안보여</p>
+<p>안보여</p>
+<p>안보여</p>
+
+{%csrf_token%}
+{% if not show_result and not people_result%}
+    <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
+{% else %}
+    <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
+    <br />
+    
+    <h4>공연 검색결과</h4>
+    {% for show in show_result %}
+    <div>
+        <p>공연 이름 : {{ show.show_name }}</p>
+        <p>공연 설명 : {{ show.show_detail }}</p>
+        <img src="{{show.show_poster}}" alt="" width="100px" />
+        <a href="{{ show.get_url }}">이동하기</a>
+    </div>
+    {% endfor %}
+   
+    <h4>배우 검색결과</h4>
+    {% for people in people_result %}
+    <div>
+        <p>배우 이름 : {{ people.people_name }}</p>
+        <img src="{{people.people_img}}" alt="" width="100px" />
+        <a href="{{ people.get_url }}">이동하기</a>
+    </div>
+    {%endfor%}
+    
+    <h4>피드 검색결과</h4>
+    {% for feed in feed_result %}
+    <div>
+        <p>피드 제목 : {{ feed.feed_title }}</p>
+        <p>피드 작성자 : {{ feed.feed_author }}</p>
+        <p>피드 내용 : {{ feed.feed_content }}</p>
+        <a href="{{ people.get_url }}">이동하기</a>
+    </div>
+    {% endfor %}
+{%endif%}
 
 {% endblock %}
