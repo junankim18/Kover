@@ -641,3 +641,19 @@ def searchResult(request):
     }
 
     return render(request, 'kover/search.html', ctx)
+
+
+@method_decorator(csrf_exempt)
+def delete_review(delrequest):
+    if delrequest.method == 'GET':
+        show_list = Show.objects.all()
+        ctx = {"shows": show_list}
+        return render(delrequest, 'kover/show_detail.html', ctx)
+    elif delrequest.method == 'POST':
+        request = json.loads(delrequest.body)
+        show_id = request['show_id']
+        review_id = request['review_id']
+        show = Show.objects.get(id=show_id)
+        review = Review.objects.get(id=review_id)
+        review.delete()
+        return JsonResponse({'show_id': show_id, 'review_id': review_id})
