@@ -4,23 +4,26 @@
 
 {% block content %}
 <title>Kover | {{feed.get_feed_type_display}}</title>
-<div class="row" style="margin-top: 30px; margin-bottom: 100px">
+<div class="row " style="margin-top: 80px; margin-bottom: 100px">
     <div class="feed_main col-xl-12">
         <span style="font-size: 25px"><b>{{feed.get_feed_type_display}}</b></span>
-        <ul class="list-group " style="max-width: 35rem;">
+        <ul class="list-group " style="max-width: 80rem;">
             {% for feed in posts %}
             <a
             href="{%url 'kover:feed_page' feed.id%}"
             class="list-group-item list-group-item-action flex-column align-items-start"
             >
             <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
+                <h5 class="mb-2">{{feed.feed_title}}</h5>
+                <div class="text-muted">{{feed.feed_created_at}}    
+                <i class="fas fa-heart ml-2" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
             </div>
-            <p class="mb-1">{{feed.feed_content|truncatechars:30}}  </p>
+            <p class="mb-1">{{feed.feed_content|truncatechars:340}}  </p>
         </a>
             {% endfor %}
         </ul>
+        <button type="button" class="btn btn-info pull-right" onclick="location.href = '{% url 'kover:create' %}'">글 작성</button>
+        <button type="button" class="btn btn-info pull-right" onclick="location.href = '{% url 'kover:feed_main' %}'">피드 메인</button>
     </div>
 
 
