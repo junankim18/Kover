@@ -27,6 +27,13 @@
                 margin-top: 17px;
 
             }
+            a{
+              color:black;
+            }
+            a:hover{
+            text-decoration-line:none;
+            color: #A593E0;
+            }
         </style>
     </head>
 
@@ -118,7 +125,9 @@
         </footer>
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script> 
         <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script> 
-        <script> AOS.init(); </script>
+        <script> AOS.init(
+          {once:true}
+        ); </script>
 
 
         <script

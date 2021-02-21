@@ -74,16 +74,15 @@ a:hover{
                 </button>
             </a>
         </div>
-
         {%endfor%}
     </div>
 </div>
-<div class="container ">
-    <div class="justify-content-center row align-items-center bg-light">
-        <div class="section-heading ml-6" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
-            <h4 class="section-heading text-left my-3">공연장</h4>
+<div class="row">
+    <div class="row justify-content-center align-items-center bg-light col-lg-6 col-xl-6 pr-3">
+        <div class="container text-center" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
+            <h4 style='margin-left:58px;'>공연장</h4>
         </div>
-        <div class="container justify-content-center row align-items-center my-3" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
+        <div class="container justify-content-center row align-items-center my-3" style='margin-left:10px;' data-aos="fade-up" data-aos-delay='500' data-duration='900'>
             <div class="hallbox card text-center w-100 h-200 mb-3">
                 <p>방문한 총 공연장 수 : {{overlapnum}}</p>
                 {% for hall in wantlist %}
@@ -96,10 +95,10 @@ a:hover{
             </div>
         </div>
     </div>
-    <div class="container">
-        <div class="justify-content-center row align-items-center my-5">
-            <div class="section-heading ml-6" data-aos="fade-right" data-aos-delay='500' data-duration='900'>
-                <h4 class="section-heading text-left my-3">관심배우</h4>
+    <div class="container justify-content-center align-items-center col-lg-6 col-xl-6">
+        <div class="justify-content-center row align-items-center my-5 pl-2">
+            <div class="section-heading ml-6 " data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+                <h4 class="section-heading text-left my-3 " style='margin-left:28px;'>관심배우</h4>
             </div>
             <div class="actorbox" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
                 <div class="actoriconl">
@@ -119,10 +118,11 @@ a:hover{
             </div>
         </div>
     </div>
-<div class="container">
-    <div class="justify-content-center row align-items-center bg-light">
-        <div class="section-heading" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
-            <h4 class="section-heading text-left my-3">나의 리뷰</h4>
+</div>
+<div class="row ">
+    <div style='margin-left:5px;' class="row justify-content-center align-items-center bg-light col-lg-6 col-xl-6">
+        <div class="container text-center" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
+            <h4 class="section-heading my-3 ml-3">나의 리뷰</h4>
         </div>
         <div class="container justify-content-center row align-items-center my-1 mb-4" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
             {% for review in reviews %} 
@@ -138,9 +138,9 @@ a:hover{
             {% endfor %}
         </div>
     </div>
-    <div class="container-fluid">
+    <div class="container justify-content-center align-items-center col-lg-6 col-xl-6">
         <div class="section-heading ml-6 mt-2"data-aos="fade-right" data-aos-delay='500' data-duration='900'>
-            <h4 class="section-heading text-center ">Favorites</h4>
+            <h4 class="section-heading text-center" style='margin-left:18px;'>Favorites</h4>
         </div>
         <div class="justify-content-center row align-items-center" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
             {% for favorite in favorites %}

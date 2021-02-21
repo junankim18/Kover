@@ -156,8 +156,8 @@
                         <input type='radio' name='date' value="{{date}}">{{date}}</input>
                         {% endfor %}
                     </div>
-                    <div class='revinput text-right mr-3'>
-                        <input class='comment_content text-center mb-1' type="text" size='40' placeholder='리뷰를 작성해보세요:)'>
+                    <div class='input-group  px-3'>
+                        <input class='comment_content form-control form-control-lg text-center mb-1' type="text" size='60' placeholder='리뷰를 작성해보세요:)'>
                         <button type='submit' onclick="onClickCom({{show.id}})"
                             class=' btn btn-outline-dark btn-sm ml-5 mb-1'>
                             {%csrf_token%}
