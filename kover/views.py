@@ -560,16 +560,41 @@ def star_rate(starrequest):
 
 def searchResult(request):
 
-    search_result = Show.objects.all()
+    show_result = Show.objects.all()
+    people_result = People.objects.all()
+    feed_result = Feed_post.objects.all()
 
     q = request.GET.get('q')
 
     if q:
-        search_result = search_result.filter(
+        show_result = show_result.filter(
             Q(show_name__icontains=q) |
             Q(show_detail__icontains=q)
         ).distinct()
-        return render(request, 'kover/search.html', {'search_result': search_result, 'q': q})
 
-    else:
-        return render(request, 'kover/search.html')
+        people_result = people_result.filter(
+            Q(people_name__icontains=q)
+        ).distinct()
+
+        feed_result = feed_result.filter(
+            Q(feed_title__icontains=q) |
+            Q(feed_author__nickname__icontains=q) |
+            Q(feed_content__icontains=q)
+        ).distinct()
+
+    shows = Show.objects.all()
+    show_result = list(show_result)
+
+    for show in shows:
+        for people in people_result:
+            if people in show.show_actor.all():
+                show_result.append(show)
+
+    ctx = {
+        'q': q,
+        'show_result': show_result,
+        'people_result': people_result,
+        'feed_result': feed_result,
+    }
+
+    return render(request, 'kover/search.html', ctx)
