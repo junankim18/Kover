@@ -171,7 +171,7 @@
                         {% if review.review_content == '.' %}
 
                         {%else%}
-                        <div class="revbox panel mx-3">
+                        <div id="review_{{review.id}}" class="revbox panel mx-3">
                             <span class='rev_upper'>
                                 평점 : {{review.review_grade}}
                             </span>
@@ -351,8 +351,8 @@
           const handleResponseDel = () => {
         if (delrequest.status <= 400) {
             const { show_id, review_id } = JSON.parse(delrequest.response);
-            const element = document.querySelector(`#show-${show_id} .reviewbox .revbox`);
-            const review = document.querySelector(`#review-${review_id}`);
+            const element = document.querySelector(`#review_${review_id}`);
+            element.classList.add('none')
            
         }
     };
