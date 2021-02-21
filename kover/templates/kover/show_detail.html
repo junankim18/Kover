@@ -256,8 +256,14 @@
                             
             const gradenum = document.querySelector('.mygrade');
             gradenum.innerText = `${value}`
-
         }
+
+        comrequest.onreadystatechange = () => {
+            if (comrequest.readyState === XMLHttpRequest.DONE) {
+                handleResponseCom();
+            }
+        };
+
 
         const onClickCom = (id) => {
             const url = '/contents/review/';
@@ -292,6 +298,7 @@
 
         const handleResponseCom = () => {
             if (comrequest.status <= 400) {
+                console.log('receive')
                 const { id, comment, writer, date, grade, yyyy, mm, dd } = JSON.parse(comrequest.response);
                 const element = document.querySelector(`.show_review .reviewbox`);
                 const comnum = document.querySelector(`.show_review h4`);
@@ -302,7 +309,33 @@
                 comnum.innerText = `${typeStr} ${count} 개`;
 
                 const create_com = document.createElement("div");
-                create_com.innerText = `${yyyy}년 ${mm}월 ${dd}일 - ${grade}- ${comment} - ${writer}`;
+                create_com.innerHTML = `                        <div class="revbox panel mx-3">
+                            <span class='rev_upper'>
+                                평점 : ${grade}
+                            </span>
+                            <span style='float:right;'>
+                                관람일자 : ${yyyy}년 ${mm}월 ${dd}일
+                            </span>
+                            <br>
+                            <span style='float:right;'>
+                                작성자 : ${writer}
+                            </span>
+                            <div class='rev_middle text-center'>
+                                ${comment}
+                            </div>
+                            <div class='delbox'>
+                                <a class='text-right'>
+                                    <button type='submit' onclick='onClickDel({{show.id}}, {{review.id}})'
+                                        class='btn btn-outline-dark btn-sm ml-5 mb-1'>
+                                        {% csrf_token %}
+                                        리뷰 삭제하기
+                                    </button>
+                                </a>
+                            </div>
+                            <br>
+                            <hr>
+
+`;
                 element.insertBefore(create_com, element.firstChild);
             }
         };
