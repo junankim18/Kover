@@ -2,21 +2,50 @@
 
 {% block content %}
 
+<style>
+    .my-level{
+        background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+        margin-top: 50px;
+        background-position: left;
+    }
+    .my-level:hover {
+        background-position: right;
+    }
+    .calender{
+        font-color: black;
+    }
+    
+    a{
+        text-decoration-line: none;
+        color: black;
+    }
+    a:hover{
+        text-decoration-line: none;
+        color: A593E0;
+    }
+</style>    
+
 <title>Kover | Search</title>
 
 <p>안보여</p>
 <p>안보여</p>
 <p>안보여</p>
 <p>안보여</p>
-
-{%csrf_token%}
-{% if not show_result and not people_result%}
-    <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
-{% else %}
-    <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
-    <br />
-    
-    <h4>공연 검색결과</h4>
+<div class=' my-level container-fluid' data-aos-'zoom-out-up'>
+    <div class=" py-4 my-1 text-center">
+        <div class="panel-body ml-4 mt-6 row">
+            {%csrf_token%}
+            {% if not show_result and not people_result%}
+                <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
+            {% else %}
+                <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt-2 mb-3">
+    <div class="section-heading">
+        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>공연 검색결과</h4>
+    </div>
     {% for show in show_result %}
     <div>
         <p>공연 이름 : {{ show.show_name }}</p>
@@ -25,8 +54,12 @@
         <a href="{{ show.get_url }}">이동하기</a>
     </div>
     {% endfor %}
+
+    <br>
    
-    <h4>배우 검색결과</h4>
+    <div class="section-heading">
+        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>배우 검색결과</h4>
+    </div>
     {% for people in people_result %}
     <div>
         <p>배우 이름 : {{ people.people_name }}</p>
@@ -34,8 +67,12 @@
         <a href="{{ people.get_url }}">이동하기</a>
     </div>
     {%endfor%}
+
+    <br>
     
-    <h4>피드 검색결과</h4>
+    <div class="section-heading">
+        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>피드 검색결과</h4>
+    </div>
     {% for feed in feed_result %}
     <div>
         <p>피드 제목 : {{ feed.feed_title }}</p>
@@ -45,5 +82,7 @@
     </div>
     {% endfor %}
 {%endif%}
+</div>    
+    
 
 {% endblock %}
