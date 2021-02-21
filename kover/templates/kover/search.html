@@ -60,27 +60,32 @@
     <div class="section-heading">
         <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>배우 검색결과</h4>
     </div>
-    {% for people in people_result %}
     <div>
-        <p>배우 이름 : {{ people.people_name }}</p>
-        <img src="{{people.people_img}}" alt="" width="100px" />
-        <a href="{{ people.get_url }}">이동하기</a>
+        {% for people in people_result %}
+        <div>
+            <p>배우 이름 : {{ people.people_name }}</p>
+            <img src="{{people.people_img}}" alt="" width="100px" />
+            <a href="{{ people.get_url }}">이동하기</a>
+        </div>
+        {%endfor%}
     </div>
-    {%endfor%}
 
     <br>
     
     <div class="section-heading">
         <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>피드 검색결과</h4>
     </div>
-    {% for feed in feed_result %}
     <div>
-        <p>피드 제목 : {{ feed.feed_title }}</p>
-        <p>피드 작성자 : {{ feed.feed_author }}</p>
-        <p>피드 내용 : {{ feed.feed_content }}</p>
-        <a href="{{ people.get_url }}">이동하기</a>
+        {% for feed in feed_result %}
+        <div>
+            <p>피드 제목 : {{ feed.feed_title }}</p>
+            <p>피드 작성자 : {{ feed.feed_author }}</p>
+            <p>피드 내용 : {{ feed.feed_content }}</p>
+            <a href="{{ people.get_url }}">이동하기</a>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
+    
 {%endif%}
 </div>    
     
