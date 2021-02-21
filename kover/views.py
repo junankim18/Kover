@@ -10,6 +10,7 @@ from datetime import timedelta, datetime
 from dateutil.parser import *
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.db.models import Count
 
 # profile_block : 기본 프로필페이지
 
@@ -165,8 +166,6 @@ def feed_main(request):
     return render(request, 'kover/feed_main.html', ctx)
 
 
-
-
 def feed_page(request, pk):
     if request.user not in User.objects.all():
         users = 0
@@ -190,13 +189,13 @@ def feed_page(request, pk):
 
 def feed_create_post(request):
     if request.method == 'POST':
-        form = PostForm(request.POST)       
+        form = PostForm(request.POST)
         if form.is_valid():
             post = form.save()
             return redirect('kover:play_lib')
-    else: 
+    else:
         form = PostForm()
-        ctx = {'form':form}
+        ctx = {'form': form}
         return render(request, 'kover/feed_form.html', ctx)
 
 
@@ -205,11 +204,11 @@ def feed_update_post(request, pk):
     if request.method == 'POST':
         form = PostForm(request.POST, instance=post)
         if form.is_valid():
-            post=form.save()
-            return redirect('kover:feed_page', pk) 
+            post = form.save()
+            return redirect('kover:feed_page', pk)
     else:
         form = PostForm(instance=post)
-        ctx={'form':form}
+        ctx = {'form': form}
         return render(request, 'kover/feed_form.html', ctx)
 
 
@@ -484,7 +483,7 @@ def press_com(comrequest):
                                    comment_content=content, comment_post=feed,
                                    )
             comment.save()
-        return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname, 'time':comment.comment_created_at})
+        return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname, 'time': comment.comment_created_at})
 
 
 # create_watched_show : 네비게이션 바에서  '리뷰등록'을 눌렀을 때, 아직 평가하지 않은 작품들의 리스트가 나온다
