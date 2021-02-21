@@ -2,22 +2,95 @@
 
 {% block content %}
 
-    <title>Kover | Search</title>
-    {%csrf_token%}
-    {% if not shows %}
-        <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
-    {% else %}
-        <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
-        {% for show in shows.all %}
-        <div class="container"> 
-            <div class="card">
-                <div class="card-body">
-                    <h2>{{ show.show_name }}</h1> 
-                </div>
-            </div>
+<style>
+    .my-level{
+        background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+        margin-top: 50px;
+        background-position: left;
+    }
+    .my-level:hover {
+        background-position: right;
+    }
+    .calender{
+        font-color: black;
+    }
+    
+    a{
+        text-decoration-line: none;
+        color: black;
+    }
+    a:hover{
+        text-decoration-line: none;
+        color: A593E0;
+    }
+</style>    
+
+<title>Kover | Search</title>
+
+<p>안보여</p>
+<p>안보여</p>
+<p>안보여</p>
+<p>안보여</p>
+<div class=' my-level container-fluid' data-aos-'zoom-out-up'>
+    <div class=" py-4 my-1 text-center">
+        <div class="panel-body ml-4 mt-6 row">
+            {%csrf_token%}
+            {% if not show_result and not people_result%}
+                <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
+            {% else %}
+                <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
         </div>
-        <br>
+    </div>
+</div>
+<div class="container-fluid mt-2 mb-3">
+    <div class="section-heading">
+        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>공연 검색결과</h4>
+    </div>
+    <div>
+        {% for show in show_result %}
+        <div class="border hallbox card text-center w-100 h-200">
+            <p>공연 이름 : {{ show.show_name }}</p>
+            <p>공연 설명 : {{ show.show_detail }}</p>
+            <img src="{{show.show_poster}}" alt="" width="100px" />
+            <a href="{{ show.get_url }}">이동하기</a>
+        </div>
         {% endfor %}
-    {% endif %}
+    </div>
+
+
+    <br>
+   
+    <div class="section-heading">
+        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>배우 검색결과</h4>
+    </div>
+    <div>
+        {% for people in people_result %}
+        <div class="border hallbox card text-center w-100 h-200">
+            <p>배우 이름 : {{ people.people_name }}</p>
+            <img src="{{people.people_img}}" alt="" width="100px" />
+            <a href="{{ people.get_url }}">이동하기</a>
+        </div>
+        {%endfor%}
+    </div>
+
+    <br>
+    
+    <div class="section-heading">
+        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>피드 검색결과</h4>
+    </div>
+    <div>
+        {% for feed in feed_result %}
+        <div class="border hallbox card text-center w-100 h-200">
+            <p>피드 제목 : {{ feed.feed_title }}</p>
+            <p>피드 작성자 : {{ feed.feed_author }}</p>
+            <p>피드 내용 : {{ feed.feed_content }}</p>
+            <a href="{{ people.get_url }}">이동하기</a>
+        </div>
+        {% endfor %}
+    </div>
+    
+{%endif%}
+</div>    
+    
 
 {% endblock %}
