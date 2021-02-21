@@ -27,7 +27,13 @@ def profile_block(request):
     halllist = []  # 공연장 리스트
     wantlist = []  # 공연장 리스트중에서 중복된 값 제거
     renum = {}  # 공연장 리스트중에서 중복된 값 카운트
+    comingsoon = []
 
+    for favorite in favorites:
+        if favorite.show_date_start.replace(tzinfo=None) > datetime.now():
+            if (favorite.show_date_start.replace(tzinfo=None)-datetime.now()).days < 7:
+                comingsoon.append(favorite)
+    #     if 0 < favorite.show_date_start-datetime.now())
     # 공연장 리스트
     for i in range(hallnum):
         halllist.append(showlist[i].show_hall)
@@ -66,7 +72,8 @@ def profile_block(request):
         'overlapnum': overlapnum,
         'wantlist': wantlist,
         'hallname': hallname,
-        'mostvisitnum': mostvisitnum
+        'mostvisitnum': mostvisitnum,
+        'comingsoon': comingsoon,
     }
     return render(request, 'kover/profile_block.html', ctx)
 
@@ -82,11 +89,13 @@ def main(request):
         actors = []
 
     show_1 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 최신 순
-    show_2 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 리뷰 많은 순
+    show_2 = Show.objects.annotate(reviews=Count(
+        'review_show')).order_by('-reviews')[:5]  # 작품 리뷰 많은 순
 
     feed_1 = Feed_post.objects.all().order_by(
         '-feed_created_at')[:5]  # 피드 최신 순
-    feed_2 = Feed_post.objects.all().order_by('-feed_like')[:5]  # 피드 좋아요 많은 순
+    feed_2 = Feed_post.objects.annotate(likes=Count(
+        'feed_like')).order_by('-likes')[:5]  # 피드 좋아요 많은 순
 
     actorshow = []
     wantshow = []
@@ -111,7 +120,7 @@ def main(request):
 # profile_geo : 지도 프로필 페이지
 
 
-@login_required
+@ login_required
 def profile_geo(request):
     shows = Show.objects.all()
     ctx = {
@@ -123,7 +132,9 @@ def profile_geo(request):
 def feed_main(request):
     feeds = Feed_post.objects.all()
     # feed_0 = Feed_post.objects.all().order_by('-feed_like')[:5]
-    feed_0 = Feed_post.objects.all()[:5]  # 피드 좋아요 많은 순
+
+    feed_0 = Feed_post.objects.annotate(likes=Count(
+        'feed_like')).order_by('-likes')[:5]  # 피드 좋아요 많은 순
     feed_1 = Feed_post.objects.filter(feed_type='play_lib').order_by(
         '-feed_created_at')[:5]  # 연극-자유
     feed_2 = Feed_post.objects.filter(feed_type='play_inf').order_by(
@@ -502,6 +513,23 @@ def create_watched_show(request):
     return render(request, 'kover/watched_show.html', ctx)
 
 
+def create_like_actor(request):
+    users = Profile.objects.filter(user=request.user)
+    users = users[0]
+    likedactor = users.like_actor.all()
+    peoples = People.objects.all()
+    notyetlikedpeople = []
+    for people in peoples:
+        if people not in likedactor:
+            notyetlikedpeople.append(people)
+
+    ctx = {
+        'users': users,
+        'peoples': notyetlikedpeople,
+    }
+    return render(request, 'kover/like_actor.html', ctx)
+
+
 # create_review : contents detail 페이지에서 '내 리뷰 등록하기'를 눌렀을 때
 
 
@@ -599,6 +627,73 @@ def star_rate(starrequest):
                              'writer': user.nickname,
                              'star_rate': review.review_grade,
                              })
+
+
+@ method_decorator(csrf_exempt)
+def create_fav_show(actorrequest):
+    if actorrequest.method == 'GET':
+        return render(actorrequest, 'kover/show_datail.html')
+    elif actorrequest.method == 'POST':
+        request = json.loads(actorrequest.body)
+        show_id = request['id']
+        show = Show.objects.get(id=show_id)
+        user_id = actorrequest.user
+        user = Profile.objects.get(user=user_id)
+
+        user.interested_show.add(show)
+
+        return JsonResponse({'actor_id': id,
+                             })
+
+
+@ method_decorator(csrf_exempt)
+def delete_fav_show(nofavrequest):
+    if nofavrequest.method == 'GET':
+        return render(nofavrequest, 'kover/profile_block.html')
+    elif nofavrequest.method == 'POST':
+        request = json.loads(nofavrequest.body)
+        show_id = request['id']
+        show = Show.objects.get(id=show_id)
+        user_id = nofavrequest.user
+        user = Profile.objects.get(user=user_id)
+
+        user.interested_show.remove(show)
+
+        return JsonResponse({'actor_id': id,
+                             })
+
+
+@ method_decorator(csrf_exempt)
+def click_like_actor(actorrequest):
+    if actorrequest.method == 'GET':
+        return render(actorrequest, 'kover/like_actor.html')
+    elif actorrequest.method == 'POST':
+        request = json.loads(actorrequest.body)
+        actor_id = request['id']
+        actor = People.objects.get(id=actor_id)
+        user_id = actorrequest.user
+        user = Profile.objects.get(user=user_id)
+
+        user.like_actor.add(actor)
+
+        return JsonResponse({'actor_id': id,
+                             })
+
+
+@ method_decorator(csrf_exempt)
+def click_unlike_actor(noactorrequest):
+    if noactorrequest.method == 'GET':
+        return render(noactorrequest, 'kover/profile_block.html')
+    elif noactorrequest.method == 'POST':
+        request = json.loads(noactorrequest.body)
+        actor_id = request['id']
+        actor = People.objects.get(id=actor_id)
+        user_id = noactorrequest.user
+        user = Profile.objects.get(user=user_id)
+
+        user.like_actor.remove(actor)
+
+        return JsonResponse({'actor_id': id})
 
 
 def searchResult(request):

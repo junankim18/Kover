@@ -26,8 +26,9 @@
         <div class='container'>
     {% comment %} 메인 포스터 {% endcomment %}
             <div  class="show_info theme-bg-primary justify-content-center row align-items-center">
-                <div data-aos="fade-right" data-aos-delay='500' data-duration='3000' class="justify-content-center ml-4 col-md-2">
-                    <img class="img-fluid rounded mb-4 mb-lg-0"src="{{show.show_poster.url}}" alt="공연 포스터">
+                <div data-aos="fade-right" data-aos-delay='500' data-duration='3000' class="porel justify-content-center ml-4 col-md-3">
+                    <img class="img-fluid rounded mb-4 mb-lg-0"src="{{show.show_poster}}" alt="공연 포스터">
+                    <button class="notyetliked" onclick="onClickFavShow({{show.id}})"><i class="fas fa-splotch"></i></button>
                 </div>
                 {% comment %} 공연 정보 {% endcomment %}
                 <div  class="col-md-7" >
@@ -124,7 +125,7 @@
                 {% for people in show.show_actor.all %}
                 <div class="col-3 col-md-auto col-lg-2 col-xl-2">
                     <div class="actor text-center">
-                        <img class="mx-auto rounded-circle mb-3" src="{{people.people_img.url}}" alt="배우 이미지"
+                        <img class="mx-auto rounded-circle mb-3" src="{{people.people_img}}" alt="배우 이미지"
                             width=100px, height=100px />
                         <h5>{{people.people_name}}</h5>
                         <p class="text-muted">{{people.people_type}}</p>
@@ -246,7 +247,16 @@
         const comrequest = new XMLHttpRequest();
         const delrequest = new XMLHttpRequest();
         const starrequest = new XMLHttpRequest();
+        const showrequest = new XMLHttpRequest();
+        const actorrequest = new XMLHttpRequest();
 
+        const onClickFavShow = (id) => {
+            const url = "/contents/like/";
+            actorrequest.open("POST", url, true);
+            actorrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+            actorrequest.send(JSON.stringify({ id }));
+            alert("관심 공연에 추가되었습니다");
+        };
 
         const onClickStar=(show_id, value)=>{
             const url = '/contents/rate/';
@@ -306,7 +316,6 @@
 
         const handleResponseCom = () => {
             if (comrequest.status <= 400) {
-                console.log('receive')
                 const { id, comment, writer, date, grade, yyyy, mm, dd } = JSON.parse(comrequest.response);
                 const element = document.querySelector(`.show_review .reviewbox`);
                 const comnum = document.querySelector(`.show_review h4`);

@@ -40,7 +40,12 @@ urlpatterns = [
          name='show_detail'),  # 공연별 댓글),
     # path('contents/<int:pk>/review', views, name=''),  # 공연별 리뷰),
     # 공연 평가할 수 있는 페이지-작품들의 리스트가 뜬다)
+    path('actors/', views.create_like_actor, name='create_like_actor'),
+    path('actors/like/', views.click_like_actor, name='click_like_actor'),
+    path('actors/unlike/', views.click_unlike_actor, name='click_unlike_actor'),
     path('contents/', views.create_watched_show, name='create_watched_show'),
+    path('contents/like/', views.create_fav_show, name='create_fav_show'),
+    path('contents/unlike/', views.delete_fav_show, name='delete_fav_show'),
     path('contents/rate/', views.star_rate, name='star_rate'),
     path('contents/review/', views.create_review,
          name='create_review'),  # 작품별 댓글달기 기능

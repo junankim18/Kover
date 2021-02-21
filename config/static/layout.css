@@ -15,10 +15,7 @@
     margin-top: 100px;
 }
 
-
-
 @import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
-
 
 .footer {
     bottom: 0;
@@ -39,7 +36,7 @@
     height: 40px;
     background-color: transparent;
     border: transparent;
-    color:  FFFFF3;
+    color: FFFFF3;
     z-index: 3;
 }
 .actorcontainer {
@@ -53,12 +50,12 @@
     padding: 10px;
     text-align: center;
     z-index: 1;
+    position: relative;
 }
 .actorbox .actoriconl {
     position: absolute;
     z-index: 30;
     top: 170px;
-
 }
 .actorbox .actoriconr {
     position: absolute;
@@ -126,4 +123,85 @@
     height: 282px;
     object-position: center;
     object-fit: cover;
+    box-shadow: 2px 2px 4px 2px rgba(0, 0, 0, 0.2);
+}
+.show_info div img {
+    width: 230px;
+    height: 282px;
+    object-position: center;
+    object-fit: cover;
+}
+.playactorslist {
+    display: flex;
+    flex-direction: row;
+    overflow-x: scroll;
+}
+.peoplecard {
+    width: 230px;
+    object-position: center;
+    object-fit: cover;
+    margin-right: 10px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    position: relative;
+}
+.peoplecard .notyetliked {
+    z-index: 3;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 42px;
+    right: 1px;
+}
+.peoplecard .notyetliked i {
+    color: #bdbdbd;
+    font-size: 1.5rem;
+}
+.actordetailbox .actorliked {
+    z-index: 5;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.actordetailbox .actorliked i {
+    color: #a593e0;
+    font-size: 1.5rem;
+}
+.porel {
+    position: relative;
+}
+.porel .notyetliked {
+    z-index: 3;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+}
+.porel .notyetliked i {
+    color: slategray;
+    font-size: 1.5rem;
+}
+.porel .actorliked {
+    z-index: 3;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+    top: 5px;
+    right: 2px;
+}
+.porel .actorliked i {
+    color: #a593e0;
+    font-size: 1.5rem;
+}
+.personalid button {
+    border: none;
+    background-color: transparent;
+}
+.comingsoon {
+    position: absolute;
+    font-size: 1.5rem;
+    color: #a593e0;
+    top: 5px;
+    right: 40px;
 }
