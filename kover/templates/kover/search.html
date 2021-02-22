@@ -110,11 +110,13 @@
         <br>
         <div class='showResultContent'>
             {% for show in show_result %}
-            <div class='showResultShow' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
-                <p class='title'>공연 이름 : {{ show.show_name }}</p>
-                <p class='about'>공연 설명 : {{ show.show_detail }}</p>
-                <img src="{{show.show_poster}}"/>
-            </div>
+            <a href="{%url 'kover:show_detail' show.id %}">
+                <div class='showResultShow' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <p class='title'>공연 이름 : {{ show.show_name }}</p>
+                    <p class='about'>공연 설명 : {{ show.show_detail }}</p>
+                    <img src="{{show.show_poster}}"/>
+                </div>
+            </a>
             {% endfor %}
         </div>
     </div>
@@ -125,10 +127,12 @@
         <br>
         <div class='showResultContent'>
             {% for people in people_result %}
-            <div class='showResultPeople' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
-                <p class='title'>배우 이름 : {{ people.people_name }}</p>
-                <img src="{{people.people_img}}" alt="" width="100px" />
-            </div>
+            <a href="">
+                <div class='showResultPeople' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <p class='title'>배우 이름 : {{ people.people_name }}</p>
+                    <img src="{{people.people_img}}" alt="" width="100px" />
+                </div>
+            </a>
             {% endfor %}
         </div>
     </div>
@@ -139,11 +143,13 @@
         <br>
         <div class='showResultContent'>
             {% for feed in feed_result %}
-            <div class='showResultFeed' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
-                <p class='title'>피드 제목 : {{ feed.feed_title }}</p>
-                <p class='title'>피드 작성자 : {{ feed.feed_author }}</p>
-                <p class='about'>피드 내용 : {{ feed.feed_content }}</p>
-            </div>
+            <a href="{%url 'kover:feed_detail' feed.id %}">
+                <div class='showResultFeed' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <p class='title'>피드 제목 : {{ feed.feed_title }}</p>
+                    <p class='title'>피드 작성자 : {{ feed.feed_author }}</p>
+                    <p class='about'>피드 내용 : {{ feed.feed_content }}</p>
+                </div>
+            </a>
             {% endfor %}
         </div>
     </div>
