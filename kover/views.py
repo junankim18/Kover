@@ -187,11 +187,14 @@ def feed_page(request, pk):
     return render(request, 'kover/feed_page.html', ctx)
 
 
+@login_required
 def feed_create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save()
+            post.user = Profile.objects.get(user = request.user)
+            post.save()
             return redirect('kover:play_lib')
     else:
         form = PostForm()
@@ -199,6 +202,7 @@ def feed_create_post(request):
         return render(request, 'kover/feed_form.html', ctx)
 
 
+@login_required
 def feed_update_post(request, pk):
     post = get_object_or_404(Feed_post, id=pk)
     if request.method == 'POST':
@@ -212,6 +216,7 @@ def feed_update_post(request, pk):
         return render(request, 'kover/feed_form.html', ctx)
 
 
+@login_required
 def feed_delete_post(request, pk):
     post = get_object_or_404(Feed_post, pk=pk)
     if request.method == 'GET':

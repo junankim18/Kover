@@ -170,9 +170,11 @@
                         <input type='radio' name='date' value="{{date}}">{{date}}</input>
                         {% endfor %}
                     </div>
-                    <div class='revinput input-group  px-3'>
-                        <input class='comment_content form-control form-control-lg text-center mb-1' type="text"
-                            size='60' placeholder='리뷰를 작성해보세요:)'>
+                    <div class='revinput text-right mr-3'>
+                        {% comment %} <input class='comment_content text-center mb-1' type="text" size='40' placeholder='리뷰를 작성해보세요:)'> {% endcomment %}
+                        <textarea class="comment_content mb-1 multiliner col-xl-12" rows="6" placeholder="리뷰를 작성해보세요:)" 
+                        style="overflow:hidden; overflow-wrap:break-word; overflow-y:scroll; resize: none;"></textarea>
+                    
                         <button type='submit' onclick="onClickCom({{show.id}})"
                             class=' btn btn-outline-dark btn-sm ml-5 mb-1'>
                             {%csrf_token%}
@@ -185,20 +187,20 @@
                     {% for review in reviews %}
                     {% if review.review_content == '.' %}
 
-                    {%else%}
-                    <div id="review_{{review.id}}" class="revbox panel mx-3">
-                        <span class='rev_upper'>
-                            평점 : {{review.review_grade}}
-                        </span>
-                        <span style='float:right;'>
-                            관람일자 : {{review.review_watched_at}}
-                        </span>
-                        <br>
-                        <span style='float:right;'>
-                            작성자 : {{review.review_author}}
-                        </span>
-                        <div class='rev_middle text-center'>
-                            {{review.review_content}}
+                        {%else%}
+                        <div id="review_{{review.id}}" class="revbox panel mx-3">
+                            <span class='rev_upper'>
+                                평점 : {{review.review_grade}}
+                            </span>
+                            <span style='float:right;'>
+                                관람일자 : {{review.review_watched_at}}
+                            </span>
+                            <br>
+                            <span style='float:right;'>
+                                작성자 : {{review.review_author}}
+                            </span>
+                            <div class='rev_middle text-center'>
+                                {{review.review_content|linebreaksbr}}
                         </div>
                         {% if review.review_author == username %}
                         <div class='delbox'>
