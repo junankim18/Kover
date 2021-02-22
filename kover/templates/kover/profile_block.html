@@ -412,8 +412,8 @@ modal
 </style>
 
 <title>Kover | block profile</title>
-<div class=' my-level container-fluid' data-aos-'zoom-out-up'>
-    <div class=" py-4 my-1 text-center">
+<div class=' my-level py-4 container-fluid' data-aos-'zoom-out-up'>
+    <div class=" py-2 my-1 text-center">
         <div class="panel-body ml-4 mt-6 row">
             <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
         </div>
@@ -461,12 +461,12 @@ modal
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="row justify-content-center align-items-center bg-light col-lg-6 col-xl-6 pr-3">
-        <div class="container text-center" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
-            <h4 style='margin-left:58px;'>공연장</h4>
+<div class="row bg-light">
+    <div class="row justify-content-center align-items-center bg-light col-lg-6 col-xl-6 ml-1">
+        <div class="container" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
+            <h4 class='text-center'>공연장</h4>
         </div>
-        <div class="container justify-content-center row align-items-center my-3" data-aos="fade-up"
+        <div class="container justify-content-center row align-items-center" data-aos="fade-up"
             data-aos-delay='500' data-duration='900'>
             <div class="hallbox card text-center w-100 h-200 mb-3">
                 <p>방문한 총 공연장 수 : {{overlapnum}}</p>
@@ -480,10 +480,10 @@ modal
             </div>
         </div>
     </div>
-    <div class="container justify-content-center align-items-center col-lg-6 col-xl-6 bg-light">
-        <div class="justify-content-center row align-items-center my-5 pl-2">
-            <div class="section-heading ml-6 " data-aos="fade-right" data-aos-delay='500' data-duration='900'>
-                <h4 class="section-heading text-left my-3 " style='margin-left:28px;'>관심배우</h4>
+    <div class="container justify-content-center align-items-center col-lg-6 col-xl-6 ">
+        <div class="justify-content-center row align-items-center my-1 pl-2">
+            <div class="section-heading" data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+                <h4 class="section-heading text-left my-3" style=''>관심배우</h4>
             </div>
             <div class="actorbox" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
                 <div class="actoriconl">
@@ -494,7 +494,7 @@ modal
                     <div id='actor-{{actor.id}}'class="actordetailbox">
                         <img src="{{actor.people_img}}" alt="" width="150px" />
                         <p>{{actor.people_name}} {{actor.people_type}}</p>
-                        <button class="actorliked" onclick="onClickNoActor({{actor.id}})"><i
+                        <button class="actorliked mb-2" onclick="onClickNoActor({{actor.id}})"><i
                                 class="fas fa-splotch"></i></button>
                     </div>
                     {% endfor %}
@@ -515,18 +515,19 @@ modal
         </div>
 
     </div>
-    <div class="container">
-        <div class="justify-content-center row align-items-center bg-light">
+</div>
+    <div class="row">
+        <div class="container justify-content-center align-items-center col-lg-6 col-xl-6 py-3 pr-3">
             <div class="section-heading" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
-                <h4 class="section-heading text-left my-3">나의 리뷰</h4>
+                <h4 class='text-center'>나의 리뷰</h4>
             </div>
-            <div class="container justify-content-center row align-items-center my-1 mb-4" data-aos="fade-up"
+            <div class="justify-content-center align-items-center my-1 mb-4" data-aos="fade-up"
                 data-aos-delay='500' data-duration='900'>
                 {% for review in reviews %}
                 {% if review.review_content == "." %}
 
                 {%else%}
-                <div class="revbox card text-center w-50 h-100 ml-2 mb-2">
+                <div class="revbox card text-center ">
                     <p>{{review.review_show}}</p>
                     <p>{{review.review_grade}} / 10</p>
                     <p>{{review.review_content}}</p>
@@ -535,14 +536,14 @@ modal
                 {% endfor %}
             </div>
         </div>
-        <div class="container-fluid">
-            <div class="section-heading ml-6 mt-2" data-aos="fade-right" data-aos-delay='500' data-duration='900'>
-                <h4 class="section-heading text-center ">관심 공연</h4>
+        <div class="container justify-content-center align-items-center col-lg-6 col-xl-6 pr-3">
+            <div class="section-heading mt-2" data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+                <h4 class="section-heading text-center ">관심공연</h4>
             </div>
-            <div class="justify-content-center row align-items-center" data-aos="fade-up" data-aos-delay='500'
+            <div class="justify-content-center row align-items-center py-2" data-aos="fade-up" data-aos-delay='500'
                 data-duration='900'>
                 {% for favorite in favorites %}
-                <div id='fav-{{favorite.id}}' class="showdetailbox card text-center h-20 w-20 ml-3 my-5">
+                <div class="showdetailbox card text-center h-20 w-20 my-1">
                     <div class="porel">
                         <img src="{{favorite.show_poster}}" class="card-img-top img-fluid" alt="" />
                         <p>{{favorite.show_name}}</p>
@@ -555,6 +556,15 @@ modal
                     </div>
                 </div>
                 {% endfor %}
+                <div class="container justify-content-center row align-items-center">
+                    <a href="{% url 'kover:create_watched_show'%}">
+                        <button data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' type="submit"
+                            class="btn btn-outline-dark">
+                            <p><i class="fas fa-plus"></i></p>
+                            <p>관심 공연 추가하기</p>
+                        </button>
+                    </a>
+                </div>
             </div>
         </div>
     </div>

@@ -41,10 +41,6 @@
 
 <title>Kover | Search</title>
 
-<p>안보여</p>
-<p>안보여</p>
-<p>안보여</p>
-<p>안보여</p>
 <div class=' my-level container-fluid' data-aos-'zoom-out-up'>
     <div class=" py-4 my-1 text-center">
         <div class="panel-body ml-4 mt-6 row">
@@ -57,17 +53,18 @@
     </div>
 </div>
 <div class="main_body px-5 my-5">
-    <div class="search_result_list">
-        <h3 style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
-            <b>공연 검색결과</b>
-        </h3>
-        <br>
-        <div class='showResultBox'>
+    <div class="show_list">
+        <div class="show_list_main">
+            <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>공연 검색결과</h4>
+            <br>
+            <br>
             {% for show in show_result %}
-            <div class='showResult' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
-                <p style="margin-left: 10px">공연 이름 : {{ show.show_name }}</p>
-                <p style="margin-left: 10px;">공연 설명 : {{ show.show_detail }}</p>
-                <img src="{{show.show_poster}}" style="margin: 1rem"/>
+            <div width="350px" class='showimg' style="margin-top: 10px" data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                <img src="{{show.show_poster}}"/>
+                <div>
+                    <b>공연 이름 : {{ show.show_name }}</b>
+                    <b>공연 설명 : {{ show.show_detail }}</b>
+                </div>
             </div>
             {% endfor %}
         </div>
