@@ -4,13 +4,13 @@ from django.contrib.auth import login as auth_login
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
 from django.conf import settings
-from .forms import SignupForm
+from .forms import SignupForm, ProfileForm
 from kover.models import User, Profile
 import json
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
-
+from django.views.generic.detail import DetailView
 from django.views import View
 # Create your views here.
 
@@ -106,15 +106,10 @@ def nickname(request):
 
 def personal_inf(request):
     username = Profile.objects.filter(user=request.user)
-    if username:
-        username = username[0]
-    else:
-        username = 0
-
     ctx = {
         'username': username
     }
-    return render(request, 'login/personal_inf.html', ctx)
+
     if request.method == 'POST':
         user_change_form = ProfileForm(request.POST, instance=request.user)
 
