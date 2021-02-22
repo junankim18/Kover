@@ -116,7 +116,7 @@
             {% endfor %}
         </div>
     </div>
-    <div class="searchResultBox">
+    <div class="showResultBox">
         <h3 style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
             <b>배우 검색결과</b>
         </h3>
@@ -139,7 +139,7 @@
         <br>
         <div class='showResultContent'>
             {% for feed in feed_result %}
-            <a href="{%url 'kover:feed_detail' feed.id %}">
+            <a href="{%url 'kover:feed_page' feed.id %}">
                 <div class='showResultFeed' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
                     <p class='title'>피드 제목 : {{ feed.feed_title }}</p>
                     <p class='title'>피드 작성자 : {{ feed.feed_author }}</p>
