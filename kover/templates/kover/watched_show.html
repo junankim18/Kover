@@ -11,7 +11,7 @@
     <div class="show_list_main">
         <a href="{%url 'kover:show_detail' play.id %}">
             <p>{{play.show_name}}</p>
-            <img src="{{play.show_poster}}" alt="" width="150px" />
+            <img src="{{play.show_poster.url}}" alt="" width="150px" />
         </a>
     </div>
     {% endfor %}
@@ -23,7 +23,7 @@
     <div class="show_list_main">
         <a href="{%url 'kover:show_detail' musical.id%}">
             <p>{{musical.show_name}}</p>
-            <img src="{{musical.show_poster}}" alt="" width="150px" />
+            <img src="{{musical.show_poster.url}}" alt="" width="150px" />
         </a>
     </div>
     {% endfor %}

@@ -92,6 +92,7 @@ def nickname(request):
             return JsonResponse({'name': validation})
 
 
+
 # def personal_inf(request):
 #     username = Profile.objects.filter(user=request.user)
 #     if username:
@@ -103,6 +104,7 @@ def nickname(request):
 #         'username': username
 #     }
 #     return render(request, 'login/personal_inf.html', ctx)
+
 
 
 def personal_inf(request):
