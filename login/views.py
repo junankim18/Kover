@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
 from django.http import JsonResponse
 
+from django.views import View
 # Create your views here.
 
 
@@ -90,6 +91,19 @@ def nickname(request):
             return JsonResponse({'name': validation})
 
 
+# def personal_inf(request):
+#     username = Profile.objects.filter(user=request.user)
+#     if username:
+#         username = username[0]
+#     else:
+#         username = 0
+
+#     ctx = {
+#         'username': username
+#     }
+#     return render(request, 'login/personal_inf.html', ctx)
+
+
 def personal_inf(request):
     username = Profile.objects.filter(user=request.user)
     if username:
@@ -101,3 +115,13 @@ def personal_inf(request):
         'username': username
     }
     return render(request, 'login/personal_inf.html', ctx)
+    if request.method == 'POST':
+        user_change_form = ProfileForm(request.POST, instance=request.user)
+
+        if user_change_form.is_valid():
+            user_change_form.save()
+            messages.success(request, '회원정보가 수정되었습니다.')
+            return render(request, 'login/personal_inf.html')
+    else:
+        user_change_form = ProfileForm(instance=request.user)
+        return render(request, 'login/personal_inf.html', {'user_change_form': user_change_form})
