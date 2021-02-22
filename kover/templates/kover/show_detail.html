@@ -4,9 +4,6 @@
     Kover | contents
 </title>
 <style>
-    .title {
-        background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
-    }
 
     .delbox {
         float: right;
@@ -19,6 +16,23 @@
     a {
         text-decoration-line: none;
     }
+
+    .datelabel{
+        padding:5px;
+        margin: 5px;
+        width: 85px;
+        height: 85px;
+    }
+
+    .datebox label {
+        text-align:center;
+        height: 50px;
+        width: 60px;
+        margin:auto;
+        padding-top: 3px;
+        padding-bottom: 3px;
+    }
+
 </style>
 <div class=' Page-header-content pt-5'>
     <header class='title py-3'>
@@ -126,9 +140,6 @@
             <div data-aos='fade-right' data-aos-anchor-placement='center-bottom' data-duration='100'
                 data-aos-delay='1200'>
                 <h4 class="section-heading text-left mb-3 ml-5 ">캐스팅
-                    <button type='button' class='btn btn-outline-dark btn-sm ml-5 mb-1' id='show_date'>
-                        캐스팅 일정 조회
-                    </button>
                 </h4>
             </div>
             {% comment %} --------배우 이미지, 배역 -------- {% endcomment %}
@@ -159,21 +170,25 @@
         data-aos-delay='200' data-aos-easing='ease-in-sine'>
         <div class='show_review container-fluid  h-100 w-100'>
             <div class='card cmt-4'>
-                <div class="card-title section-heading ml-6">
+                <div class="overbox card-title section-heading ml-6">
                     <h4 class='section-heading text-left my-3 ml-5'>
                         리뷰 {{revnum}} 개
                     </h4>
                     <hr>
-                    <div class='ml-3'>
-                        날짜 선택하기 <br>
+                    날짜 선택하기 <br>
+                    <div class='datebox'>
                         {% for date in showdatelist %}
-                        <input type='radio' name='date' value="{{date}}">{{date}}</input>
+                        <div class="datelabel">
+                            <input id='{{date}}' type='radio' name='date' value="{{date}}">
+                                <label for="{{date}}">{{date}}</label>
+                            </input>
+                        </div>
                         {% endfor %}
                     </div>
                     <div class='revinput text-right mr-3'>
                         {% comment %} <input class='comment_content text-center mb-1' type="text" size='40' placeholder='리뷰를 작성해보세요:)'> {% endcomment %}
                         <textarea class="comment_content mb-1 multiliner col-xl-12" rows="6" placeholder="리뷰를 작성해보세요:)" 
-                        style="overflow:hidden; overflow-wrap:break-word; overflow-y:scroll; resize: none;"></textarea>
+                        style=" overflow-wrap:break-word; overflow-y:scroll; resize: none;"></textarea>
                     
                         <button type='submit' onclick="onClickCom({{show.id}})"
                             class=' btn btn-outline-dark btn-sm ml-5 mb-1'>
@@ -295,7 +310,7 @@
 
         const onClickCom = (id) => {
             const url = '/contents/review/';
-            const input = document.querySelector(`.show_review .revinput input`)
+            const input = document.querySelector(`.show_review .revinput textarea`)
             const content = input.value;
             const radiodate = document.getElementsByName('date');
             const radiostar = document.getElementsByName('rating');
