@@ -159,15 +159,17 @@
         data-aos-delay='200' data-aos-easing='ease-in-sine'>
         <div class='show_review container-fluid  h-100 w-100'>
             <div class='card cmt-4'>
-                <div class="card-title section-heading ml-6">
+                <div class="overbox card-title section-heading ml-6">
                     <h4 class='section-heading text-left my-3 ml-5'>
                         리뷰 {{revnum}} 개
                     </h4>
                     <hr>
-                    <div class='ml-3'>
-                        날짜 선택하기 <br>
+                    날짜 선택하기 <br>
+                    <div class='datebox ml-3'>
                         {% for date in showdatelist %}
-                        <input type='radio' name='date' value="{{date}}">{{date}}</input>
+                        <div class="datelabel">
+                        <input id='{{date}}' class='datebtn' type='radio' name='date' value="{{date}}"><label style='text-align:center; width: 63px' for="{{date}}">{{date}}</label></input>
+                    </div>
                         {% endfor %}
                     </div>
                     <div class='revinput text-right mr-3'>
