@@ -667,15 +667,15 @@ def click_like_actor(actorrequest):
         return render(actorrequest, 'kover/like_actor.html')
     elif actorrequest.method == 'POST':
         request = json.loads(actorrequest.body)
-        actor_id = request['actor_id']
+        actor_id = request['people_id']
         actor = People.objects.get(id=actor_id)
         user_id = actorrequest.user
         user = Profile.objects.get(user=user_id)
-
+        print('number1 done')
         user.like_actor.add(actor)
+        print('number2 done')
 
-        return JsonResponse({'actor_id': actor_id,
-                             })
+        return JsonResponse({'actor_id': actor_id})
 
 
 @ method_decorator(csrf_exempt)

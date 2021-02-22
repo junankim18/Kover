@@ -403,6 +403,9 @@ modal
         width: 200px;
         height: 200px;
     }
+    .none {
+        display: none;
+    }
 </style>
 
 <title>Kover | block profile</title>
@@ -551,15 +554,6 @@ modal
                 </div>
                 {% endfor %}
             </div>
-                <div class="justify-content-center row align-items-center">
-                    <a href="{% url 'kover:create_watched_show'%}">
-                        <button data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' type="submit"
-                            class="btn btn-outline-dark">
-                            <p><i class="fas fa-plus"></i></p>
-                            <p>관심 공연 추가하기</p>
-                        </button>
-                    </a>
-                </div>
         </div>
     </div>
     {% comment %} modal 창 {% endcomment %}
@@ -710,6 +704,7 @@ modal
                 const {actor_id} = JSON.parse(noactorrequest.response);
                 const actorbox = document.querySelector(`#actor-${actor_id}`)
                 actorbox.classList.add('none')
+                console.log('deleted')
             }
         }
 
@@ -729,6 +724,16 @@ modal
                 actorbox.classList.add('none')
             }
         }
+        noactorrequest.onreadystatechange = () => {
+            if (noactorrequest.readyState === XMLHttpRequest.DONE) {
+                handleResponseNoActor();
+            }
+        };
+        nofavrequest.onreadystatechange = () => {
+            if (nofavrequest.readyState === XMLHttpRequest.DONE) {
+                handleResponseNoFav();
+            }
+        };
 
 
     </script>
