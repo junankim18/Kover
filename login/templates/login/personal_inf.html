@@ -378,7 +378,7 @@
 
 <title>Kover | settings</title>
 
-<div class="wrapper fadeInDown">
+<div class="wrapper fadeInDown" style="margin-top: 130px; margin-bottom: 60px">
   <form method="post">
     {% csrf_token %}
     <div id="formContent">
@@ -409,11 +409,7 @@
             >
               소개
             </div>
-            <input
-              class="form-control"
-              value="{{user_change_form.bio}}"
-              style="width: 70%"
-            />
+            <div>{{user_change_form.bio}}</div>
           </div>
 
           <div class="control row">
@@ -423,18 +419,14 @@
             >
               웹사이트
             </div>
-            <input
-              class="form-control"
-              value="{{user_change_form.biolink}}"
-              style="width: 70%"
-            />
+            <div>{{user_change_form.bio}}</div>
           </div>
           <div align="center">
             <input
               type="submit"
               value="Update"
               class="fadeIn fourth"
-              href="{% url 'login:settings/personal_inf' %}"
+              href="{%url 'login:personal_inf'%}"
               value="변경 완료"
             />
           </div>

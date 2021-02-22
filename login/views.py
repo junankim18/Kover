@@ -116,7 +116,7 @@ def personal_inf(request):
         if user_change_form.is_valid():
             user_change_form.save()
             messages.success(request, '회원정보가 수정되었습니다.')
-            return render(request, 'login/personal_inf.html', ctx)
+            return render(request, 'login/personal_inf.html')
     else:
         user_change_form = ProfileForm(instance=request.user)
         return render(request, 'login/personal_inf.html', {'user_change_form': user_change_form})
