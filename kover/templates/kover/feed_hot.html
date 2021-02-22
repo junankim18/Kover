@@ -22,6 +22,9 @@
         </a>
             {% endfor %}
         </ul>
+        <button type="button" class="btn btn-info pull-right" onclick="location.href = '{% url 'kover:create' %}'">글 작성</button>
+        <button type="button" class="btn btn-info pull-right" onclick="location.href = '{% url 'kover:feed_main' %}'">피드 메인</button>
+    
     </div>
 
     <div class="row mt-2">
