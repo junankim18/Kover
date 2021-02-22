@@ -19,6 +19,21 @@
     a {
         text-decoration-line: none;
     }
+
+    .datelabel{
+        padding:5px;
+        margin: 5px;
+        width: 85px;
+        height: 85px;
+    }
+
+    .datebox label {
+        text-align:center;
+        width: 60px;
+        height: 55px;
+        object-position: center;
+    }
+
 </style>
 <div class=' Page-header-content pt-5'>
     <header class='title py-3'>
@@ -162,11 +177,13 @@
                     </h4>
                     <hr>
                     날짜 선택하기 <br>
-                    <div class='datebox ml-3'>
+                    <div class='datebox'>
                         {% for date in showdatelist %}
                         <div class="datelabel">
-                        <input id='{{date}}' class='datebtn' type='radio' name='date' value="{{date}}"><label style='text-align:center; width: 63px' for="{{date}}">{{date}}</label></input>
-                    </div>
+                            <input id='{{date}}' type='radio' name='date' value="{{date}}">
+                                <label for="{{date}}">{{date}}</label>
+                            </input>
+                        </div>
                         {% endfor %}
                     </div>
                     <div class='revinput text-right mr-3'>
