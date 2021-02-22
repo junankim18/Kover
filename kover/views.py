@@ -11,7 +11,7 @@ from dateutil.parser import *
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
-
+import random
 # profile_block : 기본 프로필페이지
 
 
@@ -187,11 +187,14 @@ def feed_page(request, pk):
     return render(request, 'kover/feed_page.html', ctx)
 
 
+@login_required
 def feed_create_post(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save()
+            post.user = Profile.objects.get(user=request.user)
+            post.save()
             return redirect('kover:play_lib')
     else:
         form = PostForm()
@@ -199,6 +202,7 @@ def feed_create_post(request):
         return render(request, 'kover/feed_form.html', ctx)
 
 
+@login_required
 def feed_update_post(request, pk):
     post = get_object_or_404(Feed_post, id=pk)
     if request.method == 'POST':
@@ -212,6 +216,7 @@ def feed_update_post(request, pk):
         return render(request, 'kover/feed_form.html', ctx)
 
 
+@login_required
 def feed_delete_post(request, pk):
     post = get_object_or_404(Feed_post, pk=pk)
     if request.method == 'GET':
@@ -476,14 +481,14 @@ def press_com(comrequest):
         content = request['content']
         feed = Feed_post.objects.get(id=feed_id)
         user_id = comrequest.user.id
-        user = Profile.objects.get(id=user_id)
-        nickname = user.nickname
+        users = Profile.objects.get(user=comrequest.user)
+        nickname = users.nickname
         if content:
-            comment = Feed_comment(comment_author=user,
+            comment = Feed_comment(comment_author=users,
                                    comment_content=content, comment_post=feed,
                                    )
             comment.save()
-        return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': user.nickname, 'time': comment.comment_created_at})
+        return JsonResponse({'id': feed_id, 'comment': comment.comment_content, 'writer': users.nickname, 'time': comment.comment_created_at})
 
 
 # create_watched_show : 네비게이션 바에서  '리뷰등록'을 눌렀을 때, 아직 평가하지 않은 작품들의 리스트가 나온다
@@ -517,14 +522,20 @@ def create_like_actor(request):
     users = users[0]
     likedactor = users.like_actor.all()
     peoples = People.objects.all()
-    notyetlikedpeople = []
+    musicallist = []
+    playlist = []
     for people in peoples:
-        if people not in likedactor:
-            notyetlikedpeople.append(people)
+        if people not in likedactor and people.people_type == '뮤지컬배우':
+            musicallist.append(people)
+        elif people not in likedactor and people.people_type == '연극배우':
+            playlist.append(people)
+    print(random.choice(musicallist))
+    # musicallist = random.shuffle(musicallist)
 
     ctx = {
         'users': users,
-        'peoples': notyetlikedpeople,
+        'musicallist': musicallist,
+        'playlist': playlist
     }
     return render(request, 'kover/like_actor.html', ctx)
 
@@ -651,15 +662,14 @@ def delete_fav_show(nofavrequest):
         return render(nofavrequest, 'kover/profile_block.html')
     elif nofavrequest.method == 'POST':
         request = json.loads(nofavrequest.body)
-        show_id = request['id']
-        show = Show.objects.get(id=show_id)
+        fav_id = request['fav_id']
+        show = Show.objects.get(id=fav_id)
         user_id = nofavrequest.user
-        user = Profile.objects.get(user=user_id)
+        users = Profile.objects.get(user=user_id)
 
-        user.interested_show.remove(show)
+        users.interested_show.remove(show)
 
-        return JsonResponse({'actor_id': id,
-                             })
+        return JsonResponse({'fav_id': fav_id})
 
 
 @ method_decorator(csrf_exempt)
@@ -668,15 +678,15 @@ def click_like_actor(actorrequest):
         return render(actorrequest, 'kover/like_actor.html')
     elif actorrequest.method == 'POST':
         request = json.loads(actorrequest.body)
-        actor_id = request['id']
+        actor_id = request['people_id']
         actor = People.objects.get(id=actor_id)
         user_id = actorrequest.user
         user = Profile.objects.get(user=user_id)
-
+        print('number1 done')
         user.like_actor.add(actor)
+        print('number2 done')
 
-        return JsonResponse({'actor_id': id,
-                             })
+        return JsonResponse({'actor_id': actor_id})
 
 
 @ method_decorator(csrf_exempt)
@@ -685,14 +695,14 @@ def click_unlike_actor(noactorrequest):
         return render(noactorrequest, 'kover/profile_block.html')
     elif noactorrequest.method == 'POST':
         request = json.loads(noactorrequest.body)
-        actor_id = request['id']
+        actor_id = request['actor_id']
         actor = People.objects.get(id=actor_id)
         user_id = noactorrequest.user
-        user = Profile.objects.get(user=user_id)
+        users = Profile.objects.get(user=user_id)
 
-        user.like_actor.remove(actor)
+        users.like_actor.remove(actor)
 
-        return JsonResponse({'actor_id': id})
+        return JsonResponse({'actor_id': actor_id})
 
 
 def searchResult(request):
@@ -719,14 +729,6 @@ def searchResult(request):
             Q(feed_content__icontains=q)
         ).distinct()
 
-    shows = Show.objects.all()
-    show_result = list(show_result)
-
-    for show in shows:
-        for people in people_result:
-            if people in show.show_actor.all():
-                show_result.append(show)
-
     ctx = {
         'q': q,
         'show_result': show_result,
@@ -737,7 +739,7 @@ def searchResult(request):
     return render(request, 'kover/search.html', ctx)
 
 
-@method_decorator(csrf_exempt)
+@ method_decorator(csrf_exempt)
 def delete_review(delrequest):
     if delrequest.method == 'GET':
         show_list = Show.objects.all()
@@ -751,3 +753,21 @@ def delete_review(delrequest):
         review = Review.objects.get(id=review_id)
         review.delete()
         return JsonResponse({'show_id': show_id, 'review_id': review_id})
+
+
+@ method_decorator(csrf_exempt)
+def delete_comment(delrequest):
+    if delrequest.method == 'GET':
+        return render(delrequest, 'kover/feed_page.html')
+    elif delrequest.method == 'POST':
+        print('here')
+        print('here')
+        print('here')
+        print('here')
+        print('here')
+        print('here')
+        request = json.loads(delrequest.body)
+        comment_id = request['comment_id']
+        comment = Feed_comment.objects.get(id=comment_id)
+        comment.delete()
+        return JsonResponse({'comment_id': comment_id})

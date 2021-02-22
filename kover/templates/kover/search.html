@@ -11,26 +11,85 @@
     .my-level:hover {
         background-position: right;
     }
-    .calender{
-        font-color: black;
+
+    h1 {
+        margin: auto 0;
+    }
+
+    .showResultContent {
+        margin-bottom: 50px;
+        display:flex;
     }
     
-    a{
-        text-decoration-line: none;
-        color: black;
+    .showResultShow {
+        width: 250px;
+        height:350px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin-right: 30px;
+        padding: 10px;
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease-in-out;
     }
-    a:hover{
-        text-decoration-line: none;
-        color: A593E0;
+    .showResultPeople {
+        width: 250px;
+        height:300px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin-right: 30px;
+        padding: 10px;
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease-in-out;
     }
+    .showResultFeed {
+        width: 250px;
+        height:160px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin-right: 30px;
+        padding: 10px;
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease-in-out;
+    }
+
+    .title {
+        height: 25px;
+        width: auto;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        margin-bottom: 5px;
+    }
+    
+    .about {
+        height: 75px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: box;
+        margin-bottom: 5px;
+        max-height:80px;
+        overflow:hidden;
+        vertical-align:top;
+        text-overflow: ellipsis;
+        word-break:break-all;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:3
+    }
+
+    .showResultContent img {
+        display: block;
+        margin: auto;
+        width: 180px;
+        height: 200px;
+        object-position: center;
+        object-fit: cover;
+
+    }
+
 </style>    
 
 <title>Kover | Search</title>
 
-<p>안보여</p>
-<p>안보여</p>
-<p>안보여</p>
-<p>안보여</p>
 <div class=' my-level container-fluid' data-aos-'zoom-out-up'>
     <div class=" py-4 my-1 text-center">
         <div class="panel-body ml-4 mt-6 row">
@@ -42,55 +101,58 @@
         </div>
     </div>
 </div>
-<div class="container-fluid mt-2 mb-3">
-    <div class="section-heading">
-        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>공연 검색결과</h4>
-    </div>
-    <div>
-        {% for show in show_result %}
-        <div class="border hallbox card text-center w-100 h-200">
-            <p>공연 이름 : {{ show.show_name }}</p>
-            <p>공연 설명 : {{ show.show_detail }}</p>
-            <img src="{{show.show_poster}}" alt="" width="100px" />
-            <a href="{{ show.get_url }}">이동하기</a>
+<div class="main_body px-5 my-5">
+    <div class="showResultBox">
+        <h3 style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+            <b>공연 검색결과</b>
+        </h3>
+        <br>
+        <div class='showResultContent'>
+            {% for show in show_result %}
+            <a href="{%url 'kover:show_detail' show.id %}">
+                <div class='showResultShow' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <p class='title'>공연 이름 : <b>{{ show.show_name }}</b></p>
+                    <p class='about'>공연 설명 : {{ show.show_detail }}</p>
+                    <img src="{{show.show_poster}}"/>
+                </div>
+            </a>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-
-
-    <br>
-   
-    <div class="section-heading">
-        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>배우 검색결과</h4>
-    </div>
-    <div>
-        {% for people in people_result %}
-        <div class="border hallbox card text-center w-100 h-200">
-            <p>배우 이름 : {{ people.people_name }}</p>
-            <img src="{{people.people_img}}" alt="" width="100px" />
-            <a href="{{ people.get_url }}">이동하기</a>
+    <div class="showResultBox">
+        <h3 style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+            <b>배우 검색결과</b>
+        </h3>
+        <br>
+        <div class='showResultContent'>
+            {% for people in people_result %}
+            <a href="">
+                <div class='showResultPeople' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <p class='title'>배우 이름 : <b>{{ people.people_name }}</b></p>
+                    <img src="{{people.people_img}}" alt="" width="100px" />
+                </div>
+            </a>
+            {% endfor %}
         </div>
-        {%endfor%}
     </div>
-
-    <br>
-    
-    <div class="section-heading">
-        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>피드 검색결과</h4>
-    </div>
-    <div>
-        {% for feed in feed_result %}
-        <div class="border hallbox card text-center w-100 h-200">
-            <p>피드 제목 : {{ feed.feed_title }}</p>
-            <p>피드 작성자 : {{ feed.feed_author }}</p>
-            <p>피드 내용 : {{ feed.feed_content }}</p>
-            <a href="{{ people.get_url }}">이동하기</a>
+    <div class="showResultBox">
+        <h3 style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+            <b>피드 검색결과</b>
+        </h3>
+        <br>
+        <div class='showResultContent'>
+            {% for feed in feed_result %}
+            <a href="{%url 'kover:feed_page' feed.id %}">
+                <div class='showResultFeed' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <p class='title'>피드 제목 : <b>{{ feed.feed_title }}</b></p>
+                    <p class='title'>피드 작성자 : <b>{{ feed.feed_author }}</b></p>
+                    <p class='about'>피드 내용 : {{ feed.feed_content }}</p>
+                </div>
+            </a>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-    
-{%endif%}
-</div>    
-    
+</div>
+{% endif %}
 
 {% endblock %}

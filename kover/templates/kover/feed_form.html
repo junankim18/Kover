@@ -10,7 +10,36 @@
     <form action="" method="POST">
         {% csrf_token %}
         <table>
-            {{ form.as_table|linebreaksbr }}
+            <div>제목 : {{ form.feed_title }}</div>
+            <div>내용 : </div>
+            <textarea name = "feed_content" class="multiliner" rows="20" placeholder="글 내용을 입력해주세요!" 
+                style="overflow:hidden; overflow-wrap:break-word; overflow-y:scroll; resize: none; width:1000px;"></textarea>
+            
+            
+
+
+            <p><label for="title">Message:</label>
+            <input type="text" name="message" id="id_message" /></p>
+
+            <div class="fieldWrapper">
+                {{ form.message.errors }}
+                <label for="title">제목:</label>
+                {{ form.message }}
+            </div>
+
+
+            {# 숨김 필드 #}
+    {% for hidden in form.hidden_fields %}
+    {{ form.Feed_like }}
+    {% endfor %}
+    {# 보임 필드 #}
+    {% for field in form.visible_fields %}
+        <div class="fieldWrapper">
+            {{ field.errors }}
+            {{ field.label_tag }}: {{ field }}
+        </div>
+    {% endfor %}
+
         </table>
         <input type="submit" value="저장하기">
     </form>

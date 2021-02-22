@@ -1,5 +1,43 @@
 * {
   animation-fill-mode: forwards;
+@font-face {
+  font-family: "ELAND_Choice_M";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_M.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "ELAND_Choice_L";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_L.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: "ELAND_Choice_B";
+  src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/ELAND_Choice_B.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+* {
+  animation-fill-mode: forwards;
+  font-family: "ELAND_Choice_M";
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+  font-family: "ELAND_Choice_B";
+}
+b,
+i,
+p {
+  font-family: "ELAND_Choice_L";
 }
 
 .content {
@@ -12,8 +50,6 @@
   height: 80vh;
   margin-top: 100px;
 }
-
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
 
 .footer {
   bottom: 0;
@@ -60,6 +96,10 @@
   z-index: 30;
   top: 170px;
   right: 0px;
+}
+.actoriconl button,
+.actoriconr button {
+  color: #b9c4fc;
 }
 .y250 {
   height: 250px;
@@ -180,6 +220,16 @@
   color: slategray;
   font-size: 1.5rem;
 }
+.porel .liked {
+  z-index: 3;
+  background-color: transparent;
+  border: none;
+  position: absolute;
+}
+.porel .liked i {
+  color: #0f95d7;
+  font-size: 1.5rem;
+}
 .porel .actorliked {
   z-index: 3;
   background-color: transparent;
@@ -202,4 +252,24 @@
   color: #a593e0;
   top: 5px;
   right: 40px;
+}
+.peoplecard img {
+  width: 180px;
+  height: 200px;
+  object-position: center;
+  object-fit: cover;
+}
+.playmusical {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 15px;
+}
+.playmusical .show_list_main {
+  margin-right: 15px;
+  margin-bottom: 15px;
+}
+.show_list_main {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 60px;
 }
