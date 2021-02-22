@@ -263,3 +263,8 @@ p {
     margin-right: 15px;
     margin-bottom: 15px;
 }
+.show_list_main {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 60px;
+}
