@@ -115,6 +115,7 @@ p {
 }
 .rating > label:before {
   content: "\f005";
+  font-family: "Font Awesome 5 Free";
   margin: 3px;
   font-size: 1.5rem;
   display: inline-block;
