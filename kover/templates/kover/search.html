@@ -13,6 +13,8 @@
     }
     
     .showimg {
+        width: 30%;
+        box-sizing: border-box;
         border-radius: 10px;
         margin-right:5px;
         box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
@@ -53,19 +55,19 @@
 </div>
 <div class="main_body px-5 my-5">
     <div class="show_list">
-        <div class="show_list_main">
+        <div>
             <span style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
                 <b>공연 검색결과</b>
             </span>
             <br>
             <br>
-            {% for show in show_result %}
-            <div width="350px" class='showimg' style="margin-top: 10px" data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
-                <b>공연 이름 : {{ show.show_name }}</b>
-                <b>공연 설명 : {{ show.show_detail }}</b>
-                <img src="{{show.show_poster}}"/>
-            </div>
-            {% endfor %}
+                {% for show in show_result %}
+                <div class='showimg' style="margin-top: 10px" data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <b>공연 이름 : {{ show.show_name }}</b>
+                    <b>공연 설명 : {{ show.show_detail }}</b>
+                    <img src="{{show.show_poster}}"/>
+                </div>
+                {% endfor %}
         </div>
     </div>
     
