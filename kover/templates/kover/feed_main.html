@@ -1,9 +1,9 @@
 {% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%}
 {% block content %}
-<title>Kover | feed_main</title>
+<title>Kover | Feed</title>
 
 <style>
-    button{
+    #feed button{
         margin-right:20px;
     }
 
@@ -22,7 +22,7 @@
     </ol>
 </nav>
 
-<div class="feeds_main_hot mb-3 px-3" style='padding:50px 0 80px 0;'> 
+<div id="feed" class="feeds_main_hot mb-3 px-3" style='padding:50px 0 80px 0;'> 
     <div class='mb-2' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
         <a href="/feed/hot_feed">
             <b style="font-size: 25px; " >HOT 피드</b>
