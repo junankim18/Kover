@@ -1,5 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
-from kover.models import User
+from kover.models import User, Profile
+from django import forms
 
 
 class SignupForm(UserCreationForm):
