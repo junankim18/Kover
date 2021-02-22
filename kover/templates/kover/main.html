@@ -38,7 +38,7 @@
 <div class="main_body py-5 px-5 my-5 ">
     <div class="show_list ">
         <div class="show_list_main">
-            <span style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'><b>최근 개봉 공연</b></span>
+            <span style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'><h3>최근 개봉 공연</h3></span>
             <br>
             <br>
             {% for show in show_1 %}
@@ -47,7 +47,7 @@
         </div>
 
         <div class="show_list_main" style="margin-top: 30px" >
-            <span style="font-size: 25px" class='mb-2'data-aos="fade-right" data-aos-delay='500' data-duration='900' ><b>지금 인기 많은 공연</b></span>
+            <span style="font-size: 25px" class='mb-2'data-aos="fade-right" data-aos-delay='500' data-duration='900' ><h3>지금 인기 많은 공연</h3></span>
             <br />
             {% for show in show_2 %}
             <a href="{%url 'kover:show_detail' show.id %}"><img src="{{show.show_poster}}"  width="250px"  class='showimg' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'/></a>
@@ -55,7 +55,7 @@
         </div>
 
         <div class="show_list_main " style="margin-top: 35px">
-            <span style="font-size: 25px;" class='mb-2' data-aos="fade-right" data-aos-delay='500' data-duration='900'><b>내 배우의 공연</b></span>
+            <span style="font-size: 25px;" class='mb-2' data-aos="fade-right" data-aos-delay='500' data-duration='900'><h3>내 배우의 공연</h3></span>
             <br>
             <br>
             {% if user.is_authenticated %}
