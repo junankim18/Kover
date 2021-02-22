@@ -1,427 +1,43 @@
-{% extends "layout.html" %}
-{% block extra_head %}
-{{block.super}}
-{%endblock%}
+{% extends "layout.html" %} 
+{% block extra_head %} 
+{{block.super}} 
+{%endblock%} 
 {% block content %}
 <style>
-    .my-level {
-        background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
-        margin-top: 50px;
-        background-position: left;
-    }
+.my-level{
+    background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+    margin-top: 50px;
+    background-position: left;
+}
+.my-level:hover {
+    background-position: right;
+}
+.calender{
+    font-color: black;
+}
 
-    .my-level:hover {
-        background-position: right;
-    }
-
-    a {
-        text-decoration-line: none;
-        color: black;
-    }
-    p {
-    margin-bottom: 0px;
-    }
-
-
-    a:hover {
-        text-decoration-line: none;
-        color: A593E0;
-    }
-
-    .modalbox {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal_overlay {
-        background-color: rgba(0, 0, 0, 0.6);
-        width: 100%;
-        height: 100%;
-        position: absolute;
-    }
-
-    .modal_content {
-        background-color: white;
-        border-radius: 15px;
-        padding: 70px 10px;
-        position: relative;
-        width: 30%;
-        text-align: center;
-    }
-
-    .none {
-        display: none;
-    }
-
-    /*
-modal
-*/
-    .personalid button {
-        all: unset;
-        background-color: transparent;
-        border: none;
-    }
-
-    .modalbox {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-        position: fixed;
-        top: 0px;
-        left: 0px;
-        width: 100%;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .modal_overlay {
-        background-color: rgba(0, 0, 0, 0.6);
-        width: 100%;
-        height: 100%;
-        position: absolute;
-    }
-
-    .modal_content {
-        background-color: white;
-        border-radius: 15px;
-        padding: 70px 10px;
-        position: relative;
-        width: 30%;
-        text-align: center;
-    }
-
-    .none {
-        display: none;
-    }
-
-    /* BASIC */
-
-    body {
-        height: 100vh;
-    }
-
-    a {
-        display: inline-block;
-        text-decoration: none;
-        font-weight: 500;
-        color: #566270;
-    }
-
-    li {
-        margin-top: 10px;
-    }
-
-    h2 {
-        text-align: center;
-        font-size: 16px;
-        font-weight: 600;
-        text-transform: uppercase;
-        display: inline-block;
-        margin: 40px 8px 10px 8px;
-    }
-
-    /* STRUCTURE */
-
-    .wrapper {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
-        justify-content: center;
-        width: 100%;
-        min-height: 100%;
-        padding: 20px;
-    }
-
-    #formContent {
-        -webkit-border-radius: 10px 10px 10px 10px;
-        border-radius: 10px 10px 10px 10px;
-        background: #fff;
-        padding: 30px;
-        width: 90%;
-        max-width: 450px;
-        position: relative;
-        padding: 0px;
-        -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-        box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-        text-align: center;
-    }
-
-    /* TABS */
-
-    /* FORM TYPOGRAPHY*/
-
-    input[type="button"],
-    input[type="submit"],
-    input[type="reset"] {
-        background-color: #A593E0;
-        border: none;
-        color: white;
-        padding: 15px 80px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        text-transform: uppercase;
-        font-size: 13px;
-
-        }
-
-
-    input[type="button"]:hover,
-    input[type="submit"]:hover,
-    input[type="reset"]:hover {
-        background-color: #a593e0;
-    }
-
-    input[type="button"]:active,
-    input[type="submit"]:active,
-    input[type="reset"]:active {
-        -moz-transform: scale(0.95);
-        -webkit-transform: scale(0.95);
-        -o-transform: scale(0.95);
-        -ms-transform: scale(0.95);
-        transform: scale(0.95);
-    }
-
-    input[type="text"] {
-        background-color: #f6f6f6;
-        border: none;
-        color: #0d0d0d;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        margin: 5px;
-        width: 85%;
-        border: 2px solid #f6f6f6;
-        -webkit-transition: all 0.5s ease-in-out;
-        -moz-transition: all 0.5s ease-in-out;
-        -ms-transition: all 0.5s ease-in-out;
-        -o-transition: all 0.5s ease-in-out;
-        transition: all 0.5s ease-in-out;
-        -webkit-border-radius: 5px 5px 5px 5px;
-        border-radius: 5px 5px 5px 5px;
-    }
-
-    input[type="text"]:focus {
-        background-color: #fff;
-        border-bottom: 2px solid #5fbae9;
-    }
-
-    input[type="text"]:placeholder {
-        color: #cccccc;
-    }
-
-    /* ANIMATIONS */
-
-    /* Simple CSS3 Fade-in-down Animation */
-    .fadeInDown {
-        -webkit-animation-name: fadeInDown;
-        animation-name: fadeInDown;
-        -webkit-animation-duration: 1s;
-        animation-duration: 1s;
-        -webkit-animation-fill-mode: both;
-        animation-fill-mode: both;
-    }
-
-    @-webkit-keyframes fadeInDown {
-        0% {
-            opacity: 0;
-            -webkit-transform: translate3d(0, -100%, 0);
-            transform: translate3d(0, -100%, 0);
-        }
-
-        100% {
-            opacity: 1;
-            -webkit-transform: none;
-            transform: none;
-        }
-    }
-
-    @keyframes fadeInDown {
-        0% {
-            opacity: 0;
-            -webkit-transform: translate3d(0, -100%, 0);
-            transform: translate3d(0, -100%, 0);
-        }
-
-        100% {
-            opacity: 1;
-            -webkit-transform: none;
-            transform: none;
-        }
-    }
-
-    /* Simple CSS3 Fade-in Animation */
-    @-webkit-keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    @-moz-keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-        }
-
-        to {
-            opacity: 1;
-        }
-    }
-
-    .fadeIn {
-        opacity: 0;
-        -webkit-animation: fadeIn ease-in 1;
-        -moz-animation: fadeIn ease-in 1;
-        animation: fadeIn ease-in 1;
-
-        -webkit-animation-fill-mode: forwards;
-        -moz-animation-fill-mode: forwards;
-        animation-fill-mode: forwards;
-
-        -webkit-animation-duration: 1s;
-        -moz-animation-duration: 1s;
-        animation-duration: 1s;
-    }
-
-    .fadeIn.first {
-        -webkit-animation-delay: 0.4s;
-        -moz-animation-delay: 0.4s;
-        animation-delay: 0.4s;
-    }
-
-    .fadeIn.second {
-        -webkit-animation-delay: 0.6s;
-        -moz-animation-delay: 0.6s;
-        animation-delay: 0.6s;
-    }
-
-    .fadeIn.third {
-        -webkit-animation-delay: 0.8s;
-        -moz-animation-delay: 0.8s;
-        animation-delay: 0.8s;
-    }
-
-    .fadeIn.fourth {
-        -webkit-animation-delay: 0.5s;
-        -moz-animation-delay: 0.5s;
-        animation-delay: 0.5s;
-    }
-
-    /* Simple CSS3 Fade-in Animation */
-    .underlineHover:after {
-        display: block;
-        left: 0;
-        bottom: -10px;
-        width: 0;
-        height: 2px;
-        background-color: #566270;
-        content: "";
-        transition: width 0.2s;
-    }
-
-    .underlineHover:hover {
-        color: #0d0d0d;
-    }
-
-    .underlineHover:hover:after {
-        width: 100%;
-    }
-
-    .image-circle {
-        border-radius: 50%;
-        width: 175px;
-        height: 175px;
-        border: 4px solid #FFF;
-        margin: 10px;
-    }
-
-    .label {
-        color: #A593E0;
-        font-size: 18px;
-        font-weight: 500;
-    }
-
-    .control {
-        color: #000;
-        margin: 10px;
-    }
+a{
+    text-decoration-line: none;
+    color: black;
+}
+a:hover{
+    text-decoration-line: none;
+    color: A593E0;
+}
 
 
 
-    .form-control {
-        color: #000000 !important;
-        font-size: 18px;
-        border: none;
-        padding: 25px;
-        padding-left: 10px;
-        border-bottom: 1px solid #CCC;
-        margin-bottom: 10px;
-        outline: none;
-        -webkit-box-shadow: none !important;
-        -moz-box-shadow: none !important;
-        box-shadow: none !important;
-    }
 
-    .form-control:focus {
-        border-radius: 0px;
-        border-bottom: 1px solid #A593E0;
-        margin-bottom: 10px;
-        outline: none;
-        -webkit-box-shadow: none !important;
-        -moz-box-shadow: none !important;
-        box-shadow: none !important;
-    }
-
-    .line {
-        border-bottom: 2px solid #F32D27;
-    }
-
-
-    .outter {
-        padding: 0px;
-        border: 1px solid rgba(255, 255, 255, 0.29);
-        border-radius: 50%;
-        width: 200px;
-        height: 200px;
-    }
-    .none {
-        display: none;
-    }
 </style>
 
 <title>Kover | block profile</title>
-<div class=' my-level py-4 container-fluid' data-aos-'zoom-out-up'>
-    <div class=" py-2 my-1 text-center">
+<div class=' my-level container-fluid' data-aos-'zoom-out-up'>
+    <div class=" py-4 my-1 text-center">
         <div class="panel-body ml-4 mt-6 row">
-            <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 개발자{% else %} 고수 {% endif%}</h4>
+            <h4>{{users.nickname}}님의 단계 : {% if users.grade == 0 %} 초보 연극인 {% else %} 고수 {% endif%}</h4>
         </div>
         <div class="text-right mr-4">
-            <a href="javascript:void(0);" onclick="idModal()" class='personalid'>
-                <button><i class=" far fa-id-badge fa-2x"></i></button>
-            </a>
-            <a href="" class='calender ml-3'>
+            <a href="" class='calender'>
                 <i class="far fa-calendar-alt fa-2x"></i>
             </a>
         </div>
@@ -429,45 +45,45 @@ modal
 </div>
 <div class="container-fluid mt-2 mb-3">
     <div class="section-heading">
-        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>나의
-            공연 갤러리</h4>
+        <h4 class="section-heading text-center py-3" data-aos="fade-right" data-aos-delay='500' data-duration='900'>나의 공연 갤러리</h4>
     </div>
-    <div class="justify-content-center row align-items-center my-5" data-aos="fade-up" data-aos-delay='500'
-        data-duration='900'>
+    <div class="justify-content-center row align-items-center my-5" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
         {% for show in shows%}
         <a href="{%url 'kover:show_detail' show.id%}">
             <div class="showdetailbox card text-center">
                 <img class="card-img-top" src="{{show.show_poster}}" alt="" />
                 <p><small> {{show.show_name}}</small></p>
+                <p><small> {{show.show_hall}}</small></p>
                 <p>
                     <small>
-                        내 별점 : <i style="color: #a593e0;" class="fas fa-star"></i>{%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}}
-                        {%endif%}{%endfor%}</small>
+                        내 별점 : {%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}}
+                        {%endif%}{%endfor%}</small
+                    >
                 </p>
             </div>
         </a>
-        {% endfor %}
     </div>
     <br>
     <div class='container'>
+        {% endfor %} {% for i in "x"|rjust:"1" %}
         <div class="justify-content-center row align-items-center">
             <a href="{% url 'kover:create_watched_show'%}">
-                <button data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' type="submit"
-                    class="btn btn-outline-dark">
+                <button data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' type="submit" class="btn btn-outline-dark" >
                     <p><i class="fas fa-plus"></i></p>
                     <p>관람 작품 추가하기</p>
                 </button>
             </a>
         </div>
+
+        {%endfor%}
     </div>
 </div>
-<div class="row bg-light">
-    <div class="row justify-content-center align-items-center bg-light col-lg-6 col-xl-6 ml-1">
-        <div class="container" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
-            <h4 class='text-center'>공연장</h4>
+<div class="container ">
+    <div class="justify-content-center row align-items-center bg-light">
+        <div class="section-heading ml-6" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
+            <h4 class="section-heading text-left my-3">공연장</h4>
         </div>
-        <div class="container justify-content-center row align-items-center" data-aos="fade-up"
-            data-aos-delay='500' data-duration='900'>
+        <div class="container justify-content-center row align-items-center my-3" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
             <div class="hallbox card text-center w-100 h-200 mb-3">
                 <p>방문한 총 공연장 수 : {{overlapnum}}</p>
                 {% for hall in wantlist %}
@@ -480,10 +96,10 @@ modal
             </div>
         </div>
     </div>
-    <div class="container justify-content-center align-items-center col-lg-6 col-xl-6 ">
-        <div class="justify-content-center row align-items-center my-1 pl-2">
-            <div class="section-heading" data-aos="fade-right" data-aos-delay='500' data-duration='900'>
-                <h4 class="section-heading text-left my-3" style=''>관심배우</h4>
+    <div class="container">
+        <div class="justify-content-center row align-items-center my-5">
+            <div class="section-heading ml-6" data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+                <h4 class="section-heading text-left my-3">관심배우</h4>
             </div>
             <div class="actorbox" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
                 <div class="actoriconl">
@@ -491,11 +107,9 @@ modal
                 </div>
                 <div class="actorcontainer">
                     {% for actor in actors %}
-                    <div id='actor-{{actor.id}}'class="actordetailbox">
+                    <div class="actordetailbox">
                         <img src="{{actor.people_img}}" alt="" width="150px" />
                         <p>{{actor.people_name}} {{actor.people_type}}</p>
-                        <button class="actorliked mb-2" onclick="onClickNoActor({{actor.id}})"><i
-                                class="fas fa-splotch"></i></button>
                     </div>
                     {% endfor %}
                 </div>
@@ -504,249 +118,120 @@ modal
                 </div>
             </div>
         </div>
-        <div class="justify-content-center row align-items-center">
-            <a href="{% url 'kover:create_like_actor'%}">
-                <button data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' type="submit"
-                    class="btn btn-outline-dark">
-                    <p><i class="fas fa-plus"></i></p>
-                    <p>관심 배우 추가하기</p>
-                </button> 
-            </a>
-        </div>
-
     </div>
-</div>
-    <div class="row">
-        <div class="container justify-content-center align-items-center col-lg-6 col-xl-6 py-3 pr-3">
-            <div class="section-heading" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
-                <h4 class='text-center'>나의 리뷰</h4>
-            </div>
-            <div class="justify-content-center align-items-center my-1 mb-4" data-aos="fade-up"
-                data-aos-delay='500' data-duration='900'>
-                {% for review in reviews %}
+<div class="container">
+    <div class="justify-content-center row align-items-center bg-light">
+        <div class="section-heading" data-aos="fade-left" data-aos-delay='500' data-duration='900'>
+            <h4 class="section-heading text-left my-3">나의 리뷰</h4>
+        </div>
+        <div class="container justify-content-center row align-items-center my-1 mb-4" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
+            {% for review in reviews %} 
                 {% if review.review_content == "." %}
 
                 {%else%}
-                <div class="revbox card text-center ">
+                <div class="revbox card text-center w-50 h-100 ml-2 mb-2">
                     <p>{{review.review_show}}</p>
                     <p>{{review.review_grade}} / 10</p>
                     <p>{{review.review_content}}</p>
                 </div>
-                {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-        <div class="container justify-content-center align-items-center col-lg-6 col-xl-6 pr-3">
-            <div class="section-heading mt-2" data-aos="fade-right" data-aos-delay='500' data-duration='900'>
-                <h4 class="section-heading text-center ">관심공연</h4>
-            </div>
-            <div class="justify-content-center row align-items-center py-2" data-aos="fade-up" data-aos-delay='500'
-                data-duration='900'>
-                {% for favorite in favorites %}
-                <div class="showdetailbox card text-center h-20 w-20 my-1">
-                    <div class="porel">
-                        <img src="{{favorite.show_poster}}" class="card-img-top img-fluid" alt="" />
-                        <p>{{favorite.show_name}}</p>
-                        <button class="actorliked" onclick="onClickNoFav({{favorite.id}})">
-                            <i class="fas fa-splotch"></i>
-                        </button>
-                        {%if favorite in comingsoon%}
-                        <i class="fas fa-bell comingsoon"></i>
-                        {%endif%}
-                    </div>
-                </div>
-                {% endfor %}
-                <div class="container justify-content-center row align-items-center">
-                    <a href="{% url 'kover:create_watched_show'%}">
-                        <button data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' type="submit"
-                            class="btn btn-outline-dark">
-                            <p><i class="fas fa-plus"></i></p>
-                            <p>관심 공연 추가하기</p>
-                        </button>
-                    </a>
-                </div>
-            </div>
+                {% endif %} 
+            {% endfor %}
         </div>
     </div>
-    {% comment %} modal 창 {% endcomment %}
-    <div class="modalbox none">
-        <div class="modal_overlay" onclick='closeModal()'></div>
-        <div class="modal_content">
-            <div class="wrapper fadeInDown">
-                <div id="formContent">
-                    <div class="row login_box">
-                        <div class="col-md-12 col-xs-12" align="center">
-                            <div class="outter">
-                                {% if users.profileimg %}
-                                <img src="{{users.profileimg.url}}" class="image-circle" />
-                                {%else%}
-                                <img src="https://icons-for-free.com/iconfiles/png/512/anonymous+app+contacts+open+line+profile+user+icon-1320183042822068474.png"
-                                    class="image-circle" />
-                                {% endif %}
-                            </div>
-                            {% comment %} 닉네임 {% endcomment %}
-                            <h1>{{users.nickname}}</h1>
-                            {% comment %} 아이디 {% endcomment %}
-                            <span>{{users.user}}</span>
-                        </div>
-
-                        <div class="col-md-12 col-xs-12">
-                            <div class="control row">
-                                <div class="label" style="padding-top: 5px; margin-left: 20px; margin-right: 40px">소개
-                                </div>
-                                <div style="width:70%">{{users.bio}}</div>
-                            </div>
-
-                            <div class="control row">
-                                <div class="label" style="padding-top: 5px; margin-left: 20px; margin-right: 5px">웹사이트
-                                </div>
-                                <div style="width:70%">{{users.biolink}}</div>
-                            </div>
-                        </div>
-                    </div>
+    <div class="container-fluid">
+        <div class="section-heading ml-6 mt-2"data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+            <h4 class="section-heading text-center ">Favorites</h4>
+        </div>
+        <div class="justify-content-center row align-items-center" data-aos="fade-up" data-aos-delay='500' data-duration='900'>
+            {% for favorite in favorites %}
+            <div class="showdetailbox card text-center h-20 w-20 ml-3 my-5">
+                <div class="">
+                    <img src="{{favorite.show_poster.url}}" class="card-img-top img-fluid" alt="" />
+                    <p>{{favorite.show_name}}</p>
                 </div>
             </div>
-
+            {% endfor %}
         </div>
     </div>
+</div>
+<script>
+    const btnLeftParent = document.querySelector(".actorbox").firstElementChild;
+    const btnLeft = btnLeftParent.querySelector(".actoriconl button");
+    const btnRightParent = document.querySelector(".actorbox").lastElementChild;
+    const btnRight = btnRightParent.querySelector(".actoriconr button");
+    const slideList = document.querySelector(".actorcontainer");
+    const slideContents = document.querySelectorAll(".actordetailbox");
 
-    <script>
-        const modal = document.querySelector('.modalbox');
-        const idModal = () => {
-            console.log('idmodal')
-            modal.classList.remove('none')
+    const slideLen = slideContents.length;
+    const slideWidth = 181;
+    const slideSpeed = 300;
+    const startNum = 0;
+
+    slideList.style.width = slideWidth * (slideLen + 7) + "px";
+
+    let firstChild = slideList.firstElementChild;
+    let clonedFirst = firstChild.cloneNode(true);
+
+    let secondChild = firstChild.nextElementSibling;
+    let clonedSecond = secondChild.cloneNode(true);
+
+    let thirdChild = secondChild.nextElementSibling;
+    let clonedThird = thirdChild.cloneNode(true);
+
+    let lastChild = slideList.lastElementChild;
+    let clonedLast = lastChild.cloneNode(true);
+
+    let secondlastChild = lastChild.previousElementSibling;
+    let clonedSecondLast = secondlastChild.cloneNode(true);
+
+    let thirdlastChild = secondlastChild.previousElementSibling;
+    let clonedThirdLast = thirdlastChild.cloneNode(true);
+
+    slideList.appendChild(clonedFirst);
+
+    slideList.appendChild(clonedSecond);
+    slideList.appendChild(clonedThird);
+
+    slideList.insertBefore(clonedThirdLast, firstChild);
+    slideList.insertBefore(clonedSecondLast, firstChild);
+    slideList.insertBefore(clonedLast, firstChild);
+
+    let curIndex = startNum; // current slide index (except copied slide)
+    let curSlide = slideContents[curIndex]; // current slide dom
+    curSlide.classList.add("slide_active");
+
+    btnRight.addEventListener("click", function () {
+        if (curIndex <= slideLen - 1) {
+            slideList.style.transition = slideSpeed + "ms";
+            slideList.style.transform = "translate3d(-" + slideWidth * (curIndex + 2) + "px, 0px, 0px)";
         }
-        const closeModal = () => {
-            console.log('idmodal')
-            modal.classList.add('none')
+        if (curIndex === slideLen - 1) {
+            setTimeout(function () {
+                slideList.style.transition = "0ms";
+                slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
+            }, slideSpeed);
+            curIndex = -1;
         }
-
-        const btnLeftParent = document.querySelector(".actorbox").firstElementChild;
-        const btnLeft = btnLeftParent.querySelector(".actoriconl button");
-        const btnRightParent = document.querySelector(".actorbox").lastElementChild;
-        const btnRight = btnRightParent.querySelector(".actoriconr button");
-        const slideList = document.querySelector(".actorcontainer");
-        const slideContents = document.querySelectorAll(".actordetailbox");
-
-        const slideLen = slideContents.length;
-        const slideWidth = 181;
-        const slideSpeed = 300;
-        const startNum = 0;
-
-        slideList.style.width = slideWidth * (slideLen + 7) + "px";
-
-        let firstChild = slideList.firstElementChild;
-        let clonedFirst = firstChild.cloneNode(true);
-
-        let secondChild = firstChild.nextElementSibling;
-        let clonedSecond = secondChild.cloneNode(true);
-
-        let thirdChild = secondChild.nextElementSibling;
-        let clonedThird = thirdChild.cloneNode(true);
-
-        let lastChild = slideList.lastElementChild;
-        let clonedLast = lastChild.cloneNode(true);
-
-        let secondlastChild = lastChild.previousElementSibling;
-        let clonedSecondLast = secondlastChild.cloneNode(true);
-
-        let thirdlastChild = secondlastChild.previousElementSibling;
-        let clonedThirdLast = thirdlastChild.cloneNode(true);
-
-        slideList.appendChild(clonedFirst);
-
-        slideList.appendChild(clonedSecond);
-        slideList.appendChild(clonedThird);
-
-        slideList.insertBefore(clonedThirdLast, firstChild);
-        slideList.insertBefore(clonedSecondLast, firstChild);
-        slideList.insertBefore(clonedLast, firstChild);
-
-        let curIndex = startNum; // current slide index (except copied slide)
-        let curSlide = slideContents[curIndex]; // current slide dom
+        curSlide.classList.remove("slide_active");
+        curSlide = slideContents[++curIndex];
         curSlide.classList.add("slide_active");
+    });
 
-        btnRight.addEventListener("click", function () {
-            if (curIndex <= slideLen - 1) {
-                slideList.style.transition = slideSpeed + "ms";
-                slideList.style.transform = "translate3d(-" + slideWidth * (curIndex + 2) + "px, 0px, 0px)";
-            }
-            if (curIndex === slideLen - 1) {
-                setTimeout(function () {
-                    slideList.style.transition = "0ms";
-                    slideList.style.transform = "translate3d(-" + slideWidth + "px, 0px, 0px)";
-                }, slideSpeed);
-                curIndex = -1;
-            }
-            curSlide.classList.remove("slide_active");
-            curSlide = slideContents[++curIndex];
-            curSlide.classList.add("slide_active");
-        });
-
-        btnLeft.addEventListener("click", function () {
-            if (curIndex >= 0) {
-                slideList.style.transition = slideSpeed + "ms";
-                slideList.style.transform = "translate3d(-" + slideWidth * curIndex + "px, 0px, 0px)";
-            }
-            if (curIndex === 0) {
-                setTimeout(function () {
-                    slideList.style.transition = "0ms";
-                    slideList.style.transform = "translate3d(-" + slideWidth * slideLen + "px, 0px, 0px)";
-                }, slideSpeed);
-                curIndex = slideLen;
-            }
-            curSlide.classList.remove("slide_active");
-            curSlide = slideContents[--curIndex];
-            curSlide.classList.add("slide_active");
-        });
-
-        const noactorrequest = new XMLHttpRequest();
-        const nofavrequest = new XMLHttpRequest();
-
-        const onClickNoActor = (actor_id) => {
-            confirm("관심 배우에서 삭제하시겠습니까?");
-            const url = "/actors/unlike/";
-            noactorrequest.open("POST", url, true);
-            noactorrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            noactorrequest.send(JSON.stringify({ actor_id }));
-        };
-
-        const handleResponseNoActor=()=>{
-            if (noactorrequest.status <= 400) {
-                const {actor_id} = JSON.parse(noactorrequest.response);
-                const actorbox = document.querySelector(`#actor-${actor_id}`)
-                actorbox.classList.add('none')
-                console.log('deleted')
-            }
+    btnLeft.addEventListener("click", function () {
+        if (curIndex >= 0) {
+            slideList.style.transition = slideSpeed + "ms";
+            slideList.style.transform = "translate3d(-" + slideWidth * curIndex + "px, 0px, 0px)";
         }
-
-        const onClickNoFav = (fav_id) => {
-            confirm("관심 공연에서 삭제하시겠습니까?");
-            const url = "/contents/unlike/";
-            noactorrequest.open("POST", url, true);
-            noactorrequest.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-            noactorrequest.send(JSON.stringify({ fav_id }));
-            const favbox = document.querySelector(`#fav-${fav_id}`)
-            favbox.classList.add('none')
-        };
-        const handleResponseNoFav=()=>{
-            if (nofavrequest.status <= 400) {
-                const {actor_id} = JSON.parse(nofavrequest.response);
-                const actorbox = document.querySelector(`#actor-${actor_id}`)
-                actorbox.classList.add('none')
-            }
+        if (curIndex === 0) {
+            setTimeout(function () {
+                slideList.style.transition = "0ms";
+                slideList.style.transform = "translate3d(-" + slideWidth * slideLen + "px, 0px, 0px)";
+            }, slideSpeed);
+            curIndex = slideLen;
         }
-        noactorrequest.onreadystatechange = () => {
-            if (noactorrequest.readyState === XMLHttpRequest.DONE) {
-                handleResponseNoActor();
-            }
-        };
-        nofavrequest.onreadystatechange = () => {
-            if (nofavrequest.readyState === XMLHttpRequest.DONE) {
-                handleResponseNoFav();
-            }
-        };
-
-
-    </script>
-    {% endblock %}
+        curSlide.classList.remove("slide_active");
+        curSlide = slideContents[--curIndex];
+        curSlide.classList.add("slide_active");
+    });
+</script>
+{% endblock %}
