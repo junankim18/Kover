@@ -2,22 +2,157 @@
 
 {% block content %}
 
-    <title>Kover | Search</title>
-    {%csrf_token%}
-    {% if not shows %}
-        <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
-    {% else %}
-        <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
-        {% for show in shows.all %}
-        <div class="container"> 
-            <div class="card">
-                <div class="card-body">
-                    <h2>{{ show.show_name }}</h1> 
-                </div>
-            </div>
+<style>
+    .my-level{
+        background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+        margin-top: 50px;
+        background-position: left;
+    }
+    .my-level:hover {
+        background-position: right;
+    }
+
+    h1 {
+        margin: auto 0;
+    }
+
+    .showResultContent {
+        margin-bottom: 50px;
+        display:flex;
+    }
+    
+    .showResultShow {
+        width: 250px;
+        height:350px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin-right: 30px;
+        padding: 10px;
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease-in-out;
+    }
+    .showResultPeople {
+        width: 250px;
+        height:300px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin-right: 30px;
+        padding: 10px;
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease-in-out;
+    }
+    .showResultFeed {
+        width: 250px;
+        height:160px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        margin-right: 30px;
+        padding: 10px;
+        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s ease-in-out;
+    }
+
+    .title {
+        height: 25px;
+        width: auto;
+        overflow:hidden;
+        text-overflow:ellipsis;
+        white-space:nowrap;
+        margin-bottom: 5px;
+    }
+    
+    .about {
+        height: 75px;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: box;
+        margin-bottom: 5px;
+        max-height:80px;
+        overflow:hidden;
+        vertical-align:top;
+        text-overflow: ellipsis;
+        word-break:break-all;
+        -webkit-box-orient:vertical;
+        -webkit-line-clamp:3
+    }
+
+    .showResultContent img {
+        display: block;
+        margin: auto;
+        width: 180px;
+        height: 200px;
+        object-position: center;
+        object-fit: cover;
+
+    }
+
+</style>    
+
+<title>Kover | Search</title>
+
+<div class=' my-level container-fluid' data-aos-'zoom-out-up'>
+    <div class=" py-4 my-1 text-center">
+        <div class="panel-body ml-4 mt-6 row">
+            {%csrf_token%}
+            {% if not show_result and not people_result%}
+                <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
+            {% else %}
+                <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
         </div>
+    </div>
+</div>
+<div class="main_body px-5 my-5">
+    <div class="showResultBox">
+        <h3 style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+            <b>공연 검색결과</b>
+        </h3>
         <br>
-        {% endfor %}
-    {% endif %}
+        <div class='showResultContent'>
+            {% for show in show_result %}
+            <a href="{%url 'kover:show_detail' show.id %}">
+                <div class='showResultShow' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <p class='title'>공연 이름 : <b>{{ show.show_name }}</b></p>
+                    <p class='about'>공연 설명 : {{ show.show_detail }}</p>
+                    <img src="{{show.show_poster}}"/>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="showResultBox">
+        <h3 style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+            <b>배우 검색결과</b>
+        </h3>
+        <br>
+        <div class='showResultContent'>
+            {% for people in people_result %}
+            <a href="">
+                <div class='showResultPeople' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <p class='title'>배우 이름 : <b>{{ people.people_name }}</b></p>
+                    <img src="{{people.people_img}}" alt="" width="100px" />
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="showResultBox">
+        <h3 style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
+            <b>피드 검색결과</b>
+        </h3>
+        <br>
+        <div class='showResultContent'>
+            {% for feed in feed_result %}
+            <a href="{%url 'kover:feed_page' feed.id %}">
+                <div class='showResultFeed' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                    <p class='title'>피드 제목 : <b>{{ feed.feed_title }}</b></p>
+                    <p class='title'>피드 작성자 : <b>{{ feed.feed_author }}</b></p>
+                    <p class='about'>피드 내용 : {{ feed.feed_content }}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
 
 {% endblock %}
