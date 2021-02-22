@@ -11,7 +11,7 @@ from dateutil.parser import *
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Count
-
+import random
 # profile_block : 기본 프로필페이지
 
 
@@ -193,7 +193,7 @@ def feed_create_post(request):
         form = PostForm(request.POST)
         if form.is_valid():
             post = form.save()
-            post.user = Profile.objects.get(user = request.user)
+            post.user = Profile.objects.get(user=request.user)
             post.save()
             return redirect('kover:play_lib')
     else:
@@ -522,14 +522,20 @@ def create_like_actor(request):
     users = users[0]
     likedactor = users.like_actor.all()
     peoples = People.objects.all()
-    notyetlikedpeople = []
+    musicallist = []
+    playlist = []
     for people in peoples:
-        if people not in likedactor:
-            notyetlikedpeople.append(people)
+        if people not in likedactor and people.people_type == '뮤지컬배우':
+            musicallist.append(people)
+        elif people not in likedactor and people.people_type == '연극배우':
+            playlist.append(people)
+    print(random.choice(musicallist))
+    # musicallist = random.shuffle(musicallist)
 
     ctx = {
         'users': users,
-        'peoples': notyetlikedpeople,
+        'musicallist': musicallist,
+        'playlist': playlist
     }
     return render(request, 'kover/like_actor.html', ctx)
 
@@ -723,14 +729,6 @@ def searchResult(request):
             Q(feed_content__icontains=q)
         ).distinct()
 
-    shows = Show.objects.all()
-    show_result = list(show_result)
-
-    for show in shows:
-        for people in people_result:
-            if people in show.show_actor.all():
-                show_result.append(show)
-
     ctx = {
         'q': q,
         'show_result': show_result,
@@ -741,7 +739,7 @@ def searchResult(request):
     return render(request, 'kover/search.html', ctx)
 
 
-@method_decorator(csrf_exempt)
+@ method_decorator(csrf_exempt)
 def delete_review(delrequest):
     if delrequest.method == 'GET':
         show_list = Show.objects.all()
@@ -757,7 +755,7 @@ def delete_review(delrequest):
         return JsonResponse({'show_id': show_id, 'review_id': review_id})
 
 
-@method_decorator(csrf_exempt)
+@ method_decorator(csrf_exempt)
 def delete_comment(delrequest):
     if delrequest.method == 'GET':
         return render(delrequest, 'kover/feed_page.html')
