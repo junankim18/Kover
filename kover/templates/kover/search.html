@@ -144,8 +144,8 @@
             {% for feed in feed_result %}
             <a href="{%url 'kover:feed_page' feed.id %}">
                 <div class='showResultFeed' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
-                    <p class='title'>피드 제목 : {{ feed.feed_title }}</p>
-                    <p class='title'>피드 작성자 : {{ feed.feed_author }}</p>
+                    <p class='title'>피드 제목 : <b>{{ feed.feed_title }}</b></p>
+                    <p class='title'>피드 작성자 : <b>{{ feed.feed_author }}</b></p>
                     <p class='about'>피드 내용 : {{ feed.feed_content }}</p>
                 </div>
             </a>
