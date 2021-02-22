@@ -91,9 +91,9 @@
         <div class="panel-body ml-4 mt-6 row">
             {%csrf_token%}
             {% if not show_result and not people_result%}
-                <h1>"{{q}}"에 대한 검색 결과가 없습니다 :(</h1>
+                <h2 style="margin: auto 0;">"{{q}}"에 대한 검색 결과가 없습니다 :(</h2>
             {% else %}
-                <h1>"{{q}}"에 대한 검색 결과입니다 :)</h1>
+                <h2 style="margin: auto 0;">"{{q}}"에 대한 검색 결과입니다 :)</h2>
         </div>
     </div>
 </div>

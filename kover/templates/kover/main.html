@@ -19,7 +19,6 @@
     }
 
     .showResultContent {
-        margin-bottom: 50px;
         display:flex;
     }
 
@@ -27,7 +26,7 @@
 
 <div class="container-fluid  py-5 px-5 my-5 ">
     <div class="show_list ">
-        <span style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'><h3>최근 개봉 공연</h3></span>
+        <span style="font-size: 25px" class='mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'><h3>최근 개봉 공연</h3></span>
         <div class="show_list_main">
             <div class='showResultContent'>
                 {% for show in show_1 %}
@@ -65,7 +64,7 @@
 
     <div class="row" style="margin-top: 30px" data-aos='fade-right' data-aos-offset='200' data-aos-delay='200' data-aos-easing='ease-in-sine'>
         <div class="feed_main col-lg-6">
-            <span style="font-size: 25px"><b>HOT 피드</b></span>
+            <span style="font-size: 25px"><h3>HOT 피드</h3></span>
             <ul class="list-group ">
                 {% for feed in feed_2 %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
@@ -79,7 +78,7 @@
         </div>
 
         <div class="feed_main col-lg-6">
-            <span style="font-size: 25px"><b>최근 피드</b></span>
+            <span style="font-size: 25px"><h3>최근 피드</h3></span>
             <ul class="list-group ">
                 {% for feed in feed_1 %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
