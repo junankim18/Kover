@@ -18,6 +18,10 @@
         text-decoration-line: none;
         color: black;
     }
+    p {
+    margin-bottom: 0px;
+    }
+
 
     a:hover {
         text-decoration-line: none;
@@ -436,10 +440,9 @@ modal
             <div class="showdetailbox card text-center">
                 <img class="card-img-top" src="{{show.show_poster}}" alt="" />
                 <p><small> {{show.show_name}}</small></p>
-                <p><small> {{show.show_hall}}</small></p>
                 <p>
                     <small>
-                        내 별점 : {%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}}
+                        내 별점 : <i style="color: #a593e0;" class="fas fa-star"></i>{%for review in reviews %} {%if review.review_show == show%} {{review.review_grade}}
                         {%endif%}{%endfor%}</small>
                 </p>
             </div>
