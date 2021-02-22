@@ -95,6 +95,10 @@ p {
   top: 170px;
   right: 0px;
 }
+.actoriconl button,
+.actoriconr button {
+    color: #b9c4fc;
+}
 .y250 {
   height: 250px;
   overflow-y: hidden;
@@ -213,6 +217,16 @@ p {
 .porel .notyetliked i {
   color: slategray;
   font-size: 1.5rem;
+}
+.porel .liked {
+    z-index: 3;
+    background-color: transparent;
+    border: none;
+    position: absolute;
+}
+.porel .liked i {
+    color: #0f95d7;
+    font-size: 1.5rem;
 }
 .porel .actorliked {
   z-index: 3;

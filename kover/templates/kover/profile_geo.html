@@ -1,20 +1,50 @@
-{% extends "layout.html" %} 
-{% block extra_head %} 
-{{block.super}} 
-{%endblock%} 
-{% block content %}
+{% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
 
 <title>Kover | geo profile</title>
-
+<style>
+    .modalbox {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3;
+    }
+    .modal_overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+    .modal_content {
+        background-color: white;
+        border-radius: 15px;
+        padding: 70px 10px;
+        position: relative;
+        width: 30%;
+        text-align: center;
+    }
+    .none {
+        display: none;
+    }
+</style>
 <body>
-    <div id="map" style="width: 100%; height: 75vh"></div>
-    <p>
-        <button onclick="setBounds()">pin 전체 한 번에 보기</button>
-        <button onclick="zoomIn()">확대</button>
-        <button onclick="zoomOut()">축소</button>
-    </p>
-    <script type="text/javascript"
-        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d819f10926d79acd2ffd6a00d34a15ba&libraries=services,clusterer,drawing"></script>
+    <div id="map" style="width: 100%; height: 90vh"></div>
+    <div class="modalbox">
+        <div class="modal_overlay"></div>
+        <div class="modal_content">
+            <p>개발중입니다. 잠시만 기다려주세요!</p>
+            <p>Coming Soon:)</p>
+        </div>
+    </div>
+    <script
+        type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d819f10926d79acd2ffd6a00d34a15ba&libraries=services,clusterer,drawing"
+    ></script>
     <script>
         var container = document.getElementById("map"); // 지도를 표시할 div
 
@@ -114,10 +144,7 @@
         } else {
             // HTML5의 GeoLocation을 사용할 수 없을때 마커 표시 위치와 인포윈도우 내용을 설정
 
-            var locPosition = new kakao.maps.LatLng(
-                37.47927809173041,
-                127.0139095034456
-            ),
+            var locPosition = new kakao.maps.LatLng(37.47927809173041, 127.0139095034456),
                 message = "현재 위치를 알 수 없어요..";
 
             displayMarker(locPosition, message);
@@ -146,11 +173,14 @@
             // 지도 중심좌표를 접속위치로 변경
             map.setCenter(locPosition);
         }
+        const modal = document.querySelector(".modalbox");
+        const openModal = () => {
+            modal.classList.remove("none");
+        };
     </script>
     {% endblock %}
 
     <!--
 	Kakao Maps API Sample
 	https://apis.map.kakao.com/web/sample/basicMap/
--->
-</body>
+--></body>

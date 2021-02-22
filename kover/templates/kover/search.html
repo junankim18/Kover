@@ -87,10 +87,6 @@
 
 <title>Kover | Search</title>
 
-<p>안보여</p>
-<p>안보여</p>
-<p>안보여</p>
-<p>안보여</p>
 <div class=' my-level container-fluid' data-aos-'zoom-out-up'>
     <div class=" py-4 my-1 text-center">
         <div class="panel-body ml-4 mt-6 row">
@@ -110,10 +106,10 @@
         <br>
         <div class='showResultContent'>
             {% for show in show_result %}
-            <div class='showResultShow' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
-                <p class='title'>공연 이름 : {{ show.show_name }}</p>
-                <p class='about'>공연 설명 : {{ show.show_detail }}</p>
-                <img src="{{show.show_poster}}"/>
+            <div class='showResult' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'>
+                <p style="margin-left: 10px">공연 이름 : {{ show.show_name }}</p>
+                <p style="margin-left: 10px;">공연 설명 : {{ show.show_detail }}</p>
+                <img src="{{show.show_poster}}" style="margin: 1rem"/>
             </div>
             {% endfor %}
         </div>
