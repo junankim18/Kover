@@ -145,6 +145,11 @@ p {
 .rating > input:checked ~ input:hover ~ label {
     color: #a593e0;
 }
+.showdetailbox {
+    margin-right: 15px;
+    border: none;
+    z-index: 5;
+}
 .showdetailbox .card-img-top {
     width: 200px;
     height: 245px;
