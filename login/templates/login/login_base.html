@@ -141,7 +141,7 @@
 <div class="pagebox">
     <form method="post" class="loginForm" action="{% url 'login:login' %}">
         {% csrf_token %} {% include "form_errors.html" %}
-        <h2><img src="/static/kover.png" alt="kover" width="130px" /></h2>
+        <h2><img src="../static/kover.png" alt="kover" width="130px" /></h2>
         <div class="idForm">
             <label for="username">사용자ID</label>
             <input
