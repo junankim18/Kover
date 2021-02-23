@@ -1,11 +1,46 @@
 {% extends "layout.html" %} {% block extra_head %} {{block.super}} {%endblock%} {% block content %}
+
+<title>Kover | geo profile</title>
+<style>
+    .modalbox {
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 3;
+    }
+    .modal_overlay {
+        background-color: rgba(0, 0, 0, 0.6);
+        width: 100%;
+        height: 100%;
+        position: absolute;
+    }
+    .modal_content {
+        background-color: white;
+        border-radius: 15px;
+        padding: 70px 10px;
+        position: relative;
+        width: 30%;
+        text-align: center;
+    }
+    .none {
+        display: none;
+    }
+</style>
 <body>
-    <div id="map" style="width: 100%; height: 75vh"></div>
-    <p>
-        <button onclick="setBounds()">pin 전체 한 번에 보기</button>
-        <button onclick="zoomIn()">확대</button>
-        <button onclick="zoomOut()">축소</button>
-    </p>
+    <div id="map" style="width: 100%; height: 90vh"></div>
+    <div class="modalbox">
+        <div class="modal_overlay"></div>
+        <div class="modal_content">
+            <p>개발중입니다. 잠시만 기다려주세요!</p>
+            <p>Coming Soon :)</p>
+        </div>
+    </div>
     <script
         type="text/javascript"
         src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d819f10926d79acd2ffd6a00d34a15ba&libraries=services,clusterer,drawing"
@@ -21,8 +56,8 @@
         var map = new kakao.maps.Map(container, options); // 지도 생성
 
         /* -------------------------------------
-			pin 한 번에 보기 기능
-		------------------------------------- */
+                pin 한 번에 보기 기능
+            ------------------------------------- */
         // 버튼을 클릭하면 아래 배열의 좌표들이 모두 보이게 지도 범위를 재설정
         // 추후에 반복문으로 pin 좌표값 받아오는 방식으로 변경 예정
         var points = [
@@ -53,8 +88,8 @@
         }
 
         /* -------------------------------------
-			지도 확대/축소 기능
-		------------------------------------- */
+                지도 확대/축소 기능
+            ------------------------------------- */
         function zoomIn() {
             var level = map.getLevel();
             map.setLevel(level - 1); // 지도 확대
@@ -66,8 +101,8 @@
         }
 
         /* -------------------------------------
-			인포 윈도우 기능
-		------------------------------------- */
+                인포 윈도우 기능
+            ------------------------------------- */
         var position = new kakao.maps.LatLng(37.47927809173041, 127.0139095034456);
 
         var iwMarker = new kakao.maps.Marker({
@@ -91,8 +126,8 @@
         });
 
         /* -------------------------------------
-			현재 위치 기능
-		------------------------------------- */
+                현재 위치 기능
+            ------------------------------------- */
         // HTML5의 geolocation으로 사용할 수 있는지 확인
         if (navigator.geolocation) {
             // GeoLocation을 이용해서 접속 위치를 얻어옴
@@ -138,6 +173,10 @@
             // 지도 중심좌표를 접속위치로 변경
             map.setCenter(locPosition);
         }
+        const modal = document.querySelector(".modalbox");
+        const openModal = () => {
+            modal.classList.remove("none");
+        };
     </script>
     {% endblock %}
 
