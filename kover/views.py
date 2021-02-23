@@ -1,4 +1,3 @@
-from annoying.functions import get_object_or_None
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect, HttpResponse
 from .models import User, Show, People, Review, Feed_post, Feed_comment, Profile
