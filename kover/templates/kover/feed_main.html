@@ -22,7 +22,8 @@
     </ol>
 </nav>
 
-<div id="feed" class="feeds_main_hot mb-3 px-3" style='padding:50px 0 80px 0;'> 
+<div class="row px-3">
+    <div class="feeds_main_hot col-lg-6" style="margin-bottom: 20px">
     <div class='mb-2' data-aos="fade-right" data-aos-delay='500' data-duration='900'>
         <a href="/feed/hot_feed">
             <b style="font-size: 25px; " >HOT 피드</b>
@@ -45,6 +46,28 @@
     <div class="form-row float-right" style="margin-top: 20px">
         <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/hot_feed'">더 보기</button>
     </div>
+    </div>
+
+    
+    <div class="feeds_main col-lg-6" style="margin-bottom: 100px">
+        <a href="/feed/question"><b data-aos="fade-right" data-aos-delay='500' data-duration='900' style="font-size: 25px">질문</b></a>
+        <div class="list-group">
+            {% for feed in feed_5 %}
+            <a
+                href="{%url 'kover:feed_page' feed.id%}"
+                class="list-group-item list-group-item-action flex-column align-items-start"
+            >
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{feed.feed_title}}</h5>
+                    <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
+                </div>
+                <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
+            </a>
+            {% endfor %}
+        </div>
+        <div class="form-row float-right" style="margin-top: 20px">
+            <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/question'">더 보기</button>
+        </div>
     </div>
 </div>
 
@@ -136,25 +159,5 @@
   </div>
 </div>
 
-<div class="feeds_main px-3" style="margin-bottom: 100px">
-    <a href="/feed/question"><b data-aos="fade-right" data-aos-delay='500' data-duration='900' style="font-size: 25px">질문</b></a>
-    <div class="list-group">
-        {% for feed in feed_5 %}
-        <a
-            href="{%url 'kover:feed_page' feed.id%}"
-            class="list-group-item list-group-item-action flex-column align-items-start"
-        >
-            <div class="d-flex w-100 justify-content-between">
-                <h5 class="mb-1">{{feed.feed_title}}</h5>
-                <div class="text-muted"><i class="fas fa-heart" style="color:#ff726f"> {{feed.feed_like.all.count}} </i> <i class="fas fa-comment-alt ml-2" style="color:#59bae7"> {{feed.comment_post.all.count}}</i> </div>
-            </div>
-            <p class="mb-1">{{feed.feed_content|truncatechars:30}}</p>
-        </a>
-        {% endfor %}
-    </div>
-    <div class="form-row float-right" style="margin-top: 20px">
-        <button type="button" class="btn btn-dark pull-right" onclick="location.href = '/feed/question'">더 보기</button>
-    </div>
-</div>
 
 {% endblock %}
