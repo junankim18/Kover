@@ -83,12 +83,11 @@ def profile_block(request):
 
 
 def main(request):
-    username = Profile.objects.filter(id=request.user.id)
+    username = Profile.objects.filter(user=request.user)
     if username:
         actors = username[0].like_actor.all().order_by('people_name')
     else:
         actors = []
-
     show_1 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 최신 순
     show_2 = Show.objects.annotate(reviews=Count(
         'review_show')).order_by('-reviews')[:5]  # 작품 리뷰 많은 순
@@ -103,7 +102,6 @@ def main(request):
     for actor in actors:
         for show in actor.show_actor.all():
             actorshow.append(show)
-
     for j in actorshow:
         if j not in wantshow:
             wantshow.append(j)
@@ -480,7 +478,6 @@ def press_com(comrequest):
         feed_id = request['id']
         content = request['content']
         feed = Feed_post.objects.get(id=feed_id)
-        user_id = comrequest.user.id
         users = Profile.objects.get(user=comrequest.user)
         nickname = users.nickname
         if content:
