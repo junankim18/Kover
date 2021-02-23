@@ -5,7 +5,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {% block extra_head %}
-        <link rel="stylesheet" href="{% static 'layout.css' %}" />
+        <link rel="stylesheet" href="{% static 'layout.css' %}?after" />
         <link
             rel="stylesheet"
             href="https://use.fontawesome.com/releases/v5.15.2/css/all.css"
@@ -18,62 +18,152 @@
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
             crossorigin="anonymous"
         />
+        <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
+
+        <link rel="shortcut icon" href="../static/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="../static/favicon.ico" type="image/x-icon">
 
         {% endblock extra_head %}
+        <style>
+                .navbar{
+           background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+          } 
+
+              .footer{
+              background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+          }
+
+
+            main {
+                margin-top: 17px;
+            }
+            a {
+                color: black;
+            }
+            a:hover {
+                text-decoration-line: none;
+                color: #a593e0;
+            }
+        </style>
     </head>
 
-    <body>
-        <nav>
-            {% block nav %}
-            <div class="nav-container">
-                <span style="font-size: 40px">
-                    <a href="/">Kover</a>
-                </span>
-                <ul class="menubar">
-                    {% if user.is_authenticated %}
-                    <li>
-                        <a href="/feed">피드</a>
-                    </li>
-                    <li>
-                        <a href="/profile_geo">지도</a>
-                    </li>
-                    <li>
-                        <a href="/profile_block">프로필</a>
-                    </li>
-                    <li>
-                        <a href="#">리뷰작성</a>
-                    </li>
-                    <li>
-                        <a href="#">검색</a>
-                    </li>
-                    <li><a href="/logout">로그아웃</a><br /></li>
+  <body style="overflow-x: hidden; overflow-y: auto; height: auto">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+      <a class="navbar-brand" href="/"
+        ><img src="/static/kover.png" alt="kover" width="130px"
+      /></a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-toggle="collapse"
+        data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-                    {% else %}
-                    <!--로그인 안된 상태면-->
-                    <li>
-                        <a href="#">회원가입</a>
-                    </li>
-                    <li>
-                        <a href="#">로그인</a>
-                    </li>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          {% if user.is_authenticated %}
 
-                    {% endif %}
-                </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="/feed">피드</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile_geo">지도</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/profile_block">프로필</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contents">리뷰등록</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              href="/profile_block"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+            >
+              설정
+            </a>
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <a
+                class="dropdown-item"
+                href="{% url 'login:logout' %}?next={%url 'kover:main'%}"
+                onclick="return confirm('로그아웃 하시겠습니까?');"
+                >로그아웃</a
+              >
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/login/settings/">더보기</a>
             </div>
-            {% endblock %}
-        </nav>
+          </li>
 
-        <main>{% block content %} {% endblock %}</main>
+          {% else %}
+          <!--로그인 안된 상태면-->
+          <li class="nav-item">
+            <a class="nav-link" href="/feed">피드</a>
+          </li>
 
-        <footer>
-            {% block footer %}
-            <div class="footer">
-                <small>KOVER</small>
-                <br />
-            </div>
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'login:login'%}">로그인</a>
+          </li>
 
-            {% endblock %}
+          {% endif %}
+        </ul>
+        <form
+          class="form-inline my-2 my-lg-0"
+          action="{% url 'kover:searchResult' %}"
+          method="get"
+        >
+          {% csrf_token %}
+          <input
+            class="form-control mr-sm-2"
+            type="search"
+            placeholder="검색어를 입력하세요"
+            aria-label="Search"
+            name="q"
+            value="{{q}}"
+          />
+          <button class="btn btn-outline-dark my-2 my-sm-0" type="submit">
+            검색
+          </button>
+        </form>
+      </div>
+    </nav>
+
+    <main style="margin-left: 50px; margin-right: 50px; margin-top: 80px">
+      {% block content %} {% endblock %}
+    </main>
+
+    <footer>
+      {% block footer %}
+      <div class="footer">
+        <small>&copy; 2021 Kover</small>
+        <br />
+      </div>
+
+      {% endblock %}
+    </footer>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+    <script>
+      AOS.init({ once: true });
+    </script>
+
         </footer>
+        <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+        <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+        <script>
+            AOS.init({ once: true });
+        </script>
+
         <script
             src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
             integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"

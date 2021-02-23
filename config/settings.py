@@ -44,7 +44,7 @@ SECRET_KEY = get_secret("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -153,9 +153,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+print(f'{BASE_DIR}')
+print(f'{STATIC_URL}')
+print(f'{STATIC_ROOT}')
+STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'config', 'static'),
-)
+]
 
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
@@ -169,6 +173,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SITE_ID = 1
-LOGIN_REDIRECT_URL = '/'
 
-AUTH_USER_MODEL = 'kover.User'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'

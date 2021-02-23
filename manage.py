@@ -2,7 +2,9 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
+from django.conf import settings
 
+dir(settings)
 
 def main():
     """Run administrative tasks."""
