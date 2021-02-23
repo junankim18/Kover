@@ -1,3 +1,4 @@
+from annoying.functions import get_object_or_None
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect, HttpResponse
 from .models import User, Show, People, Review, Feed_post, Feed_comment, Profile
@@ -83,9 +84,13 @@ def profile_block(request):
 
 
 def main(request):
-    username = Profile.objects.filter(user=request.user)
+    try:
+        username = Profile.objects.get(user=request.user)
+    except:
+        username = False
+
     if username:
-        actors = username[0].like_actor.all().order_by('people_name')
+        actors = username.like_actor.all().order_by('people_name')
     else:
         actors = []
     show_1 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 최신 순
