@@ -35,6 +35,8 @@ def profile_block(request):
         if favorite.show_date_start.replace(tzinfo=None) > datetime.now():
             if (favorite.show_date_start.replace(tzinfo=None)-datetime.now()).days < 7:
                 comingsoon.append(favorite)
+        elif datetime.now() < favorite.show_date_end.replace(tzinfo=None):
+            comingsoon.append(favorite)
     #     if 0 < favorite.show_date_start-datetime.now())
     # 공연장 리스트
     for i in range(hallnum):
