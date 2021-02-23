@@ -7,20 +7,9 @@
 <title>Kover | main</title>
 <style>
 
-}
-    .showimg img{
-        border-radius: 7px;
-        margin-right:5px;
-        box-shadow: 1px 1px 1px 1px rgba(0, 0, 0, 0.2);
-    }
-
-    .showimg img:hover {
-        transform: scale(1.03);
-        -webkit-transform: scale(1.03);
-    }
-
     .feed_main{
         border-radius: 8px;
+        width: auto;
     } 
     .main_title{
         margin-right: 10px;
@@ -29,53 +18,54 @@
         text-decoration-line:none;
     }
 
+    .showResultContent {
+        display:flex;
+    }
+
 </style>
 
 <div class="container-fluid  py-5 px-5 my-5 ">
     <div class="show_list ">
-        <span style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'><h3>최근 개봉 공연</h3></span>
+        <span style="font-size: 25px" class='mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'><h3>최근 개봉 공연</h3></span>
         <div class="show_list_main">
-            <span style="font-size: 25px" class='main_title mb-2 ' data-aos="fade-right" data-aos-delay='500' data-duration='900'><h3>최근 개봉 공연</h3></span>
-            <br>
-            <div class='col-3 col-md-auto col-lg-2 col-xl-2'>
+            <div class='showResultContent'>
                 {% for show in show_1 %}
-                <a  href="{%url 'kover:show_detail' show.id%}"><img src="{{show.show_poster}}"  width="250px" class='showimg' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' /></a>
+                <a  href="{%url 'kover:show_detail' show.id%}">
+                    <img src="{{show.show_poster}}" data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300' />
+                </a>
                 {% endfor %}
             </div>
         </div>
 
-        <div class="show_list_main" style="margin-top: 30px" >
-            <span style="font-size: 25px" class='mb-2'data-aos="fade-right" data-aos-delay='500' data-duration='900' ><h3>지금 인기 많은 공연</h3></span>
-            <br>
-            <div class='col-3 col-md-auto col-lg-2 col-xl-2'>
-
+        <span style="font-size: 25px" class='mb-2'data-aos="fade-right" data-aos-delay='500' data-duration='900' ><h3>지금 인기 많은 공연</h3></span>
+        <div class="show_list_main">
+            <div class='showResultContent'>
                 {% for show in show_2 %}
                 <a href="{%url 'kover:show_detail' show.id %}"><img src="{{show.show_poster}}"  width="250px"  class='showimg' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'/></a>
                 {% endfor %}
             </div>
         </div>
 
-        <div class="show_list_main " style="margin-top: 35px">
-            <span style="font-size: 25px;" class='mb-2' data-aos="fade-right" data-aos-delay='500' data-duration='900'><h3>내 배우의 공연</h3></span>
-            <br>
-            <div class='col-3 col-md-auto col-lg-2 col-xl-2'>
-            {% if user.is_authenticated %}
+        <span style="font-size: 25px;" class='mb-2' data-aos="fade-right" data-aos-delay='500' data-duration='900'><h3>내 배우의 공연</h3></span>
+        <div class="show_list_main">
+                {% if user.is_authenticated %}
+            <div class='showResultContent'>
                 {% for show in wantshow %}
                 <a href="{%url 'kover:show_detail' show.id %}"><img src="{{show.show_poster}}" width="250px"  class='showimg' data-aos="fade-up" data-aos-delay='500' data-aos-duration='1300'/></a>
-            </div>
                 {% endfor %}
+            </div>
 
             {% else %}
                 <p><br>로그인하고 내 최애 배우를 추가하세요 <br> Kover가 최애 배우의 최근 공연을 보여드릴게요:) <br> </p>
             {% endif %}
+            </div>
         </div>
     </div>
 
-    <div class="row ml-3" style="margin-top: 30px" data-aos='fade-right' data-aos-offset='200' data-aos-delay='200' data-aos-easing='ease-in-sine'>
+    <div class="row" style="margin-top: 30px" data-aos='fade-right' data-aos-offset='200' data-aos-delay='200' data-aos-easing='ease-in-sine'>
         <div class="feed_main col-lg-6">
-            <span style="font-size: 25px"><b>HOT 피드</b></span>
-
-            <ul class="list-group " style="max-width: 35rem;">
+            <span style="font-size: 25px"><h3>HOT 피드</h3></span>
+            <ul class="list-group ">
                 {% for feed in feed_2 %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a href="{%url 'kover:feed_page' feed.id%}">{{feed.feed_title}}</a>
@@ -87,9 +77,9 @@
             </ul>
         </div>
 
-        <div class="feed_main col-lg-6 " data-aos='fade-left' data-aos-offset='200' data-aos-delay='200' data-aos-easing='ease-in-sine'>
-            <span style="font-size: 25px"><b>최근 피드</b></span>
-            <ul class="list-group " style="max-width: 35rem;">
+        <div class="feed_main col-lg-6">
+            <span style="font-size: 25px"><h3>최근 피드</h3></span>
+            <ul class="list-group ">
                 {% for feed in feed_1 %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                     <a href="/feed/{{feed.feed_type}}">  {{feed.get_feed_type_display}}</a>

@@ -1,3 +1,4 @@
+from annoying.functions import get_object_or_None
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render, redirect, HttpResponse
 from .models import User, Show, People, Review, Feed_post, Feed_comment, Profile
@@ -34,6 +35,8 @@ def profile_block(request):
         if favorite.show_date_start.replace(tzinfo=None) > datetime.now():
             if (favorite.show_date_start.replace(tzinfo=None)-datetime.now()).days < 7:
                 comingsoon.append(favorite)
+        elif datetime.now() < favorite.show_date_end.replace(tzinfo=None):
+            comingsoon.append(favorite)
     #     if 0 < favorite.show_date_start-datetime.now())
     # 공연장 리스트
     for i in range(hallnum):
@@ -83,12 +86,15 @@ def profile_block(request):
 
 
 def main(request):
-    username = Profile.objects.filter(id=request.user.id)
+    try:
+        username = Profile.objects.get(user=request.user)
+    except:
+        username = False
+
     if username:
-        actors = username[0].like_actor.all().order_by('people_name')
+        actors = username.like_actor.all().order_by('people_name')
     else:
         actors = []
-
     show_1 = Show.objects.all().order_by('-show_date_start')[:5]  # 작품 최신 순
     show_2 = Show.objects.annotate(reviews=Count(
         'review_show')).order_by('-reviews')[:5]  # 작품 리뷰 많은 순
@@ -103,7 +109,6 @@ def main(request):
     for actor in actors:
         for show in actor.show_actor.all():
             actorshow.append(show)
-
     for j in actorshow:
         if j not in wantshow:
             wantshow.append(j)
@@ -480,7 +485,6 @@ def press_com(comrequest):
         feed_id = request['id']
         content = request['content']
         feed = Feed_post.objects.get(id=feed_id)
-        user_id = comrequest.user.id
         users = Profile.objects.get(user=comrequest.user)
         nickname = users.nickname
         if content:
