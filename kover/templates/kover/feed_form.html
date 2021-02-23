@@ -10,7 +10,7 @@
     <form action="" method="POST">
         {% csrf_token %}
         <table>
-            <div>제목 : {{ form.feed_title }}</div>
+            <!-- <div>제목 : {{ form.feed_title }}</div>
             <div>내용 : </div>
             <textarea name = "feed_content" class="multiliner" rows="20" placeholder="글 내용을 입력해주세요!" 
                 style="overflow:hidden; overflow-wrap:break-word; overflow-y:scroll; resize: none; width:1000px;"></textarea>
@@ -31,7 +31,7 @@
             {# 숨김 필드 #}
     {% for hidden in form.hidden_fields %}
     {{ form.Feed_like }}
-    {% endfor %}
+    {% endfor %} -->
     {# 보임 필드 #}
     {% for field in form.visible_fields %}
         <div class="fieldWrapper">
